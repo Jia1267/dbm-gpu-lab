@@ -1,0 +1,10 @@
+# AI image source files (the site uses the .webp versions)
+img/*.png
+img/_*.jpg
+# working screenshots; finished ones live in shots/final
+shots/*.png
+shots/_*
+# local tooling
+ai-art/.wrangler/
+node_modules/
+.claude/

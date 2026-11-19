@@ -1,0 +1,7 @@
+{
+  // 只在本机跑的画图小工具：用 Cloudflare Workers AI（账号的免费额度，每天 1 万神经元，用完当天报错、不扣钱）。不发布。
+  "name": "gpulab-ai-art",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-12",
+  "ai": { "binding": "AI" }
+}

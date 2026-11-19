@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DBM GPU Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#F4F6F8; --surface:#FFFFFF; --graphite:#141E28; --graphite-2:#1C2733;
+  --text:#19222C; --steel:#5C6B79; --steel-2:#8794A1; --border:#DCE2E8; --border-strong:#C5CED7;
+  --blue:#245AE8; --blue-hover:#1D4BC7; --blue-tint:#EAF0FD;
+  --green:#167A59; --amber:#B7791F; --red:#C2413B;
+  --c4090:#245AE8; --c5090:#0F8B8D; --cA6000:#B7791F; --cA100:#6B4FBB;
+  --ease-out:cubic-bezier(0.16,1,0.3,1); --ease-io:cubic-bezier(0.65,0,0.35,1);
+  --d-fast:100ms; --d-std:160ms; --d-enter:200ms; --d-exit:140ms; --d-hero:500ms;
+  --sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Geist Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --pad:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--canvas);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button,select{font:inherit;color:inherit}
+.wrap{max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+.mono{font-family:var(--mono)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:8px;border:1px solid transparent;font-weight:500;font-size:15px;cursor:pointer;
+  transition:background-color var(--d-fast) var(--ease-out),border-color var(--d-fast) var(--ease-out),transform var(--d-fast) var(--ease-out)}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-hover)}
+.btn-ghost-dark{color:#E6ECF2;border-color:rgba(255,255,255,.22)}
+.btn-ghost-dark:hover{border-color:rgba(255,255,255,.5)}
+.btn-line{background:var(--surface);border-color:var(--border-strong);color:var(--text)}
+.btn-line:hover{border-color:var(--text)}
+.btn-sm{height:36px;padding:0 12px;font-size:14px}
+.btn svg{width:16px;height:16px;flex:none}
+.link{color:var(--blue);font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.link svg{width:16px;height:16px;transition:transform var(--d-std) var(--ease-out)}
+.link:hover svg{transform:translateX(2px)}
+
+/* ---------- Nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);border-bottom:1px solid var(--border)}
+.nav .wrap{height:72px;display:flex;align-items:center;gap:40px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;font-size:17px}
+.logo small{font-weight:500;color:var(--steel);font-size:17px}
+.nav-links{display:flex;gap:4px;flex:1}
+.nav-links a{padding:8px 12px;border-radius:6px;font-size:15px;color:var(--steel);transition:color var(--d-std) var(--ease-out)}
+.nav-links a:hover,.nav-links a[aria-current=page]{color:var(--text)}
+.nav-links a[aria-current=page]{box-shadow:inset 0 -2px 0 var(--text);border-radius:0}
+.search{display:flex;align-items:center;gap:8px;height:40px;width:260px;padding:0 10px 0 12px;border:1px solid var(--border);border-radius:8px;color:var(--steel);font-size:14px;background:var(--surface)}
+.search svg{width:16px;height:16px}
+.search kbd{margin-left:auto;font-family:var(--mono);font-size:11px;border:1px solid var(--border);border-radius:4px;padding:1px 6px;color:var(--steel)}
+.burger{display:none}
+
+/* ---------- Hero ---------- */
+.hero{background:var(--graphite);color:#fff;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:5fr 7fr;gap:24px;min-height:580px;align-items:center}
+.hero-copy{position:relative;z-index:2;padding:72px 0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8EA0B3}
+.hero h1{font-size:64px;line-height:1.04;letter-spacing:-.035em;font-weight:600;margin:20px 0 22px;max-width:9.5em}
+.hero p.lede{font-size:18px;color:#B4C0CC;max-width:30em;margin-bottom:36px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero-visual{position:absolute;inset:0 0 0 30%;z-index:1}
+.hero-visual img{width:100%;height:100%;object-fit:cover;object-position:62% 55%}
+.hero-visual::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--graphite) 0%,rgba(20,30,40,.0) 30%);z-index:1}
+@media (prefers-reduced-motion:no-preference){
+  .hero-visual{animation:heroIn var(--d-hero) var(--ease-out) both}
+  @keyframes heroIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+}
+.callouts{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.callouts polyline{fill:none;stroke:rgba(255,255,255,.5);stroke-width:1}
+.callouts circle{fill:var(--graphite);stroke:#fff;stroke-width:1.5}
+.callouts .k{font:500 11px var(--mono);letter-spacing:.06em;fill:#8EA0B3}
+.callouts .v{font:500 15px var(--mono);fill:#fff}
+.readout{width:max-content;position:absolute;z-index:3;right:max(var(--pad),calc((100% - 1280px)/2 + var(--pad)));bottom:28px;display:flex;align-items:stretch;flex-wrap:wrap;justify-content:flex-end;border-top:1px solid rgba(255,255,255,.18);padding-top:12px;gap:0}
+.readout div{padding:0 22px;border-left:1px solid rgba(255,255,255,.14)}
+.readout div:first-child{border-left:none;padding-left:0}
+.readout div:last-of-type{padding-right:0}
+.readout .k{display:block;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#8EA0B3}
+.readout .v{display:block;font:500 15px var(--mono);color:#fff;margin-top:2px}
+.readout p{flex-basis:100%;text-align:right;font:400 11px var(--mono);color:#6E8093;margin-top:10px}
+@media (max-width:1200px){.callouts{display:none}}
+/* ---------- Advisor bar ---------- */
+.advisor{background:var(--surface);border-bottom:1px solid var(--border)}
+.advisor .wrap{padding-top:44px;padding-bottom:44px;display:grid;grid-template-columns:3fr 9fr;gap:24px;align-items:start}
+.advisor h2{font-size:22px;font-weight:600;letter-spacing:-.01em}
+.advisor .sub{color:var(--steel);font-size:14px;margin-top:6px}
+.sentence{font-size:24px;line-height:1.7;letter-spacing:-.015em;color:var(--steel)}
+.sentence .pick{position:relative;display:inline-block}
+.sentence select{appearance:none;-webkit-appearance:none;border:none;background:transparent;color:var(--text);font-weight:500;font-size:24px;letter-spacing:-.015em;
+  border-bottom:2px solid var(--blue);padding:0 26px 0 2px;cursor:pointer;border-radius:0;transition:background-color var(--d-std) var(--ease-out)}
+.sentence select:hover{background:var(--blue-tint)}
+.sentence .pick::after{content:"";position:absolute;right:6px;top:50%;width:8px;height:8px;border-right:2px solid var(--blue);border-bottom:2px solid var(--blue);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.adv-result{display:flex;align-items:center;gap:20px;margin-top:22px;padding-top:20px;border-top:1px solid var(--border);flex-wrap:wrap}
+.adv-result .count{font-family:var(--mono);font-size:14px;color:var(--steel)}
+.adv-result .count b{color:var(--text);font-weight:500}
+.chips{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+.chip.more{background:transparent;border-style:dashed;color:var(--steel)}
+.chip{white-space:nowrap;font-size:14px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--canvas)}
+.chip i{font-style:normal;font-family:var(--mono);color:var(--steel);margin-left:6px;font-size:12px}
+
+/* ---------- Sections ---------- */
+section.block{padding:104px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:40px}
+.sec-head h2{font-size:36px;font-weight:600;letter-spacing:-.025em;line-height:1.15}
+.sec-head p{color:var(--steel);margin-top:10px;max-width:36em}
+.idx{font-family:var(--mono);font-size:12px;color:var(--steel);letter-spacing:.06em;display:block;margin-bottom:14px}
+
+/* Workloads */
+.wl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 24px}
+.wl{display:block;group:1}
+.wl .ph{aspect-ratio:16/9;overflow:hidden;border-radius:10px;border:1px solid var(--border);background:#dfe5ea;transition:border-color var(--d-std) var(--ease-out)}
+.wl .ph img{width:100%;height:100%;object-fit:cover;transition:transform var(--d-std) var(--ease-out)}
+.wl:hover .ph{border-color:var(--text)}
+.wl:hover .ph img{transform:scale(1.03)}
+.wl h3{font-size:20px;font-weight:600;letter-spacing:-.01em;margin-top:18px;display:flex;justify-content:space-between;align-items:center}
+.wl h3 svg{width:18px;height:18px;color:var(--steel);transition:transform var(--d-std) var(--ease-out),color var(--d-std)}
+.wl:hover h3 svg{transform:translateX(3px);color:var(--blue)}
+.wl .stack{font-family:var(--mono);font-size:12.5px;color:var(--steel);margin-top:6px}
+.wl p{font-size:15px;color:var(--steel);margin-top:8px}
+
+/* GPU preview — spec strip */
+.gpu-band{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.gpu-row{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--border)}
+.gpu-col{border-right:1px solid var(--border);padding:0 24px 28px;display:flex;flex-direction:column}
+.gpu-col .ph{aspect-ratio:4/3;margin:0 -24px;background:#EEF1F4;overflow:hidden;border-bottom:1px solid var(--border)}
+.gpu-col .ph img{width:100%;height:100%;object-fit:cover;transition:transform var(--d-std) var(--ease-out)}
+.gpu-col:hover .ph img{transform:scale(1.03)}
+.gpu-col .series{font-size:13px;color:var(--steel);margin-top:20px}
+.gpu-col h3{font-size:22px;font-weight:600;letter-spacing:-.015em;margin-top:2px}
+.vram{display:flex;align-items:baseline;gap:6px;margin:18px 0 14px}
+.vram b{font-family:var(--mono);font-size:44px;font-weight:500;letter-spacing:-.04em;line-height:1}
+.vram span{font-family:var(--mono);font-size:13px;color:var(--steel)}
+dl.specs{display:grid;grid-template-columns:auto 1fr;font-size:14px;border-top:1px solid var(--border)}
+dl.specs dt,dl.specs dd{padding:9px 0;border-bottom:1px solid var(--border)}
+dl.specs dt{color:var(--steel)}
+dl.specs dd{text-align:right;font-family:var(--mono);font-size:13px}
+.gpu-col .acts{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.cmp-toggle{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--text);cursor:pointer;background:none;border:none;padding:8px 0;min-height:36px}
+.box{width:18px;height:18px;border:1.5px solid var(--border-strong);border-radius:4px;display:grid;place-items:center;transition:background-color var(--d-fast),border-color var(--d-fast)}
+.box svg{width:12px;height:12px;color:#fff;opacity:0}
+.cmp-toggle[aria-pressed=true] .box{background:var(--blue);border-color:var(--blue)}
+.cmp-toggle[aria-pressed=true] .box svg{opacity:1}
+.note{font-size:12.5px;color:var(--steel);margin-top:20px}
+
+/* Featured analysis */
+.analysis{display:grid;grid-template-columns:4fr 8fr;gap:56px;align-items:start}
+.analysis .q{font-size:36px;font-weight:600;letter-spacing:-.025em;line-height:1.15}
+.analysis .body{color:var(--steel);margin-top:18px;font-size:15.5px}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;padding:4px 9px 4px 8px;border-radius:6px;border:1px solid}
+.status svg{width:12px;height:12px}
+.st-est{color:var(--amber);border-color:#E9D3AE;background:#FBF5EA}
+.st-ver{color:var(--green);border-color:#BADFCF;background:#EDF7F2}
+.st-nt{color:var(--steel);border-color:var(--border);background:var(--canvas)}
+.formula{margin-top:28px;padding:16px 18px;border-left:2px solid var(--text);background:var(--surface);font-family:var(--mono);font-size:13px;line-height:1.7}
+.formula span{color:var(--steel)}
+.chart{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 32px 24px}
+.chart-top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+.chart-top h3{font-size:16px;font-weight:600}
+.chart-top h3 small{display:block;font-weight:400;color:var(--steel);font-size:13px;margin-top:2px}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;padding:3px;background:var(--canvas)}
+.seg button{border:none;background:transparent;font-family:var(--mono);font-size:13px;padding:6px 14px;border-radius:6px;cursor:pointer;color:var(--steel);min-height:32px;transition:background-color var(--d-fast),color var(--d-fast)}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--text);box-shadow:0 0 0 1px var(--border),0 1px 2px rgba(20,30,40,.06)}
+.plot{position:relative;padding-left:56px;padding-right:8px;padding-top:44px}
+.bars{position:relative;height:232px;display:flex;flex-direction:column;justify-content:space-around}
+.bar-row{display:flex;align-items:center;height:36px;position:relative}
+.bar-row .lbl{position:absolute;left:-56px;width:48px;font-family:var(--mono);font-size:13px;color:var(--text)}
+.bar{height:22px;background:var(--graphite);border-radius:0 3px 3px 0;transition:width 200ms var(--ease-out);position:relative}
+.bar-val{font-family:var(--mono);font-size:13px;margin-left:6px;padding:2px 4px;white-space:nowrap;background:var(--surface);position:relative;z-index:1}
+.bar{z-index:1}
+.bar-row.over .bar{background:repeating-linear-gradient(135deg,var(--graphite) 0 6px,#3A4756 6px 9px)}
+.vline{position:absolute;top:-6px;bottom:0;width:0;border-left:1px dashed var(--border-strong);z-index:0}
+.vline span{position:absolute;left:0;font-family:var(--mono);font-size:11px;color:var(--steel);white-space:nowrap;transform:translate(-50%,-100%);background:var(--surface);padding:0 3px}
+.vline::after{content:"";position:absolute;top:-4px;left:-3px;width:5px;height:5px;background:var(--surface);border:1px solid var(--steel-2);transform:rotate(45deg)}
+.axis{position:relative;height:28px;border-top:1px solid var(--text);margin-top:4px}
+.axis span{position:absolute;top:6px;font-family:var(--mono);font-size:11px;color:var(--steel);transform:translateX(-50%)}
+.axis .unit{right:0;transform:none;color:var(--text)}
+.legend{display:flex;gap:22px;margin-top:14px;font-size:12.5px;color:var(--steel);flex-wrap:wrap}
+.legend i{display:inline-block;width:18px;height:10px;vertical-align:-1px;margin-right:6px;background:var(--graphite)}
+.legend i.h{background:repeating-linear-gradient(135deg,var(--graphite) 0 4px,#3A4756 4px 6px)}
+.legend i.d{width:14px;height:0;border-top:1px dashed var(--steel);background:none;vertical-align:3px}
+
+/* Solutions */
+.sol{display:grid;grid-template-columns:7fr 5fr;gap:24px}
+.sol-feat .ph{aspect-ratio:16/10;border-radius:16px;overflow:hidden;border:1px solid var(--border)}
+.sol-feat .ph img{width:100%;height:100%;object-fit:cover;transition:transform var(--d-std) var(--ease-out)}
+.sol-feat:hover .ph img{transform:scale(1.02)}
+.meta{display:flex;gap:12px;align-items:center;font-size:13px;color:var(--steel);margin-top:20px;flex-wrap:wrap}
+.meta .cat{color:var(--text);font-weight:500}
+.sol-feat h3{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.2;margin-top:8px}
+.sol-feat p{color:var(--steel);margin-top:10px;max-width:34em}
+.sol-list{border-top:1px solid var(--text)}
+.sol-item{display:grid;grid-template-columns:1fr 132px;gap:20px;padding:22px 0;border-bottom:1px solid var(--border);align-items:start}
+.sol-item .meta{margin-top:0}
+.sol-item h4{font-size:18px;font-weight:600;letter-spacing:-.01em;line-height:1.3;margin-top:6px}
+.sol-item p{font-size:14px;color:var(--steel);margin-top:6px}
+.sol-item .th{aspect-ratio:4/3;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.sol-item .th img{width:100%;height:100%;object-fit:cover}
+.sol-item:hover h4{color:var(--blue)}
+.gpus-used{font-family:var(--mono);font-size:12px;color:var(--steel)}
+
+/* Footer */
+footer{background:var(--graphite);color:#B4C0CC;padding:72px 0 36px}
+.foot-grid{display:grid;grid-template-columns:4fr 2fr 2fr 2fr 2fr;gap:24px}
+footer h5{font-size:13px;color:#fff;font-weight:500;margin-bottom:14px}
+footer ul{list-style:none;display:grid;gap:10px;font-size:14px}
+footer a:hover{color:#fff}
+footer .tag{margin-top:14px;font-size:14px;max-width:22em}
+.foot-bottom{display:flex;justify-content:space-between;border-top:1px solid #2A3644;margin-top:56px;padding-top:24px;font-size:12.5px;color:#6E8093;flex-wrap:wrap;gap:12px}
+
+/* ---------- Explorer page ---------- */
+.page-head{background:var(--surface);border-bottom:1px solid var(--border);padding:36px 0 32px}
+.crumb{font-size:13px;color:var(--steel)}
+.crumb a:hover{color:var(--text)}
+.page-head h1{font-size:48px;font-weight:600;letter-spacing:-.03em;margin-top:14px;line-height:1.1}
+.page-head p{color:var(--steel);margin-top:8px}
+.ex{display:grid;grid-template-columns:240px 1fr;gap:48px;padding-top:36px;padding-bottom:140px}
+.filters h4{font-size:13px;font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between}
+.fgroup{padding:20px 0;border-bottom:1px solid var(--border)}
+.fgroup:first-child{padding-top:0}
+.fopt{display:flex;align-items:center;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;min-height:32px}
+.fopt input{appearance:none;-webkit-appearance:none;width:18px;height:18px;border:1.5px solid var(--border-strong);border-radius:4px;display:grid;place-items:center;cursor:pointer;margin:0;transition:background-color var(--d-fast),border-color var(--d-fast)}
+.fopt input:checked{background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/12px no-repeat;border-color:var(--blue)}
+.fopt .n{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--steel)}
+.toolbar{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.toolbar .q{flex:1;min-width:220px;display:flex;align-items:center;gap:10px;height:44px;border:1px solid var(--border-strong);border-radius:8px;padding:0 14px;background:var(--surface)}
+.toolbar .q:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-tint)}
+.toolbar .q svg{width:16px;height:16px;color:var(--steel)}
+.toolbar .q input{border:none;outline:none;font:inherit;font-size:15px;flex:1;background:transparent}
+.toolbar .res{font-family:var(--mono);font-size:13px;color:var(--steel)}
+.sortsel{height:44px;border:1px solid var(--border-strong);border-radius:8px;padding:0 12px;background:var(--surface);font-size:14px}
+.ex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.gcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:border-color var(--d-std) var(--ease-out)}
+.gcard:hover{border-color:var(--border-strong)}
+.gcard.sel{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue)}
+.gcard .ph{aspect-ratio:16/10;background:#EEF1F4;overflow:hidden}
+.gcard .ph img{width:100%;height:100%;object-fit:cover;transition:transform var(--d-std) var(--ease-out)}
+.gcard:hover .ph img{transform:scale(1.03)}
+.gcard .bd{padding:18px 20px 16px;display:flex;flex-direction:column;flex:1}
+.gcard .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.gcard h3{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.gcard .series{font-size:13px;color:var(--steel)}
+.gcard .vr{text-align:right;font-family:var(--mono);font-size:24px;font-weight:500;letter-spacing:-.03em;line-height:1}
+.gcard .vr small{display:block;font-size:11px;color:var(--steel);letter-spacing:0;margin-top:4px}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);margin-top:16px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.kv div{padding:9px 0}
+.kv div+div{padding-left:12px;border-left:1px solid var(--border)}
+.kv span{display:block;font-size:11.5px;color:var(--steel)}
+.kv b{font-family:var(--mono);font-size:13px;font-weight:500}
+.wltags{font-size:13px;color:var(--steel);margin-top:12px}
+.gcard .foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px}
+.avail{font-size:13px;color:var(--steel);display:inline-flex;gap:6px;align-items:center}
+.avail svg{width:14px;height:14px}
+.empty{grid-column:1/-1;padding:64px 24px;text-align:center;border:1px dashed var(--border-strong);border-radius:12px;color:var(--steel)}
+.empty b{display:block;color:var(--text);font-size:17px;margin-bottom:6px}
+
+/* Compare tray */
+.tray{position:fixed;left:50%;bottom:20px;z-index:60;width:min(1100px,calc(100% - 32px));transform:translateX(-50%);background:var(--graphite);color:#fff;border-radius:14px;padding:14px 14px 14px 22px;display:flex;align-items:center;gap:20px;box-shadow:0 18px 40px -12px rgba(20,30,40,.45)}
+.tray[hidden]{display:none}
+@media (prefers-reduced-motion:no-preference){
+  .tray.enter{animation:trayIn 180ms var(--ease-out) both}
+  @keyframes trayIn{from{opacity:0;transform:translate(-50%,16px)}to{opacity:1;transform:translate(-50%,0)}}
+}
+.tray .tt{font-size:14px;font-weight:500;white-space:nowrap}
+.tray .btn{white-space:nowrap}
+.tray #tray-n{font-family:var(--mono);color:#8EA0B3;margin-left:6px}
+.slots{display:flex;gap:8px;flex:1}
+.slot{flex:0 1 92px;min-width:0;height:48px;border-radius:8px;border:1px dashed #3A4756;display:flex;align-items:center;padding:0 6px 0 12px;font-size:13px;color:#6E8093;gap:8px}
+.slot.on{flex:1 1 180px;border:1px solid #344252;background:var(--graphite-2);color:#fff}
+.slot .sw{width:8px;height:8px;border-radius:2px;flex:none}
+.slot .nm{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slot .gb{font-family:var(--mono);font-size:12px;color:#8EA0B3;margin-left:auto;white-space:nowrap}
+.slot button{width:28px;height:28px;border-radius:6px;border:none;background:transparent;color:#8EA0B3;cursor:pointer;display:grid;place-items:center;flex:none}
+.slot button:hover{background:#2A3644;color:#fff}
+.slot button svg{width:14px;height:14px}
+.tray .clr{background:none;border:none;color:#B4C0CC;font-size:14px;cursor:pointer;padding:8px;white-space:nowrap}
+.tray .clr:hover{color:#fff}
+.tray .btn-primary[disabled]{background:#2A3644;color:#6E8093;cursor:not-allowed}
+
+[data-page]{display:none}
+[data-page].active{display:block}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){
+  :root{--pad:40px}
+  .hero h1{font-size:52px}
+  .search{width:200px}
+  .gpu-row{grid-template-columns:repeat(2,1fr)}
+  .gpu-col{border-bottom:1px solid var(--border)}
+  .ex-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:860px){
+  :root{--pad:20px}
+  .nav-links,.search,.nav .btn{display:none}
+  .burger{display:grid;place-items:center;margin-left:auto;width:44px;height:44px;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+  .burger svg{width:20px;height:20px}
+  .hero-grid{grid-template-columns:1fr;min-height:0}
+  .hero-copy{padding:48px 0 0}
+  .hero h1{font-size:38px}
+  .hero p.lede{font-size:16px}
+  .hero-visual{position:relative;inset:auto;height:280px;margin:24px 0 0}
+  .hero-visual::before{background:linear-gradient(180deg,var(--graphite) 0%,rgba(20,30,40,0) 25%)}
+  .readout{width:auto;position:static;justify-content:flex-start;margin:0 var(--pad);padding-bottom:24px;row-gap:12px}
+  .readout{display:grid;grid-template-columns:1fr 1fr;row-gap:14px}
+  .readout div,.readout div:first-child,.readout div:last-of-type{padding:0 0 0 12px;border-left:1px solid rgba(255,255,255,.14)}
+  .readout p{grid-column:1/-1}
+  .readout p{text-align:left}
+  .advisor .wrap{grid-template-columns:1fr}
+  .sentence,.sentence select{font-size:20px}
+  section.block{padding:72px 0}
+  .sec-head{flex-direction:column;align-items:flex-start}
+  .sec-head h2,.analysis .q{font-size:26px}
+  .wl-grid{grid-template-columns:1fr}
+  .gpu-row{grid-template-columns:1fr}
+  .analysis{grid-template-columns:1fr;gap:32px}
+  .chart{padding:20px 16px}
+  .sol{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .ex{grid-template-columns:1fr}
+  .filters{display:none}
+  .ex-grid{grid-template-columns:1fr}
+  .page-head h1{font-size:32px}
+  .tray{gap:8px;padding:10px 10px 10px 16px}
+  .slots{display:none}
+  .tray .clr{margin-left:auto}
+  .tray .tw{display:none}
+  .tray #tray-n{margin-left:0}
+  .tray .btn{height:40px;padding:0 14px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-est" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.2 1.6"/></symbol>
+  <symbol id="i-ver" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="currentColor"/><path d="M3.6 6.1 5.2 7.6 8.4 4.4" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-nt" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.25" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="6.5" y="6.5" width="15" height="15" rx="2"/><rect x="11" y="11" width="6" height="6" fill="currentColor" stroke="none"/><path d="M10 3v3.5M14 3v3.5M18 3v3.5M10 21.5V25M14 21.5V25M18 21.5V25M3 10h3.5M3 14h3.5M3 18h3.5M21.5 10H25M21.5 14H25M21.5 18H25"/></symbol>
+</svg>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#home" class="logo" data-go="home" aria-label="DBM GPU Lab home">
+      <svg width="28" height="28" aria-hidden="true"><use href="#i-chip"/></svg>
+      <span>DBM <small>GPU Lab</small></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#gpus" data-go="gpus">GPUs</a>
+      <a href="#home">Workloads</a>
+      <a href="#home">Compare</a>
+      <a href="#home">Benchmarks</a>
+      <a href="#home">Solutions</a>
+    </nav>
+    <div class="search" role="search"><svg><use href="#i-search"/></svg>Search GPU or model<kbd>⌘K</kbd></div>
+    <a href="#home" class="btn btn-primary btn-sm">Find my GPU</a>
+    <button class="burger" aria-label="Open menu"><svg><use href="#i-menu"/></svg></button>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<main data-page="home" class="active">
+
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">GPU intelligence for AI workloads</span>
+          <h1 id="hero-h">The right GPU for every AI workload.</h1>
+          <p class="lede">Compare hardware, understand real performance, and choose infrastructure for your next AI project — with the evidence shown.</p>
+          <div class="hero-ctas">
+            <a href="#advisor" class="btn btn-primary">Find my GPU <svg><use href="#i-arrow"/></svg></a>
+            <a href="#analysis" class="btn btn-ghost-dark">Explore benchmarks</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="img/hero.webp" alt="Workstation GPU with machined aluminium fin stack and copper heat pipes" width="1600" height="1088">
+    </div>
+    <!-- technical callouts: dots sit on physical parts; specs live in the readout -->
+    <svg class="callouts" viewBox="0 0 1440 580" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+      <polyline points="1000,228 1000,142 905,142"/><circle cx="1000" cy="228" r="3.5"/>
+      <polyline points="1116,376 1182,376"/><circle cx="1116" cy="376" r="3.5"/>
+      <g class="t" text-anchor="end"><text x="895" y="136" class="k">FORM FACTOR</text><text x="895" y="156" class="v">Dual-slot · 304 mm</text></g>
+      <g class="t"><text x="1192" y="370" class="k">INTERFACE</text><text x="1192" y="390" class="v">PCIe 5.0 ×16</text></g>
+    </svg>
+    <div class="readout" aria-label="RTX 5090 reference specifications">
+      <div><span class="k">Model</span><span class="v">RTX 5090</span></div>
+      <div><span class="k">Memory</span><span class="v">32 GB GDDR7</span></div>
+      <div><span class="k">Bandwidth</span><span class="v">1,792 GB/s</span></div>
+      <div><span class="k">Board power</span><span class="v">575 W</span></div>
+      <p>Reference specifications · render is illustrative</p>
+    </div>
+  </section>
+
+  <section class="advisor" id="advisor" aria-labelledby="adv-h">
+    <div class="wrap">
+      <div>
+        <h2 id="adv-h">What are you building?</h2>
+        <p class="sub">Three answers narrow the field. No account needed.</p>
+      </div>
+      <div>
+        <p class="sentence">
+          I want to run
+          <span class="pick"><select id="a-wl" aria-label="AI workload">
+            <option value="llm">LLM inference</option><option value="img">image generation</option><option value="cv">computer vision</option>
+            <option value="train">model fine-tuning</option><option value="video">video processing</option><option value="robot">robotics simulation</option>
+          </select></span>
+          on a
+          <span class="pick"><select id="a-model" aria-label="Model size">
+            <option value="8">8B</option><option value="14" selected>14B</option><option value="32">32B</option><option value="70">70B</option>
+          </select></span>
+          model, optimizing for
+          <span class="pick"><select id="a-pri" aria-label="Priority">
+            <option value="cost">lowest cost</option><option value="bal" selected>balanced performance</option><option value="max">maximum headroom</option>
+          </select></span>.
+        </p>
+        <div class="adv-result">
+          <span class="count" id="a-count"></span>
+          <div class="chips" id="a-chips"></div>
+          <a href="#gpus" data-go="gpus" class="btn btn-primary">Find matching GPUs <svg><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="wl-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="idx">01 — Workloads</span><h2 id="wl-h">Start from what you want to run.</h2>
+        <p>Each workload has its own requirements, calculators and tested configurations.</p></div>
+        <a href="#home" class="link">All workloads <svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="wl-grid">
+        <a class="wl" href="#home"><div class="ph"><img src="img/wl-llm.webp" alt="" width="1024" height="576" loading="lazy"></div><h3>LLM Inference <svg><use href="#i-arrow"/></svg></h3><div class="stack">Qwen · Llama · DeepSeek · vLLM</div><p>Memory, context length and token throughput requirements.</p></a>
+        <a class="wl" href="#home"><div class="ph"><img src="img/wl-img.webp" alt="" width="1024" height="576" loading="lazy"></div><h3>Image Generation <svg><use href="#i-arrow"/></svg></h3><div class="stack">ComfyUI · FLUX · Stable Diffusion</div><p>Generation time and VRAM by model and resolution.</p></a>
+        <a class="wl" href="#home"><div class="ph"><img src="img/wl-cv.webp" alt="" width="1024" height="576" loading="lazy"></div><h3>Computer Vision <svg><use href="#i-arrow"/></svg></h3><div class="stack">YOLO · OpenCV · TensorRT</div><p>Inference latency, FPS and concurrent video streams.</p></a>
+        <a class="wl" href="#home"><div class="ph"><img src="img/wl-train.webp" alt="" width="1024" height="576" loading="lazy"></div><h3>Training &amp; Fine-tuning <svg><use href="#i-arrow"/></svg></h3><div class="stack">PyTorch · LoRA · QLoRA</div><p>Training memory, batch size and efficiency.</p></a>
+        <a class="wl" href="#home"><div class="ph"><img src="img/wl-video.webp" alt="" width="1024" height="576" loading="lazy"></div><h3>Video Processing <svg><use href="#i-arrow"/></svg></h3><div class="stack">FFmpeg · NVENC · Video AI</div><p>Encoding throughput and session limits.</p></a>
+        <a class="wl" href="#home"><div class="ph"><img src="img/wl-robot.webp" alt="" width="1024" height="576" loading="lazy"></div><h3>Robotics &amp; Simulation <svg><use href="#i-arrow"/></svg></h3><div class="stack">ROS 2 · Gazebo · Isaac Sim</div><p>Hardware for simulation and robot learning.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="gpu-band" aria-labelledby="hw-h">
+    <div class="wrap" style="padding-top:96px;padding-bottom:72px">
+      <div class="sec-head">
+        <div><span class="idx">02 — Hardware</span><h2 id="hw-h">Explore the hardware.</h2>
+        <p>Core specifications only. Sources are cited on each GPU page.</p></div>
+        <a href="#gpus" data-go="gpus" class="link">All GPUs <svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="gpu-row" id="home-gpus"></div>
+      <p class="note">Specifications from manufacturer datasheets. Product renders are illustrative. Pricing and availability are shown only when confirmed by DBM.</p>
+    </div>
+  </section>
+
+  <section class="block" id="analysis" aria-labelledby="an-h">
+    <div class="wrap">
+      <div class="analysis">
+        <div>
+          <span class="idx">03 — Analysis</span>
+          <h2 class="q" id="an-h">How much GPU memory does a language model need?</h2>
+          <p class="body">Weights are the floor, not the total. KV cache grows with context length and concurrent requests, and runtimes add their own buffers — budget headroom above these bars.</p>
+          <div style="margin-top:20px"><span class="status st-est"><svg><use href="#i-est"/></svg>Estimated — theoretical, not measured</span></div>
+          <div class="formula">weight_GB = params<span>(B)</span> × bits ÷ 8<br><span>// excludes KV cache &amp; runtime</span></div>
+          <a href="#home" class="link" style="margin-top:24px">Read the methodology <svg><use href="#i-arrow"/></svg></a>
+        </div>
+        <div class="chart">
+          <div class="chart-top">
+            <h3>Model weight memory (GB)<small>Dashed lines mark single-GPU memory capacity</small></h3>
+            <div class="seg" role="group" aria-label="Precision">
+              <button aria-pressed="false" data-bits="4">INT4</button><button aria-pressed="false" data-bits="8">INT8</button><button aria-pressed="true" data-bits="16">FP16</button>
+            </div>
+          </div>
+          <div class="plot">
+            <div class="bars" id="bars"></div>
+            <div class="axis" id="axis"></div>
+          </div>
+          <div class="legend"><span><i></i>Fits within 80 GB</span><span><i class="h"></i>Exceeds largest single GPU shown</span><span><i class="d"></i>GPU memory capacity</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0" aria-labelledby="sol-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="idx">04 — Solutions</span><h2 id="sol-h">Deployment guides, written from testing.</h2></div>
+        <a href="#home" class="link">Solution library <svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="sol">
+        <a class="sol-feat" href="#home">
+          <div class="ph"><img src="img/wl-img.webp" alt="" width="1024" height="576" loading="lazy"></div>
+          <div class="meta"><span class="cat">Image Generation</span><span>·</span><span>12 min read</span><span class="status st-nt"><svg><use href="#i-nt"/></svg>Benchmarks pending</span></div>
+          <h3>Choosing the right GPU for ComfyUI</h3>
+          <p>Memory requirements by model and resolution, deployment options, and how we test generation time.</p>
+        </a>
+        <div class="sol-list">
+          <a class="sol-item" href="#home"><div><div class="meta"><span class="cat">Large Language Models</span></div><h4>Running a 32B model on a single GPU server</h4><p>Quantization, memory and serving trade-offs.</p><div class="gpus-used" style="margin-top:8px">RTX 5090 · RTX A6000</div></div><div class="th"><img src="img/wl-llm.webp" alt="" loading="lazy"></div></a>
+          <a class="sol-item" href="#home"><div><div class="meta"><span class="cat">Robotics</span></div><h4>GPU infrastructure for robotics simulation</h4><p>Simulators, scene complexity and hardware.</p><div class="gpus-used" style="margin-top:8px">RTX A6000 · RTX 4090</div></div><div class="th"><img src="img/wl-robot.webp" alt="" loading="lazy"></div></a>
+          <a class="sol-item" href="#home"><div><div class="meta"><span class="cat">Computer Vision</span></div><h4>Building a real-time vision pipeline</h4><p>Streams per GPU, TensorRT and latency budgets.</p><div class="gpus-used" style="margin-top:8px">RTX 4090</div></div><div class="th"><img src="img/wl-cv.webp" alt="" loading="lazy"></div></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= GPU EXPLORER ================= -->
+<main data-page="gpus">
+  <div class="page-head">
+    <div class="wrap">
+      <div class="crumb"><a href="#home" data-go="home">Home</a> / GPU Explorer</div>
+      <h1>Explore GPUs</h1>
+      <p>Find hardware by architecture, memory and workload. Select up to four to compare.</p>
+    </div>
+  </div>
+  <div class="wrap ex">
+    <aside class="filters" aria-label="Filters">
+      <div class="fgroup"><h4>Series</h4><div id="f-series"></div></div>
+      <div class="fgroup"><h4>Memory</h4><div id="f-vram"></div></div>
+      <div class="fgroup"><h4>Architecture</h4><div id="f-arch"></div></div>
+      <div class="fgroup"><h4>Workload</h4><div id="f-wl"></div></div>
+    </aside>
+    <div>
+      <div class="toolbar">
+        <label class="q"><svg><use href="#i-search"/></svg><input id="q" type="search" placeholder="Search GPU models" aria-label="Search GPU models" autocomplete="off"></label>
+        <select class="sortsel" id="sort" aria-label="Sort"><option value="vram">Memory: high to low</option><option value="bw">Bandwidth: high to low</option><option value="name">Name A–Z</option></select>
+      </div>
+      <p class="toolbar res" id="res" style="margin:-4px 0 16px"></p>
+      <div class="ex-grid" id="ex-grid"></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><a class="logo" href="#home" style="color:#fff"><svg width="28" height="28" aria-hidden="true"><use href="#i-chip"/></svg><span>DBM <small style="color:#8EA0B3">GPU Lab</small></span></a>
+        <p class="tag">Hardware data, workload guides and transparent methodology for AI infrastructure decisions.</p></div>
+      <div><h5>Explore</h5><ul><li><a href="#gpus" data-go="gpus">GPU Explorer</a></li><li><a href="#home">Compare</a></li><li><a href="#home">AI Workloads</a></li></ul></div>
+      <div><h5>Evidence</h5><ul><li><a href="#home">Benchmarks</a></li><li><a href="#home">Testing methodology</a></li><li><a href="#home">Data sources</a></li></ul></div>
+      <div><h5>Deploy</h5><ul><li><a href="#home">Solutions</a></li><li><a href="#home">GPU servers</a></li><li><a href="#home">GPU Advisor</a></li></ul></div>
+      <div><h5>Company</h5><ul><li><a href="#home">About Database Mart</a></li><li><a href="#home">Contact</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Database Mart · DBM GPU Lab (working name)</span><span>English · 中文</span></div>
+  </div>
+</footer>
+
+<div class="tray" id="tray" hidden role="region" aria-label="Compare tray">
+  <div class="tt"><span class="tw">Compare</span><span id="tray-n">0/4</span></div>
+  <div class="slots" id="slots"></div>
+  <button class="clr" id="clr">Clear all</button>
+  <a href="#home" class="btn btn-primary" id="cmp-go">Compare <svg><use href="#i-arrow"/></svg></a>
+</div>
+
+<script>
+const GPUS=[
+ {id:'rtx-4090',name:'RTX 4090',series:'GeForce RTX',arch:'Ada Lovelace',vram:24,mem:'GDDR6X',bw:1008,tdp:450,img:'gpu1',color:'var(--c4090)',wl:['LLM','Image','Vision']},
+ {id:'rtx-5090',name:'RTX 5090',series:'GeForce RTX',arch:'Blackwell',vram:32,mem:'GDDR7',bw:1792,tdp:575,img:'gpu2',color:'var(--c5090)',wl:['LLM','Image','Vision','Fine-tuning']},
+ {id:'rtx-a6000',name:'RTX A6000',series:'Professional',arch:'Ampere',vram:48,mem:'GDDR6',bw:768,tdp:300,img:'gpu3',color:'var(--cA6000)',wl:['LLM','Image','Robotics']},
+ {id:'a100-80',name:'A100 80GB',series:'Data Center',arch:'Ampere',vram:80,mem:'HBM2e',bw:1935,tdp:300,img:'gpu4',color:'var(--cA100)',wl:['LLM','Fine-tuning']},
+ {id:'rtx-6000-ada',name:'RTX 6000 Ada',series:'Professional',arch:'Ada Lovelace',vram:48,mem:'GDDR6',bw:960,tdp:300,img:'gpu5',color:'#2F7D32',wl:['LLM','Image','Robotics']},
+ {id:'l40s',name:'L40S',series:'Data Center',arch:'Ada Lovelace',vram:48,mem:'GDDR6',bw:864,tdp:350,img:'gpu6',color:'#9C3D6B',wl:['LLM','Image','Video']},
+ {id:'h100-pcie',name:'H100 PCIe',series:'Data Center',arch:'Hopper',vram:80,mem:'HBM2e',bw:2000,tdp:350,img:'gpu7',color:'#3B6E8F',wl:['LLM','Fine-tuning']},
+];
+const $=s=>document.querySelector(s);
+const ico=(id)=>`<svg><use href="#${id}"/></svg>`;
+let selected=[];
+
+/* ---------- routing ---------- */
+function go(p){document.querySelectorAll('[data-page]').forEach(m=>m.classList.toggle('active',m.dataset.page===p));
+  document.querySelectorAll('.nav-links a').forEach(l=>l.dataset.go===p?l.setAttribute('aria-current','page'):l.removeAttribute('aria-current')); window.scrollTo(0,0);}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-go]'); if(t){e.preventDefault();go(t.dataset.go);}});
+
+/* ---------- home GPU strip ---------- */
+$('#home-gpus').innerHTML=GPUS.slice(0,4).map(g=>`
+ <article class="gpu-col">
+  <div class="ph"><img src="img/${g.img}.webp" alt="${g.name} product render" width="1024" height="768" loading="lazy"></div>
+  <div class="series">${g.series}</div><h3>${g.name}</h3>
+  <div class="vram"><b>${g.vram}</b><span>GB ${g.mem}</span></div>
+  <dl class="specs"><dt>Architecture</dt><dd>${g.arch}</dd><dt>Bandwidth</dt><dd>${g.bw.toLocaleString()} GB/s</dd><dt>Board power</dt><dd>${g.tdp} W</dd></dl>
+  <div class="acts"><button class="cmp-toggle" data-cmp="${g.id}" aria-pressed="false"><span class="box">${ico('i-check')}</span>Compare</button><a href="#home" class="link">Details ${ico('i-arrow')}</a></div>
+ </article>`).join('');
+
+/* ---------- quick advisor (rule-based: weights at INT4 + 20% headroom) ---------- */
+function advise(){
+  const wl=$('#a-wl').value,size=+$('#a-model').value,pri=$('#a-pri').value;
+  $('#a-model').closest('.pick').style.display=(wl==='llm'||wl==='train')?'':'none';
+  const bits=wl==='train'?16:4, need=size*bits/8*1.2;
+  let m=GPUS.filter(g=>g.vram>=need);
+  if(pri==='cost')m.sort((a,b)=>a.vram-b.vram); else if(pri==='max')m.sort((a,b)=>b.vram-a.vram);
+  $('#a-count').innerHTML=`<b>${m.length}</b> GPU${m.length===1?'':'s'} meet the ${need.toFixed(1)} GB estimate`;
+  $('#a-chips').innerHTML=(m.slice(0,3).map(g=>`<span class="chip">${g.name}<i>${g.vram} GB</i></span>`).join('')+(m.length>3?`<span class="chip more">+${m.length-3} more</span>`:''))||'<span class="chip">Multi-GPU required</span>';
+  fit();
+}
+/* size each select to its chosen text so the sentence reads naturally */
+const meas=document.createElement('span');meas.style.cssText='position:absolute;visibility:hidden;white-space:pre;font:500 24px/1 Geist,system-ui;letter-spacing:-.015em';document.body.appendChild(meas);
+function fit(){document.querySelectorAll('.sentence select').forEach(s=>{meas.style.fontSize=getComputedStyle(s).fontSize;meas.textContent=s.options[s.selectedIndex].text;s.style.width=(meas.offsetWidth+32)+'px';});}
+document.fonts&&document.fonts.ready.then(fit);
+['#a-wl','#a-model','#a-pri'].forEach(s=>$(s).addEventListener('change',advise)); advise();
+
+/* ---------- memory chart ---------- */
+const MAX=160, MODELS=[8,14,32,70], CAPS=[[24,'RTX 4090'],[32,'RTX 5090'],[48,'RTX A6000'],[80,'A100 80GB']];
+$('#bars').innerHTML=MODELS.map(m=>`<div class="bar-row" data-m="${m}"><span class="lbl">${m}B</span><div class="bar"></div><span class="bar-val"></span></div>`).join('')
+ + CAPS.map(([v,n],i)=>`<div class="vline" style="left:${v/MAX*100}%"><span style="top:${-4-(i%2)*18}px">${n.replace('RTX ','').replace(' 80GB','')} · ${v}</span></div>`).join('');
+$('#axis').innerHTML=[0,40,80,120,160].map(v=>`<span style="left:${v/MAX*100}%">${v}</span>`).join('')+'';
+function draw(bits){document.querySelectorAll('.bar-row').forEach(r=>{const gb=+r.dataset.m*bits/8;
+  r.querySelector('.bar').style.width=Math.min(gb,MAX)/MAX*100+'%'; r.querySelector('.bar-val').textContent=gb.toFixed(1)+' GB'; r.classList.toggle('over',gb>80);});}
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw(+b.dataset.bits);}));
+draw(16);
+
+/* ---------- explorer ---------- */
+const F={series:new Set(),vram:new Set(),arch:new Set(),wl:new Set()};
+const VR={'8–16 GB':g=>g.vram<=16,'24–32 GB':g=>g.vram>=24&&g.vram<=32,'48 GB':g=>g.vram===48,'80 GB+':g=>g.vram>=80};
+function opts(el,key,vals,count){$(el).innerHTML=vals.map(v=>`<label class="fopt"><input type="checkbox" data-k="${key}" value="${v}">${v}<span class="n">${count(v)}</span></label>`).join('');}
+opts('#f-series','series',['GeForce RTX','Professional','Data Center'],v=>GPUS.filter(g=>g.series===v).length);
+opts('#f-vram','vram',Object.keys(VR),v=>GPUS.filter(VR[v]).length);
+opts('#f-arch','arch',['Ampere','Ada Lovelace','Hopper','Blackwell'],v=>GPUS.filter(g=>g.arch===v).length);
+opts('#f-wl','wl',['LLM','Image','Vision','Fine-tuning','Video','Robotics'],v=>GPUS.filter(g=>g.wl.includes(v)).length);
+document.querySelector('.filters').addEventListener('change',e=>{const i=e.target;F[i.dataset.k][i.checked?'add':'delete'](i.value);render();});
+$('#q').addEventListener('input',render); $('#sort').addEventListener('change',render);
+function render(){
+  const q=$('#q').value.trim().toLowerCase(), s=$('#sort').value;
+  let list=GPUS.filter(g=>(!q||(g.name+' '+g.arch+' '+g.series).toLowerCase().includes(q))
+    &&(!F.series.size||F.series.has(g.series))&&(!F.arch.size||F.arch.has(g.arch))
+    &&(!F.vram.size||[...F.vram].some(k=>VR[k](g)))&&(!F.wl.size||[...F.wl].some(w=>g.wl.includes(w))));
+  list.sort(s==='name'?(a,b)=>a.name.localeCompare(b.name):s==='bw'?(a,b)=>b.bw-a.bw:(a,b)=>b.vram-a.vram||b.bw-a.bw);
+  $('#res').textContent=`${list.length} of ${GPUS.length} GPUs`;
+  $('#ex-grid').innerHTML=list.length?list.map(g=>`
+   <article class="gcard${selected.includes(g.id)?' sel':''}" data-id="${g.id}">
+    <div class="ph"><img src="img/${g.img}.webp" alt="${g.name} product render" loading="lazy"></div>
+    <div class="bd">
+     <div class="top"><div><h3>${g.name}</h3><div class="series">${g.series}</div></div><div class="vr">${g.vram} GB<small>${g.mem}</small></div></div>
+     <div class="kv"><div><span>Architecture</span><b>${g.arch.replace(' Lovelace','')}</b></div><div><span>Bandwidth</span><b>${g.bw.toLocaleString()}</b></div><div><span>Power</span><b>${g.tdp} W</b></div></div>
+     <div class="wltags">${g.wl.join(' · ')}</div>
+     <div class="foot"><span class="avail">${ico('i-clock')}Check availability</span><button class="cmp-toggle" data-cmp="${g.id}" aria-pressed="${selected.includes(g.id)}"><span class="box">${ico('i-check')}</span>Compare</button></div>
+    </div></article>`).join(''):`<div class="empty"><b>No GPUs match these filters</b>Remove a filter or search by architecture name.</div>`;
+}
+render();
+
+/* ---------- compare tray ---------- */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-cmp]'); if(!b)return; toggle(b.dataset.cmp);});
+function toggle(id){const i=selected.indexOf(id); if(i>=0)selected.splice(i,1); else if(selected.length<4)selected.push(id); else return; sync();}
+function sync(){
+  document.querySelectorAll('[data-cmp]').forEach(b=>b.setAttribute('aria-pressed',selected.includes(b.dataset.cmp)));
+  document.querySelectorAll('.gcard').forEach(c=>c.classList.toggle('sel',selected.includes(c.dataset.id)));
+  const tray=$('#tray'), wasHidden=tray.hidden;
+  tray.hidden=selected.length===0;
+  if(wasHidden&&!tray.hidden){tray.classList.remove('enter');void tray.offsetWidth;tray.classList.add('enter');}
+  $('#tray-n').textContent=selected.length+'/4';
+  $('#slots').innerHTML=[0,1,2,3].map(i=>{const g=GPUS.find(x=>x.id===selected[i]);
+    return g?`<div class="slot on"><span class="sw" style="background:${g.color}"></span><span class="nm">${g.name}</span><span class="gb">${g.vram} GB</span><button data-cmp="${g.id}" aria-label="Remove ${g.name}">${ico('i-x')}</button></div>`:`<div class="slot">Add GPU</div>`;}).join('');
+  const go=$('#cmp-go'); go.toggleAttribute('aria-disabled',selected.length<2); go.style.opacity=selected.length<2?.45:1;
+  go.innerHTML=selected.length<2?'Select 2 to compare':`Compare ${selected.length} GPUs ${ico('i-arrow')}`;
+}
+$('#clr').addEventListener('click',()=>{selected=[];sync();});
+if(location.hash==='#gpus')go('gpus');
+if(location.search.includes('demo')){selected=['rtx-4090','rtx-5090'];sync();}
+</script>
+</body>
+</html>
