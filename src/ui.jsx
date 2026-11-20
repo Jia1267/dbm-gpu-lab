@@ -24,4 +24,4 @@ export function A({ to, ...rest }) {
   return <Link to={p(to)} {...rest} />;
 }
 
-export const img = (name) => `/img/${name}.webp`;
+export const img = (name) => `${import.meta.env.BASE_URL}img/${name}.webp`;

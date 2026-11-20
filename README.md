@@ -12,6 +12,9 @@ npm run build    # static files in dist/
 
 ## Deploy
 
+Pushing to `main` publishes the site to GitHub Pages (https://jia1267.github.io/dbm-gpu-lab/) through `.github/workflows/deploy.yml`. The workflow builds with `BASE_PATH=/dbm-gpu-lab/` and copies `index.html` to `404.html` so deep links work. On a custom domain at the root, drop `BASE_PATH`.
+
+Elsewhere: 
 `dist/` is a static site. Because it uses real URLs (`/gpus`, `/zh/scenarios/llm`), the web server must send `index.html` for any path that is not a file (SPA fallback), for example `try_files $uri /index.html;` in nginx.
 
 ## Where things live
