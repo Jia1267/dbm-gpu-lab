@@ -448,6 +448,8 @@ table.ct td.best::after{content:" ▲";font-size:10px;color:var(--steel)}
 .side dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13.5px;margin-top:14px}
 .side dt{color:var(--steel)}
 .side dd{text-align:right;font-family:var(--mono);font-size:13px}
+.side dt.q{grid-column:1/-1;font-size:12.5px;margin-top:4px}
+.side dd.q{grid-column:1/-1;text-align:left;font-family:var(--sans);font-size:14px;margin-top:-4px}
 .side .why{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);font-size:13.5px;color:var(--steel)}
 .side .why b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--blue);font-weight:500;margin-bottom:4px}
 .pick-card{display:grid;grid-template-columns:5fr 7fr;margin-top:28px;overflow:hidden}
@@ -654,7 +656,7 @@ table.bt td{font-family:var(--mono);font-size:13px}
   <section class="block" id="workloads" aria-labelledby="wl-h">
     <div class="wrap">
       <div class="sec-head">
-        <div><span class="idx">01 — Workloads</span><h2 id="wl-h">Start from what you want to run.</h2><p>Eleven workloads, from gaming and streaming to LLMs and FP64 simulation. Each opens the Advisor with sensible defaults.</p></div>
+        <div><span class="idx">01 — Workloads</span><h2 id="wl-h">Start from what you want to run.</h2><p>Thirteen workloads, from cloud desktops and gaming to LLMs, life sciences and FP64 simulation. Each opens the Advisor with plain-language questions.</p></div>
       </div>
       <div class="wl-grid" id="wl-grid"></div>
     </div>
@@ -778,55 +780,55 @@ const GPUS=[
  // tier: 0 entry · 1 GeForce · 2 professional · 3 data center. vram = memory one GPU can address (used for sizing).
  // Specs from NVIDIA datasheets / product pages. fp32:null where NVIDIA does not publish a figure.
  {id:'gt-730',imgNote:'Illustrative render. This model is sold by board partners only; NVIDIA publishes no product photo.',full:'GeForce GT 730',name:'GT 730',series:'Entry',tier:0,arch:'Kepler',vram:2,mem:'DDR3',bus:64,bw:14.4,tdp:23,cuda:384,tensor:0,rt:0,fp32:0.69,fp64:null,pcie:'PCIe 2.0 ×8',slots:'1-slot, low profile',cool:'Active',ecc:false,nvlink:false,mig:false,nvenc:null,gfx:true,img:'gpu-lp',
-  use:['video'],intro:'Entry display card for remote desktops, office graphics and HD media playback. Not designed for AI or 3D workloads.'},
+  use:['video','cad'],intro:'Entry display card for remote desktops, office graphics and HD media playback. Not designed for AI or 3D workloads.'},
  {id:'quadro-p600',imgNote:'Illustrative render. The product page and datasheet are no longer on nvidia.com.',full:'Quadro P600',name:'P600',series:'Entry',tier:0,arch:'Pascal',vram:2,mem:'GDDR5',bus:128,bw:64,tdp:40,cuda:384,tensor:0,rt:0,fp32:1.2,fp64:null,pcie:'PCIe 3.0 ×16',slots:'1-slot, low profile',cool:'Active',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'gpu-lp',
-  use:['cad','video','stream'],intro:'Entry professional card with certified drivers for 2D/3D CAD and multi-display desktops.'},
+  use:['cad','video'],intro:'Entry professional card with certified drivers for 2D/3D CAD and multi-display desktops.'},
  {id:'quadro-p1000',full:'Quadro P1000',name:'P1000',series:'Entry',tier:0,arch:'Pascal',vram:4,mem:'GDDR5',bus:128,bw:82,tdp:47,cuda:640,tensor:0,rt:0,fp32:1.9,fp64:null,pcie:'PCIe 3.0 ×16',slots:'1-slot, low profile',cool:'Active',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/quadro-p1000',
-  use:['cad','video','stream'],intro:'Low-profile professional card for CAD, light DCC and four-display workstations.'},
+  use:['cad','video'],intro:'Low-profile professional card for CAD, light DCC and four-display workstations.'},
  {id:'t1000',full:'NVIDIA T1000 8GB',name:'T1000',series:'Entry',tier:0,arch:'Turing',vram:8,mem:'GDDR6',bus:128,bw:160,tdp:50,cuda:896,tensor:0,rt:0,fp32:2.5,fp64:null,pcie:'PCIe 3.0 ×16',slots:'1-slot, low profile',cool:'Active',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/t1000',
-  use:['cad','video','stream'],intro:'Turing low-profile professional card with 8 GB for CAD, design apps and video encode.'},
+  use:['cad','video'],intro:'Turing low-profile professional card with 8 GB for CAD, design apps and video encode.'},
  {id:'gtx-1650',imgNote:'Illustrative render. NVIDIA made no Founders Edition of this model, so there is no NVIDIA product photo; cards come from board partners.',full:'GeForce GTX 1650',name:'GTX 1650',series:'GeForce',tier:1,arch:'Turing',vram:4,mem:'GDDR5',bus:128,bw:128,tdp:75,cuda:896,tensor:0,rt:0,fp32:3.0,fp64:null,pcie:'PCIe 3.0 ×16',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'gpu1',
-  use:['game','stream','video'],intro:'Entry gaming GPU for 1080p esports titles, streaming and video playback.'},
+  use:['game','video'],intro:'Entry gaming GPU for 1080p esports titles, streaming and video playback.'},
  {id:'gtx-1660',imgNote:'Illustrative render. NVIDIA made no Founders Edition of this model, so there is no NVIDIA product photo; cards come from board partners.',full:'GeForce GTX 1660',name:'GTX 1660',series:'GeForce',tier:1,arch:'Turing',vram:6,mem:'GDDR5',bus:192,bw:192,tdp:120,cuda:1408,tensor:0,rt:0,fp32:5.0,fp64:null,pcie:'PCIe 3.0 ×16',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'gpu1',
-  use:['game','stream','video'],intro:'1080p gaming and streaming with Turing NVENC. No RT or Tensor cores.'},
+  use:['game','video'],intro:'1080p gaming and streaming with Turing NVENC. No RT or Tensor cores.'},
  {id:'rtx-2060',imgNote:'Illustrative render. The product page has been retired from nvidia.com.',full:'GeForce RTX 2060',name:'RTX 2060',series:'GeForce',tier:1,arch:'Turing',vram:6,mem:'GDDR6',bus:192,bw:336,tdp:160,cuda:1920,tensor:240,rt:30,fp32:6.5,fp64:null,pcie:'PCIe 3.0 ×16',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'gpu1',
-  use:['game','stream','video','render','cv'],intro:'First-generation RTX: ray tracing and DLSS for gaming, plus Tensor cores for light AI.'},
+  use:['game','video','render','cv'],intro:'First-generation RTX: ray tracing and DLSS for gaming, plus Tensor cores for light AI.'},
  {id:'rtx-3060-ti',full:'GeForce RTX 3060 Ti',name:'RTX 3060 Ti',series:'GeForce',tier:1,arch:'Ampere',vram:8,mem:'GDDR6',bus:256,bw:448,tdp:200,cuda:4864,tensor:152,rt:38,fp32:16.2,fp64:null,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-3060-ti',
-  use:['game','stream','video','render','img','cv'],intro:'Ampere gaming GPU for 1440p, creator apps and small AI models.'},
+  use:['game','video','render','img','cv','data','speech'],intro:'Ampere gaming GPU for 1440p, creator apps and small AI models.'},
  {id:'rtx-4060',imgNote:'Illustrative render. NVIDIA made no Founders Edition of this model, so there is no NVIDIA product photo; cards come from board partners.',full:'GeForce RTX 4060',name:'RTX 4060',series:'GeForce',tier:1,arch:'Ada Lovelace',vram:8,mem:'GDDR6',bus:128,bw:272,tdp:115,cuda:3072,tensor:96,rt:24,fp32:15.1,fp64:null,pcie:'PCIe 4.0 ×8',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'gpu1',
-  use:['game','stream','video','render','img','cv'],intro:'Efficient Ada GPU with AV1 encode and DLSS 3 for 1080p gaming and streaming.'},
+  use:['game','video','render','img','cv','speech'],intro:'Efficient Ada GPU with AV1 encode and DLSS 3 for 1080p gaming and streaming.'},
  {id:'rtx-5060',imgNote:'Illustrative render. NVIDIA made no Founders Edition of this model, so there is no NVIDIA product photo; cards come from board partners.',full:'GeForce RTX 5060',name:'RTX 5060',series:'GeForce',tier:1,arch:'Blackwell',vram:8,mem:'GDDR7',bus:128,bw:448,tdp:145,cuda:3840,tensor:120,rt:30,fp32:19.2,fp64:null,pcie:'PCIe 5.0 ×8',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'gpu1',
-  use:['game','stream','video','render','img','cv'],intro:'Blackwell entry GPU with GDDR7 and DLSS 4 for gaming, streaming and creator apps.'},
+  use:['game','video','render','img','cv','speech'],intro:'Blackwell entry GPU with GDDR7 and DLSS 4 for gaming, streaming and creator apps.'},
  {id:'rtx-a4000',full:'NVIDIA RTX A4000',name:'RTX A4000',series:'Professional',tier:2,arch:'Ampere',vram:16,mem:'GDDR6',bus:256,bw:448,tdp:140,cuda:6144,tensor:192,rt:48,fp32:19.2,fp64:null,pcie:'PCIe 4.0 ×16',slots:'1-slot',cool:'Blower',ecc:true,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-a4000',
-  use:['cad','render','video','img','llm','cv'],intro:'Single-slot professional GPU with 16 GB ECC for CAD, rendering and mid-size AI.'},
+  use:['cad','render','video','img','llm','cv','data','speech'],intro:'Single-slot professional GPU with 16 GB ECC for CAD, rendering and mid-size AI.'},
  {id:'rtx-pro-2000',full:'RTX PRO 2000 Blackwell',name:'RTX PRO 2000',series:'Professional',tier:2,arch:'Blackwell',vram:16,mem:'GDDR7',bus:128,bw:288,tdp:70,cuda:4352,tensor:136,rt:34,fp32:17,fp64:null,pcie:'PCIe 5.0 ×8',slots:'2-slot, low profile',cool:'Active',ecc:true,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-pro-2000',
-  use:['cad','render','video','img','llm','cv'],intro:'70 W compact Blackwell card with 16 GB ECC GDDR7 for design, visualization and AI.'},
+  use:['cad','render','video','img','llm','cv','data','speech'],intro:'70 W compact Blackwell card with 16 GB ECC GDDR7 for design, visualization and AI.'},
  {id:'rtx-a5000',full:'NVIDIA RTX A5000',name:'RTX A5000',series:'Professional',tier:2,arch:'Ampere',vram:24,mem:'GDDR6',bus:384,bw:768,tdp:230,cuda:8192,tensor:256,rt:64,fp32:27.8,fp64:null,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Blower',ecc:true,nvlink:true,mig:false,nvenc:true,gfx:true,img:'official/rtx-a5000',
-  use:['cad','render','video','img','llm','train','cv'],intro:'24 GB ECC workstation GPU for rendering, simulation and AI, with NVLink.'},
+  use:['cad','render','video','img','llm','train','cv','data','speech','bio'],intro:'24 GB ECC workstation GPU for rendering, simulation and AI, with NVLink.'},
  {id:'rtx-pro-4000',full:'RTX PRO 4000 Blackwell',name:'RTX PRO 4000',series:'Professional',tier:2,arch:'Blackwell',vram:24,mem:'GDDR7',bus:192,bw:672,tdp:145,cuda:8960,tensor:280,rt:70,fp32:null,pcie:'PCIe 5.0 ×16',slots:'1-slot',cool:'Active',ecc:true,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-pro-4000',
-  use:['cad','render','video','img','llm','cv'],intro:'Single-slot Blackwell professional GPU with 24 GB ECC GDDR7.'},
+  use:['cad','render','video','img','llm','cv','data','speech'],intro:'Single-slot Blackwell professional GPU with 24 GB ECC GDDR7.'},
  {id:'rtx-a6000',full:'NVIDIA RTX A6000',name:'RTX A6000',series:'Professional',tier:2,arch:'Ampere',vram:48,mem:'GDDR6',bus:384,bw:768,tdp:300,cuda:10752,tensor:336,rt:84,fp32:38.7,fp64:null,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Blower',ecc:true,nvlink:true,mig:false,nvenc:true,gfx:true,img:'official/rtx-a6000',
-  use:['cad','render','video','img','llm','train','robot','cv'],intro:'48 GB ECC workstation GPU for large scenes, simulation and AI, with NVLink.'},
+  use:['cad','render','video','img','llm','train','robot','cv','data','speech','bio'],intro:'48 GB ECC workstation GPU for large scenes, simulation and AI, with NVLink.'},
  {id:'rtx-pro-5000',full:'RTX PRO 5000 Blackwell',name:'RTX PRO 5000',series:'Professional',tier:2,arch:'Blackwell',vram:48,mem:'GDDR7',bus:384,bw:1344,tdp:300,cuda:14080,tensor:440,rt:110,fp32:null,pcie:'PCIe 5.0 ×16',slots:'2-slot',cool:'Active',ecc:true,nvlink:false,mig:true,nvenc:true,gfx:true,img:'official/rtx-pro-5000',
-  use:['cad','render','video','img','llm','train','robot','cv'],intro:'Blackwell professional GPU with 48 GB ECC GDDR7 and MIG partitioning.'},
+  use:['cad','render','video','img','llm','train','robot','cv','data','speech','bio'],intro:'Blackwell professional GPU with 48 GB ECC GDDR7 and MIG partitioning.'},
  {id:'rtx-pro-6000',full:'RTX PRO 6000 Blackwell',name:'RTX PRO 6000',series:'Professional',tier:2,arch:'Blackwell',vram:96,mem:'GDDR7',bus:512,bw:1792,tdp:600,cuda:24064,tensor:752,rt:188,fp32:125,fp64:null,pcie:'PCIe 5.0 ×16',slots:'2-slot',cool:'Edition-dependent',ecc:true,nvlink:false,mig:true,nvenc:true,gfx:true,img:'official/rtx-pro-6000',
-  use:['cad','render','video','img','llm','train','robot','cv','stream'],intro:'Full GB202 with 96 GB ECC GDDR7 — the largest single-GPU memory here outside HBM cards.'},
+  use:['cad','render','video','img','llm','train','robot','cv','data','speech','bio'],intro:'Full GB202 with 96 GB ECC GDDR7 — the largest single-GPU memory here outside HBM cards.'},
  {id:'rtx-4090',full:'GeForce RTX 4090',name:'RTX 4090',series:'GeForce',tier:1,arch:'Ada Lovelace',vram:24,mem:'GDDR6X',bus:384,bw:1008,tdp:450,cuda:16384,tensor:512,rt:128,fp32:82.6,fp64:null,pcie:'PCIe 4.0 ×16',slots:'3-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-4090',
-  use:['game','stream','video','render','img','llm','train','cv'],intro:'Ada flagship with 24 GB. Strong for 4K gaming, rendering, image generation and small LLMs.'},
+  use:['game','video','render','img','llm','train','cv','data','speech','bio'],intro:'Ada flagship with 24 GB. Strong for 4K gaming, rendering, image generation and small LLMs.'},
  {id:'rtx-5090',full:'GeForce RTX 5090',name:'RTX 5090',series:'GeForce',tier:1,arch:'Blackwell',vram:32,mem:'GDDR7',bus:512,bw:1792,tdp:575,cuda:21760,tensor:680,rt:170,fp32:104.8,fp64:null,pcie:'PCIe 5.0 ×16',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-5090',
-  use:['game','stream','video','render','img','llm','train','cv'],intro:'Blackwell flagship with 32 GB GDDR7 and 1.79 TB/s for gaming, rendering and AI.'},
+  use:['game','video','render','img','llm','train','cv','data','speech','bio'],intro:'Blackwell flagship with 32 GB GDDR7 and 1.79 TB/s for gaming, rendering and AI.'},
  {id:'a40',full:'NVIDIA A40',name:'A40',series:'Data Center',tier:3,arch:'Ampere',vram:48,mem:'GDDR6',bus:384,bw:696,tdp:300,cuda:10752,tensor:336,rt:84,fp32:37.4,fp64:null,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Passive',ecc:true,nvlink:true,mig:false,nvenc:true,gfx:true,img:'official/a40',
-  use:['render','cad','video','img','llm','train','robot','cv'],intro:'Data center visual computing GPU: 48 GB ECC, RT cores and vGPU support for rendering and virtual workstations.'},
+  use:['render','cad','video','img','llm','train','robot','cv','speech'],intro:'Data center visual computing GPU: 48 GB ECC, RT cores and vGPU support for rendering and virtual workstations.'},
  {id:'a100-40',full:'NVIDIA A100 40GB PCIe',name:'A100 40GB',series:'Data Center',tier:3,arch:'Ampere',vram:40,mem:'HBM2',bus:5120,bw:1555,tdp:250,cuda:6912,tensor:432,rt:0,fp32:19.5,fp64:9.7,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Passive',ecc:true,nvlink:true,mig:true,nvenc:false,gfx:false,img:'official/a100',
-  use:['llm','train','hpc','cv'],intro:'Ampere data center GPU for AI training, inference and FP64 HPC. MIG splits it into up to 7 instances.'},
+  use:['llm','train','hpc','cv','data','speech','bio'],intro:'Ampere data center GPU for AI training, inference and FP64 HPC. MIG splits it into up to 7 instances.'},
  {id:'a100-80',full:'NVIDIA A100 80GB PCIe',name:'A100 80GB',series:'Data Center',tier:3,arch:'Ampere',vram:80,mem:'HBM2e',bus:5120,bw:1935,tdp:300,cuda:6912,tensor:432,rt:0,fp32:19.5,fp64:9.7,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Passive',ecc:true,nvlink:true,mig:true,nvenc:false,gfx:false,img:'official/a100',
-  use:['llm','train','hpc','cv'],intro:'80 GB HBM2e A100 for large models, long contexts and FP64 HPC.'},
+  use:['llm','train','hpc','cv','data','speech','bio'],intro:'80 GB HBM2e A100 for large models, long contexts and FP64 HPC.'},
  {id:'h100-pcie',imgNote:'NVIDIA image of the H100 GPU module. The PCIe card has a different form.',full:'NVIDIA H100 PCIe',name:'H100',series:'Data Center',tier:3,arch:'Hopper',vram:80,mem:'HBM2e',bus:5120,bw:2000,tdp:350,cuda:14592,tensor:456,rt:0,fp32:51,fp64:26,pcie:'PCIe 5.0 ×16',slots:'2-slot',cool:'Passive',ecc:true,nvlink:true,mig:true,nvenc:false,gfx:false,img:'official/h100',
-  use:['llm','train','hpc','cv'],intro:'Hopper with the Transformer Engine (FP8) for large-model training, inference and HPC.'},
+  use:['llm','train','hpc','cv','data','speech','bio'],intro:'Hopper with the Transformer Engine (FP8) for large-model training, inference and HPC.'},
  {id:'v100',imgNote:'NVIDIA image of the V100 GPU package, not the full PCIe card.',full:'Tesla V100 16GB PCIe',name:'V100',series:'Data Center',tier:3,arch:'Volta',vram:16,mem:'HBM2',bus:4096,bw:900,tdp:250,cuda:5120,tensor:640,rt:0,fp32:14,fp64:7,pcie:'PCIe 3.0 ×16',slots:'2-slot',cool:'Passive',ecc:true,nvlink:false,mig:false,nvenc:true,gfx:false,img:'official/v100',
-  use:['train','hpc','llm','cv'],intro:'First GPU with Tensor cores. Still capable for FP64 HPC and classic deep learning.'},
+  use:['train','hpc','llm','cv','data','bio','speech'],intro:'First GPU with Tensor cores. Still capable for FP64 HPC and classic deep learning.'},
  {id:'p100',imgNote:'NVIDIA image of the P100 GPU package, not the full PCIe card.',full:'Tesla P100 16GB PCIe',name:'P100',series:'Data Center',tier:3,arch:'Pascal',vram:16,mem:'HBM2',bus:4096,bw:732,tdp:250,cuda:3584,tensor:0,rt:0,fp32:9.3,fp64:4.7,pcie:'PCIe 3.0 ×16',slots:'2-slot',cool:'Passive',ecc:true,nvlink:false,mig:false,nvenc:true,gfx:false,img:'official/p100',
-  use:['hpc','train'],intro:'Pascal HPC accelerator with strong FP64 and HBM2. No Tensor cores.'},
+  use:['hpc','train','data'],intro:'Pascal HPC accelerator with strong FP64 and HBM2. No Tensor cores.'},
  {id:'k80',full:'Tesla K80',name:'K80',series:'Data Center',tier:3,arch:'Kepler',vram:12,vtot:24,dual:true,mem:'GDDR5',bus:384,bw:240,tdp:300,cuda:4992,tensor:0,rt:0,fp32:8.73,fp64:2.91,pcie:'PCIe 3.0 ×16',slots:'2-slot',cool:'Passive',ecc:true,nvlink:false,mig:false,nvenc:null,gfx:false,img:'official/k80',
   use:['hpc'],intro:'Dual-GPU Kepler board: two GPUs with 12 GB each (24 GB total). Legacy CUDA only — current AI frameworks no longer support Kepler.'},
 ];
@@ -846,111 +848,141 @@ const LLM={
 };
 const BITS={fp16:16,int8:8,int4:4};
 
-/* Workloads: questions + a transparent memory model each */
+/* Workloads: plain-language questions + a transparent memory model each.
+   Every question also offers "Not sure"; that answer resolves to the field's ns value (a safe, slightly generous default). */
+const noKepler=w=>g=>g.arch==='Kepler'?`Kepler is not supported by current ${w}`:null;
+/* Max MIG slices and slice size (GB) at that count, from NVIDIA MIG profiles */
+const MIG={'a100-40':[7,5],'a100-80':[7,10],'h100-pcie':[7,10],'rtx-pro-6000':[4,24],'rtx-pro-5000':[2,24]};
 const WL={
- llm:{name:'LLM inference',req:g=>g.arch==='Kepler'?'Kepler is not supported by current LLM runtimes':null,img:'wl-llm',stack:'Qwen · Llama · DeepSeek · vLLM',desc:'Memory, context length and token throughput.',
+ llm:{name:'LLM inference',req:noKepler('LLM runtimes'),img:'wl-llm',stack:'Qwen · Llama · DeepSeek · vLLM',q:'A private ChatGPT, coding assistant or chat API',desc:'Run your own chat model: memory, context length and users.',
   fields:[
-   {k:'model',label:'Model',opts:Object.entries(LLM).map(([v,m])=>[v,m.name])},
-   {k:'prec',label:'Weight precision',opts:[['fp16','FP16 / BF16'],['int8','INT8'],['int4','INT4 (AWQ/GPTQ)']]},
-   {k:'ctx',label:'Context per request',opts:[[4096,'4K tokens'],[8192,'8K tokens'],[16384,'16K tokens'],[32768,'32K tokens']]},
-   {k:'conc',label:'Concurrent requests',opts:[[1,'1'],[4,'4'],[8,'8'],[16,'16'],[32,'32']]}],
+   {k:'model',label:'Which model do you want to run?',ns:'qwen-14b',opts:[['llama-8b','Small — Llama 3.1 8B'],['qwen-14b','Medium — Qwen2.5 14B'],['qwen-32b','Large — Qwen2.5 32B'],['llama-70b','Very large — Llama 3.3 70B']]},
+   {k:'prec',label:'Quality or cost?',ns:'int8',opts:[['fp16','Best quality (uses the most memory)'],['int8','Balanced (8-bit, near-identical quality)'],['int4','Lowest cost (4-bit, small quality loss)']]},
+   {k:'ctx',label:'How long are the chats or documents?',ns:8192,opts:[[4096,'Short chats (about 3 pages)'],[8192,'Normal (about 6 pages)'],[16384,'Long documents (about 12 pages)'],[32768,'Very long (about 25 pages)']]},
+   {k:'conc',label:'How many people use it at the same time?',ns:8,opts:[[1,'1'],[4,'4'],[8,'8'],[16,'16'],[32,'32']]}],
   def:{model:'llama-8b',prec:'fp16',ctx:8192,conc:4},
   need(a){const m=LLM[a.model],w=m.p*BITS[a.prec]/8,kv=2*m.L*m.kv*m.hd*2*a.ctx*a.conc/1e9,rt=1.5+.05*w;
    return{parts:[['Weights',w],['KV cache',kv],['Runtime',rt]],
    basis:`Weights = ${m.p}B × ${BITS[a.prec]} bit ÷ 8. KV cache = 2 × ${m.L} layers × ${m.kv} KV heads × ${m.hd} dim × 2 bytes (FP16) × ${fmt(a.ctx)} tokens × ${a.conc} requests. Runtime allowance = 1.5 GB + 5% of weights (assumption).`,
    label:`${m.name} · ${a.prec.toUpperCase()} · ${a.ctx/1024}K context × ${a.conc}`}}},
- img:{name:'Image generation',req:g=>g.arch==='Kepler'?'Kepler is not supported by current PyTorch builds':null,img:'wl-img',stack:'ComfyUI · FLUX · Stable Diffusion',desc:'Generation memory by model, resolution and batch.',
+ img:{name:'Image generation',req:noKepler('PyTorch builds'),img:'wl-img',stack:'ComfyUI · FLUX · Stable Diffusion',q:'AI pictures, product shots and art with ComfyUI',desc:'Generation memory by model, image size and batch.',
   fields:[
-   {k:'model',label:'Model',opts:[['sd15','Stable Diffusion 1.5'],['sdxl','SDXL'],['flux8','FLUX.1 [dev] · FP8'],['flux16','FLUX.1 [dev] · FP16']]},
-   {k:'res',label:'Output resolution',opts:[[1024,'1024 × 1024'],[1536,'1536 × 1536'],[2048,'2048 × 2048']]},
-   {k:'batch',label:'Images per batch',opts:[[1,'1'],[2,'2'],[4,'4']]}],
+   {k:'model',label:'Which image model?',ns:'flux8',opts:[['sd15','Stable Diffusion 1.5 (fast, basic)'],['sdxl','SDXL (good all-rounder)'],['flux8','FLUX.1 [dev], compressed (high quality)'],['flux16','FLUX.1 [dev], full (highest quality)']]},
+   {k:'res',label:'How large are the images?',ns:1536,opts:[[1024,'Social / web (1024 px)'],[1536,'Print-ready (1536 px)'],[2048,'Poster (2048 px)']]},
+   {k:'batch',label:'How many images per run?',ns:2,opts:[[1,'1'],[2,'2'],[4,'4']]}],
   def:{model:'flux8',res:1024,batch:1},
   need(a){const base={sd15:4.5,sdxl:9,flux8:17,flux16:33}[a.model],act={1024:1.5,1536:3.5,2048:6}[a.res]*a.batch;
    return{parts:[['Models loaded',base],['Activations',act],['Runtime',1.5]],
    basis:'Rule of thumb with all components resident (diffusion model, text encoders, VAE). Activation memory scales with pixels and batch. Extra nodes, LoRAs and ControlNets add more.',
    label:`${{sd15:'SD 1.5',sdxl:'SDXL',flux8:'FLUX.1 dev FP8',flux16:'FLUX.1 dev FP16'}[a.model]} · ${a.res}px × ${a.batch}`}}},
- cv:{name:'Computer vision',req:g=>g.arch==='Kepler'?'Kepler is not supported by current TensorRT':null,img:'wl-cv',stack:'YOLO · OpenCV · TensorRT',desc:'Latency, FPS and concurrent video streams.',
+ speech:{name:'Speech AI',req:noKepler('PyTorch builds'),img:'wl-speech',stack:'Whisper · TTS · voice agents',q:'Transcribe audio, or turn text into a voice',desc:'Speech-to-text, text-to-speech and voice bots.',
   fields:[
-   {k:'size',label:'Model size',opts:[['s','Small (YOLO n/s)'],['m','Medium (YOLO m/l)'],['l','Large (ViT / segmentation)']]},
-   {k:'streams',label:'Concurrent 1080p streams',opts:[[1,'1'],[4,'4'],[16,'16'],[32,'32']]}],
-  def:{size:'m',streams:16},
-  need(a){const m={s:2,m:4,l:10}[a.size],s=a.streams*.35;return{parts:[['Model + engine',m],['Stream buffers',s],['Runtime',1.5]],
-   basis:'Rule of thumb: decoded frame buffers ≈ 0.35 GB per 1080p stream. FPS per stream depends on testing and is not estimated here.',label:`${{s:'Small',m:'Medium',l:'Large'}[a.size]} model · ${a.streams} streams`}}},
- train:{name:'Fine-tuning',req:g=>g.arch==='Kepler'?'Kepler is not supported by current PyTorch builds':null,img:'wl-train',stack:'PyTorch · LoRA · QLoRA',desc:'Training memory by method and model size.',
+   {k:'task',label:'What do you need?',ns:'both',opts:[['asr','Turn speech into text (transcription)'],['tts','Turn text into speech (voice)'],['both','Both — a voice assistant or call bot']]}],
+  def:{task:'asr'},
+  need(a){return{parts:[['Speech-to-text (Whisper large-v3-turbo)',a.task==='tts'?0:6],['Text-to-speech model',a.task==='asr'?0:4],['Runtime',1]],
+   basis:'Whisper large-v3-turbo needs ~6 GB (openai/whisper README); faster-whisper uses less. Text-to-speech ≈ 4 GB is an assumption. Speech models are small: almost any recent 8 GB+ card fits; more streams mainly need more speed, not memory.',
+   label:{asr:'Speech-to-text',tts:'Text-to-speech',both:'Speech in + out'}[a.task]}}},
+ train:{name:'Training & fine-tuning',req:noKepler('PyTorch builds'),img:'wl-train',stack:'PyTorch · LoRA · DeepSpeed',q:'Teach a model your data, or train one from scratch',desc:'From LoRA on an existing model to full training.',
   fields:[
-   {k:'size',label:'Base model size',opts:[[8,'8B'],[14,'14B'],[32,'32B'],[70,'70B']]},
-   {k:'method',label:'Method',opts:[['qlora','QLoRA (4-bit base)'],['lora','LoRA (16-bit base)'],['full','Full fine-tune (Adam, mixed precision)']]}],
-  def:{size:8,method:'qlora'},
-  need(a){const p=a.size,r={qlora:[p*.55,'4-bit base weights',4],lora:[p*2,'16-bit base weights',6],full:[p*16,'Weights, grads, Adam',8]}[a.method];
+   {k:'method',label:'Adapt an existing model, or train from scratch?',ns:'lora',opts:[['qlora','Adapt it — lightest (QLoRA)'],['lora','Adapt it — standard (LoRA)'],['full','Adapt it — update every weight'],['scratch','Train from scratch']]},
+   {k:'size',label:'How big is the model?',ns:8,opts:[[0.1,'Vision model (ResNet / ViT)'],[1,'Small language model (1B)'],[3,'3B'],[8,'8B (Llama 3.1 8B class)'],[14,'14B'],[32,'32B'],[70,'70B']]}],
+  def:{method:'qlora',size:8},
+  need(a){const p=+a.size,r={qlora:[p*.55,'4-bit base weights',4],lora:[p*2,'16-bit base weights',6],full:[p*16,'Weights, grads, Adam',8],scratch:[p*16,'Weights, grads, Adam',8]}[a.method];
    return{parts:[[r[1],r[0]],['Activations',r[2]],['Runtime',1.5]],
-   basis:'Rule of thumb. Full fine-tuning with Adam in mixed precision needs ≈16 bytes per parameter before activations. Sequence length and batch size move activations substantially.',
-   label:`${p}B · ${{qlora:'QLoRA',lora:'LoRA',full:'full fine-tune'}[a.method]}`}}},
- video:{name:'Video editing & encoding',img:'wl-video',stack:'Premiere · DaVinci Resolve · FFmpeg',desc:'Timeline playback, effects and hardware encoding.',req:g=>g.nvenc===false?'No NVENC video encoder':null,
+   basis:'Rule of thumb. Updating every weight (full fine-tune or from scratch) with Adam in mixed precision needs ≈16 bytes per parameter before activations; ZeRO / FSDP can shard that across GPUs. Sequence length and batch size move activations substantially.',
+   label:`${p<1?'~100M vision model':p+'B'} · ${{qlora:'QLoRA',lora:'LoRA',full:'full fine-tune',scratch:'from scratch'}[a.method]}`}}},
+ cv:{name:'Computer vision',req:noKepler('TensorRT'),img:'wl-cv',stack:'YOLO · OpenCV · TensorRT',q:'Spot people, vehicles or behaviour in camera video',desc:'Video analytics and object detection across many cameras.',
   fields:[
-   {k:'res',label:'Resolution',opts:[['1080','1080p'],['4k','4K'],['8k','8K']]},
-   {k:'ai',label:'AI enhancement',opts:[['no','None (transcode only)'],['yes','Upscaling / denoise model']]}],
-  def:{res:'4k',ai:'yes'},
-  need(a){const b={'1080':4,'4k':8,'8k':16}[a.res],ai=a.ai==='yes'?8:0;return{parts:[['Frame buffers',b],['AI model',ai],['Runtime',1.5]],
-   basis:'Rule of thumb. Encoder throughput and concurrent session limits matter more than memory and are not estimated here.',label:`${a.res==='1080'?'1080p':a.res.toUpperCase()} · ${a.ai==='yes'?'AI enhancement':'transcode only'}`}}},
- robot:{name:'Robotics & simulation',req:g=>!g.gfx?'RTX rendering needed for sensor simulation':null,img:'wl-robot',stack:'ROS 2 · Gazebo · Isaac Sim',desc:'Simulation scenes and parallel robot learning.',
-  fields:[
-   {k:'scene',label:'Scene complexity',opts:[['light','Light (single robot)'],['medium','Medium (warehouse, sensors)'],['heavy','Heavy (photoreal, many sensors)']]},
-   {k:'envs',label:'Parallel environments',opts:[[1,'1'],[16,'16'],[64,'64']]}],
-  def:{scene:'medium',envs:16},
-  need(a){const s={light:10,medium:20,heavy:36}[a.scene],e={1:0,16:4,64:12}[a.envs];return{parts:[['Scene + renderer',s],['Parallel envs',e],['Runtime',1.5]],
-   basis:'Rule of thumb for RTX-rendered simulators. Ray-traced sensors and large assets can exceed these values.',label:`${a.scene[0].toUpperCase()+a.scene.slice(1)} scene · ${a.envs} envs`}}},
- stream:{name:'Live streaming',img:'wl-stream',stack:'OBS · NVENC · SRT / RTMP',desc:'Real-time encoding for one or many live channels.',
-  req:(g,a)=>g.nvenc===false?'No NVENC video encoder':g.nvenc==null?'NVENC support not listed for this card':(a.codec==='av1'&&!['Ada Lovelace','Blackwell'].includes(g.arch))?'AV1 encode needs Ada or Blackwell':null,
-  fields:[
-   {k:'res',label:'Output',opts:[['1080','1080p60'],['1440','1440p60'],['2160','4K60']]},
-   {k:'codec',label:'Codec',opts:[['h264','H.264'],['hevc','HEVC (H.265)'],['av1','AV1']]},
-   {k:'ch',label:'Simultaneous channels',opts:[[1,'1'],[2,'2'],[4,'4'],[8,'8']]}],
-  def:{res:'1080',codec:'h264',ch:1},
-  need(a){const per={1080:.4,1440:.6,2160:1.2}[a.res]*a.ch;return{parts:[['Scene compositing',1.5],['Encoder buffers',per],['Runtime',1]],
-   basis:'Rule of thumb. Streaming is limited by NVENC encoder throughput, not memory: several channels per card are typical on recent GPUs. AV1 encode requires Ada Lovelace or Blackwell.',
-   label:`${{1080:'1080p60',1440:'1440p60',2160:'4K60'}[a.res]} · ${a.codec.toUpperCase()} × ${a.ch}`}}},
- game:{name:'Gaming & cloud gaming',img:'wl-game',stack:'DirectX 12 · Vulkan · DLSS',desc:'HD gaming and game streaming sessions.',
-  req:g=>!g.gfx?'Compute-only accelerator — not built for graphics or gaming':null,
-  fields:[
-   {k:'res',label:'Resolution',opts:[['1080','1080p'],['1440','1440p'],['2160','4K']]},
-   {k:'q',label:'Graphics preset',opts:[['med','Medium'],['high','High'],['rt','Ultra + ray tracing']]},
-   {k:'s',label:'Concurrent sessions',opts:[[1,'1'],[2,'2'],[4,'4']]}],
-  def:{res:'1080',q:'high',s:1},
-  need(a){const base={1080:4,1440:6,2160:8}[a.res]*{med:.75,high:1,rt:1.4}[a.q];return{parts:[['Game assets',base*a.s],['Frame buffers',.5*a.s],['Runtime',1]],
-   basis:'Rule of thumb for current AAA titles; varies widely by game. Ray tracing needs RT cores. Multiple sessions on one GPU require GPU partitioning or a multi-session platform.',
-   label:`${{1080:'1080p',1440:'1440p',2160:'4K'}[a.res]} · ${{med:'medium',high:'high',rt:'ultra + RT'}[a.q]} × ${a.s}`}}},
- render:{name:'3D rendering',img:'wl-render',stack:'Blender Cycles · V-Ray · Octane · Redshift',desc:'GPU path tracing for product, archviz and VFX.',
+   {k:'size',label:'What do you need to recognise?',ns:'m',opts:[['s','People and vehicles'],['m','Behaviour or fine detail'],['l','Exact outlines of objects']]},
+   {k:'streams',label:'How many cameras at once?',ns:16,opts:[[1,'1'],[4,'4'],[16,'16'],[32,'32']]},
+   {k:'rt',label:'Do you need real-time detection or alerts?',ns:'yes',opts:[['yes','Yes — alert as it happens'],['no','No — analyse recordings later']]}],
+  def:{size:'m',streams:16,rt:'yes'},
+  need(a){const m={s:2,m:4,l:10}[a.size],n=a.rt==='yes'?+a.streams:Math.min(+a.streams,4);return{parts:[['Model + engine',m],['Stream buffers',n*.35],['Runtime',1.5]],
+   basis:`Rule of thumb: decoded frame buffers ≈ 0.35 GB per 1080p stream. Real-time decodes every camera at once; recordings can be processed ${a.rt==='yes'?'in batches instead':'4 at a time'}. FPS per stream needs testing and is not estimated.`,label:`${{s:'People & vehicles',m:'Behaviour',l:'Segmentation'}[a.size]} · ${a.streams} cameras · ${a.rt==='yes'?'real-time':'offline'}`}}},
+ render:{name:'3D rendering',img:'wl-render',stack:'Blender Cycles · V-Ray · Octane · Redshift',q:'Final images and animation from Blender, V-Ray or Unreal',desc:'GPU path tracing for product, archviz and VFX.',
   req:g=>!g.gfx?'Compute-only — no RT cores or graphics APIs for rendering':null,
   fields:[
-   {k:'scene',label:'Scene size',opts:[['s','Small (product shot)'],['m','Medium (interior, archviz)'],['l','Large (exterior, VFX shot)'],['xl','Very large (film / city)']]},
-   {k:'res',label:'Output resolution',opts:[['1080','1080p'],['2160','4K'],['4320','8K']]}],
+   {k:'scene',label:'What are you rendering?',ns:'l',opts:[['s','A product shot'],['m','An interior / architecture'],['l','An exterior or VFX shot'],['xl','A film or city-scale scene']]},
+   {k:'res',label:'How large is the final image?',ns:'2160',opts:[['1080','1080p'],['2160','4K'],['4320','8K']]}],
   def:{scene:'m',res:'2160'},
   need(a){const sc={s:3,m:8,l:20,xl:40}[a.scene],fb={1080:.5,2160:1.5,4320:5}[a.res];return{parts:[['Scene geometry + textures',sc],['Render buffers',fb],['Runtime',1]],
    basis:'Rule of thumb. GPU renderers must fit the whole scene in GPU memory (out-of-core modes are slower). RT cores accelerate ray tracing in OptiX-based engines.',
    label:`${{s:'Small',m:'Medium',l:'Large',xl:'Very large'}[a.scene]} scene · ${{1080:'1080p',2160:'4K',4320:'8K'}[a.res]}`}}},
- cad:{name:'CAD / CGI / DCC',img:'wl-cad',stack:'SOLIDWORKS · Revit · Maya · 3ds Max',desc:'Certified drivers for design, BIM and content creation.',
+ game:{name:'Gaming & cloud gaming',img:'wl-game',stack:'DirectX 12 · Vulkan · DLSS',q:'Play or stream games with low latency',desc:'HD gaming and game streaming sessions.',
+  req:g=>!g.gfx?'Compute-only accelerator — not built for graphics or gaming':null,
+  fields:[
+   {k:'res',label:'What resolution?',ns:'1440',opts:[['1080','1080p'],['1440','1440p'],['2160','4K']]},
+   {k:'q',label:'What graphics quality?',ns:'high',opts:[['med','Medium'],['high','High'],['rt','Ultra + ray tracing']]},
+   {k:'s',label:'How many players per GPU?',ns:1,opts:[[1,'1'],[2,'2'],[4,'4']]}],
+  def:{res:'1080',q:'high',s:1},
+  need(a){const base={1080:4,1440:6,2160:8}[a.res]*{med:.75,high:1,rt:1.4}[a.q];return{parts:[['Game assets',base*a.s],['Frame buffers',.5*a.s],['Runtime',1]],
+   basis:'Rule of thumb for current AAA titles; varies widely by game. Ray tracing needs RT cores. Multiple sessions on one GPU require GPU partitioning or a multi-session platform.',
+   label:`${{1080:'1080p',1440:'1440p',2160:'4K'}[a.res]} · ${{med:'medium',high:'high',rt:'ultra + RT'}[a.q]} × ${a.s}`}}},
+ cad:{name:'Remote workstation & CAD',img:'wl-cad',stack:'Cloud desktop · SOLIDWORKS · Revit · Maya',q:'Cloud desktops, multi-screen office work, design and BIM',desc:'Cloud desktops and multi-display office through to CAD and BIM.',
   req:g=>!g.gfx?'Compute-only accelerator — no display or graphics APIs':null,
   fields:[
-   {k:'app',label:'Work type',opts:[['2d','2D drafting'],['part','3D parts & small assemblies'],['asm','Large assemblies / BIM'],['dcc','DCC, animation & VFX']]},
-   {k:'disp',label:'Displays',opts:[[1,'1'],[2,'2'],[4,'4']]}],
+   {k:'app',label:'What will people do on it?',ns:'part',opts:[['office','Office work and browsing'],['2d','2D drawing'],['part','3D parts & small assemblies'],['asm','Large assemblies / BIM'],['dcc','Animation & VFX']]},
+   {k:'disp',label:'How many screens?',ns:2,opts:[[1,'1'],[2,'2'],[4,'4']]}],
   def:{app:'asm',disp:2},
-  need(a){const m={'2d':1.5,part:4,asm:8,dcc:14}[a.app];return{parts:[['Models + viewport',m],['Displays',.4*a.disp],['Runtime',1]],
+  need(a){const m={office:.5,'2d':1.5,part:4,asm:8,dcc:14}[a.app],o=a.app==='office';return{parts:[['Models + viewport',m],['Displays',(o?.25:.4)*a.disp],['Runtime',o?.3:1]],
    basis:'Rule of thumb. ISV-certified professional drivers (RTX / Quadro) are recommended for CAD; GeForce drivers are not certified for these applications.',
-   label:`${{'2d':'2D drafting',part:'3D parts',asm:'Large assemblies / BIM',dcc:'DCC & VFX'}[a.app]} · ${a.disp} display${a.disp>1?'s':''}`}}},
- hpc:{name:'Scientific computing',img:'wl-hpc',stack:'CUDA · OpenACC · GROMACS · OpenFOAM',desc:'Simulation and numerical work, including FP64.',
+   label:`${{office:'Office & browsing','2d':'2D drawing',part:'3D parts',asm:'Large assemblies / BIM',dcc:'Animation & VFX'}[a.app]} · ${a.disp} screen${a.disp>1?'s':''}`}}},
+ video:{name:'Video & live streaming',img:'wl-video',stack:'FFmpeg · OBS · NVENC · DaVinci Resolve',q:'Convert, compress, upscale or broadcast video',desc:'Transcoding, AI enhancement and live channels.',
+  req:(g,a)=>g.nvenc===false?'No NVENC video encoder':g.nvenc==null?'NVENC support not listed for this card':(a.codec==='av1'&&!['Ada Lovelace','Blackwell'].includes(g.arch))?'AV1 encode needs Ada or Blackwell':null,
+  fields:[
+   {k:'out',label:'Is the result a video file or a live stream?',ns:'file',opts:[['file','A video file (convert, compress, edit)'],['live','A live stream to viewers']]},
+   {k:'res',label:'What resolution?',ns:'2160',opts:[['1080','1080p'],['1440','1440p'],['2160','4K'],['4320','8K']]},
+   {k:'codec',label:'Which video format?',ns:'hevc',opts:[['h264','H.264 (plays everywhere)'],['hevc','HEVC / H.265 (smaller files)'],['av1','AV1 (best quality per bit)']]},
+   {k:'ai',label:'Do you also want to improve quality?',ns:'no',opts:[['no','No — just convert or broadcast'],['yes','Yes — AI upscale / denoise']]},
+   {k:'ch',label:'How many videos or channels at once?',ns:2,opts:[[1,'1'],[2,'2'],[4,'4'],[8,'8']]}],
+  def:{out:'file',res:'2160',codec:'hevc',ai:'no',ch:1},
+  need(a){const per={1080:.3,1440:.5,2160:1,4320:3}[a.res],live=a.out==='live',ai=a.ai==='yes';
+   return{parts:[['Encode / decode buffers',per*a.ch],['AI enhancement model',ai?6:0],['AI frame buffers',ai?per*2*a.ch:0],['Scene compositing',live?1.5:0],['Runtime',1]],
+   basis:'Rule of thumb. Hardware encoding (NVENC) needs little memory; throughput and the number of simultaneous encode sessions matter more and are not estimated here. GeForce cards cap concurrent encode sessions. AV1 encode requires Ada Lovelace or Blackwell.',
+   label:`${live?'Live':'File'} · ${{1080:'1080p',1440:'1440p',2160:'4K',4320:'8K'}[a.res]} ${a.codec.toUpperCase()}${ai?' + AI':''} × ${a.ch}`}}},
+ data:{name:'Data science & notebooks',req:noKepler('CUDA 12 frameworks'),img:'wl-data',stack:'Jupyter · PyTorch · RAPIDS cuDF',q:'Notebooks for analysis, AI development or a class',desc:'Jupyter notebooks and GPU dataframes. Shared by a class? Turn on MIG in step 3.',
+  fields:[
+   {k:'data',label:'How much data do you work with?',ns:4,opts:[[1,'Small — spreadsheets, under a million rows'],[4,'Medium — tens of millions of rows'],[12,'Large — hundreds of millions of rows']]}],
+  def:{data:4},
+  need(a){return{parts:[['Data + working copies',a.data*2],['Notebook session',1],['Runtime',1]],
+   basis:'Rule of thumb: about 1, 4 or 12 GB of data in GPU memory, and dataframe operations need about twice that. RAPIDS requires Volta or newer. To give each student or user their own isolated slice, require MIG in step 3.',
+   label:`${{1:'Small',4:'Medium',12:'Large'}[a.data]} dataset`}}},
+ bio:{name:'Life sciences',img:'wl-bio',stack:'AlphaFold · GROMACS · Parabricks',q:'Protein structures, molecular simulation, DNA / RNA analysis',desc:'Drug discovery, protein folding and genomics.',
+  req:(g,a)=>g.arch==='Kepler'?'Kepler is not supported by current life-science GPU builds':a.task==='genome'&&g.arch==='Pascal'?'Parabricks needs Volta or newer':a.task==='genome'&&g.vram<16?'Parabricks needs at least 16 GB per GPU':null,
+  fields:[
+   {k:'task',label:'What are you working on?',ns:'foldl',opts:[['fold','Protein structures — typical proteins (up to ~1,500 residues)'],['foldl','Protein structures — large proteins or complexes (3,000+ residues)'],['md','Molecular simulation (GROMACS / AMBER)'],['genome','DNA / RNA sequencing analysis (Parabricks)']]}],
+  def:{task:'fold'},
+  need(a){const t={fold:[20,'Model + structure features'],foldl:[60,'Model + structure features'],md:[4,'System + neighbour lists'],genome:[14,'Pipeline working memory']}[a.task];
+   return{parts:[[t[1],t[0]],['Runtime',1]],
+   basis:{fold:'Rule of thumb: structure-prediction memory grows steeply with sequence length.',foldl:'Rule of thumb: structure-prediction memory grows steeply with sequence length; very large complexes may need 80 GB or unified-memory tricks.',md:'Rule of thumb: molecular dynamics fits easily in memory; speed depends on the GPU, and mixed precision runs well on RTX cards.',genome:'Clara Parabricks requires a Volta-or-newer GPU with at least 16 GB of memory (NVIDIA documentation); more GPUs shorten each run.'}[a.task],
+   label:{fold:'Protein structure · typical',foldl:'Protein structure · large',md:'Molecular dynamics',genome:'Genomics (Parabricks)'}[a.task]}}},
+ robot:{name:'Robotics & self-driving sim',req:g=>!g.gfx?'RTX rendering needed for sensor simulation':null,img:'wl-robot',stack:'ROS 2 · Isaac Sim · CARLA',q:'Simulate robots or self-driving cars before the real thing',desc:'Robot and autonomous-driving simulation with sensors.',
+  fields:[
+   {k:'scene',label:'What are you simulating?',ns:'medium',opts:[['light','A single robot or arm'],['medium','A warehouse or factory with sensors'],['heavy','City driving, many cameras and lidar']]},
+   {k:'envs',label:'Do you train robots by running many simulations at once?',ns:16,opts:[[1,'No — one simulation'],[16,'Yes — about 16 copies'],[64,'Yes — 64 or more (reinforcement learning)']]}],
+  def:{scene:'medium',envs:16},
+  need(a){const s={light:10,medium:20,heavy:36}[a.scene],e={1:0,16:4,64:12}[a.envs];return{parts:[['Scene + renderer',s],['Parallel envs',e],['Runtime',1.5]],
+   basis:'Rule of thumb for RTX-rendered simulators. Ray-traced sensors and large assets can exceed these values.',label:`${{light:'Single robot',medium:'Warehouse',heavy:'City driving'}[a.scene]} · ${a.envs} envs`}}},
+ hpc:{name:'Scientific computing',img:'wl-hpc',stack:'CUDA · OpenFOAM · LAMMPS · WRF',q:'Simulation and number crunching: CFD, weather, physics',desc:'Numerical simulation, including FP64.',
   req:(g,a)=>a.prec==='fp64'&&!(g.fp64>=2)?'Needs high FP64 throughput (data center GPU)':(!g.fp64&&g.tensor===0&&!g.gfx)?'Not suited':null,
   fields:[
-   {k:'prec',label:'Precision',opts:[['fp64','Double precision (FP64) required'],['mixed','Single / mixed precision is fine']]},
-   {k:'data',label:'Working set per GPU',opts:[[8,'8 GB'],[16,'16 GB'],[32,'32 GB'],[64,'64 GB']]}],
+   {k:'prec',label:'Does your code need double precision (FP64)?',ns:'fp64',opts:[['fp64','Yes — e.g. CFD, structural or physics solvers'],['mixed','No — single / mixed precision is fine']]},
+   {k:'data',label:'How big is the simulation?',ns:32,opts:[[8,'Small — about 5 million cells or particles'],[16,'Medium — about 10 million'],[32,'Large — about 20 million'],[64,'Very large — 40 million or more']]}],
   def:{prec:'fp64',data:16},
   need(a){return{parts:[['Working set',+a.data],['Solver workspace',+a.data*.15],['Runtime',1]],
-   basis:'FP64 rates: H100 PCIe 26 TFLOPS, A100 9.7, V100 7, P100 4.7, K80 2.91 (datasheets). Consumer and workstation GPUs run FP64 at a small fraction of FP32.',
+   basis:'Rule of thumb: about 1.5 GB per million cells or particles; solvers vary widely. FP64 rates: H100 PCIe 26 TFLOPS, A100 9.7, V100 7, P100 4.7, K80 2.91 (datasheets). Consumer and workstation GPUs run FP64 at a small fraction of FP32.',
    label:`${a.prec==='fp64'?'FP64':'Mixed precision'} · ${a.data} GB working set`}}},
 };
-const WL_ORDER=['llm','img','train','cv','render','game','cad','video','stream','robot','hpc'];
+/* "Not sure" on every question: add the option, resolve it before sizing and requirement checks */
+Object.values(WL).forEach(w=>{
+  w.fields.forEach(f=>f.opts.push(['?','Not sure — use a safe default']));
+  const R=a=>{const r={...a};w.fields.forEach(f=>{if(r[f.k]==='?')r[f.k]=f.ns;});return r;};
+  const n0=w.need,r0=w.req;w.need=a=>n0(R(a));if(r0)w.req=(g,a)=>r0(g,R(a||w.def));
+});
+const WL_ORDER=['llm','img','speech','train','cv','render','game','cad','video','data','bio','robot','hpc'];
 
 /* ---------------- state ---------------- */
-const S={wl:'llm',a:{},pri:'bal',multi:'no',ecc:false};
+const S={wl:'llm',a:{},pri:'bal',multi:'no',ecc:false,mig:false};
 WL_ORDER.forEach(k=>S.a[k]={...WL[k].def});
 let sel=[];
 try{sel=JSON.parse(localStorage.getItem('gpulab.cmp')||'[]').filter(G);}catch(e){}
@@ -963,14 +995,14 @@ const st=t=>({ver:`<span class="st st-ver"><svg><use href="#i-ver"/></svg>Verifi
   demo:`<span class="st st-demo"><svg><use href="#i-demo"/></svg>Demo data</span>`}[t]);
 
 /* ---------------- sizing + recommendation (rule-based, explainable) ---------------- */
-function need(wl=S.wl,a=S.a[wl]){const r=WL[wl].need(a);r.total=r.parts.reduce((s,p)=>s+p[1],0);return r;}
+function need(wl=S.wl,a=S.a[wl]){const r=WL[wl].need(a);r.parts=r.parts.filter(p=>p[1]>0);r.total=r.parts.reduce((s,p)=>s+p[1],0);return r;}
 function recommend(){
   const n=need(),T=n.total;
   const rq=WL[S.wl].req||(()=>null);
-  const fit=GPUS.filter(g=>(!S.ecc||g.ecc)&&!rq(g,S.a[S.wl])).map(g=>{const count=Math.max(1,Math.ceil(T/(g.vram*.95)));return{g,count,cap:g.vram*count,head:g.vram*count-T};})
+  const fit=GPUS.filter(g=>(!S.ecc||g.ecc)&&(!S.mig||g.mig)&&!rq(g,S.a[S.wl])).map(g=>{const count=Math.max(1,Math.ceil(T/(g.vram*.95)));return{g,count,cap:g.vram*count,head:g.vram*count-T};})
     .filter(x=>S.multi==='yes'?x.count<=8:x.count===1);
   const score={cost:x=>x.count*100+x.g.tier*10+x.g.vram/100,bal:x=>x.count*100+(x.head/x.cap<.15?50:0)+x.g.tier*6+x.g.vram/20,head:x=>x.count*100-x.cap}[S.pri];
-  const pos=x=>x.g.use.includes(S.wl)?0:25; // prefer cards NVIDIA positions for this workload
+  const pos=x=>x.g.use.includes(S.wl)?0:10; // mild preference for cards DBM lists as typical for this workload
   fit.sort((a,b)=>score(a)+pos(a)-score(b)-pos(b)||b.g.bw-a.g.bw);
   return{n,fit};
 }
@@ -980,16 +1012,17 @@ function reasonsFor(x,n){
   if(S.pri==='cost')R.push(g.tier===1?'Lowest product class that fits — consumer GeForce card.':'The lowest product class that fits this estimate.');
   if(S.pri==='bal')R.push('Smallest card that leaves at least 15% headroom, preferring lower product classes.');
   if(S.pri==='head')R.push('Largest memory pool among the matches — room for longer context or bigger batches.');
-  if(g.bw>=1700)R.push(`${fmt(g.bw)} GB/s memory bandwidth — among the highest listed; token generation is usually bandwidth-bound.`);
+  if(g.bw>=1700&&S.wl==='llm')R.push(`${fmt(g.bw)} GB/s memory bandwidth — among the highest listed; token generation is usually bandwidth-bound.`);
   if(g.ecc)R.push('ECC memory for long-running production jobs.');
   if(pct<15)L.push('Under 15% headroom — longer context or more concurrency may not fit.');
   if(!g.ecc)L.push('No ECC memory; consumer card not designed for 24/7 data center duty.');
   if(g.cool==='Passive')L.push('Passive cooling — requires a server chassis with directed airflow.');
   if(x.count>1)L.push(g.nvlink?'Multi-GPU: NVLink bridge available; otherwise traffic goes over PCIe.':'Multi-GPU over PCIe only (no NVLink) — tensor-parallel efficiency is lower.');
-  if((S.wl==='video'||S.wl==='stream')&&g.tier===1)L.push('GeForce cards limit concurrent NVENC encode sessions.');
+  if(S.wl==='video'&&g.tier===1)L.push('GeForce cards limit concurrent NVENC encode sessions.');
   if((S.wl==='render'||S.wl==='game')&&!g.rt)L.push('No RT cores — ray tracing runs on CUDA cores and is much slower.');
   if(S.wl==='cad'&&g.tier===1)L.push('GeForce drivers are not ISV-certified for CAD applications.');
-  if(!g.use.includes(S.wl))L.push(`NVIDIA does not position the ${g.name} for ${WL[S.wl].name.toLowerCase()}.`);
+  if(!g.use.includes(S.wl))L.push(`DBM does not list the ${g.name} as a typical card for ${WL[S.wl].name.toLowerCase()}.`);
+  if(S.mig&&MIG[g.id])R.push(`MIG splits it into up to ${MIG[g.id][0]} isolated slices of ${MIG[g.id][1]} GB each (NVIDIA MIG profiles).`);
   if(g.dual)R.push('Dual-GPU board: two GPUs with 12 GB each; the estimate is per GPU.');
   L.push('Throughput for this exact setup has not been tested by DBM yet.');
   return{R,L};
@@ -1085,7 +1118,7 @@ const SCEN=[
  {t:'FLUX.1 [dev]',s:'FP16 · 1024px',wl:'img',a:{model:'flux16',res:1024,batch:1}},
  {t:'3D rendering',s:'Large scene · 4K',wl:'render',a:{scene:'l',res:'2160'}},
  {t:'Gaming',s:'1440p · high',wl:'game',a:{res:'1440',q:'high',s:1}},
- {t:'Live streaming',s:'4K60 · AV1',wl:'stream',a:{res:'2160',codec:'av1',ch:1}},
+ {t:'Live streaming',s:'4K · AV1',wl:'video',a:{out:'live',res:'2160',codec:'av1',ai:'no',ch:1}},
  {t:'Scientific computing',s:'FP64 · 16 GB',wl:'hpc',a:{prec:'fp64',data:16}},
 ];
 function fitCell(g,sc){const why=(WL[sc.wl].req||(()=>null))(g,sc.a);if(why)return `<span class="no">${ico('i-warn')}</span><span style="font-family:var(--sans)">${why}</span>`;const T=need(sc.wl,sc.a).total,h=g.vram-T;return h>=0?`<span class="ok">${ico('i-ok')}</span>${f1(h)} GB spare`:`<span class="no">${ico('i-warn')}</span>needs ${Math.ceil(T/(g.vram*.95))} GPUs`;}
@@ -1174,12 +1207,12 @@ function renderAdvisor(step){
   const steps=['Workload','Requirements','Priorities','Recommendation'].map((t,i)=>`<a class="step ${i+1<step?'done':''} ${i+1===step?'cur':''}" href="#/advisor/${i+1}" ${i+1===step?'aria-current="step"':''}>0${i+1} ${t}</a>`).join('');
   let main='';
   if(step===1){
-    main=`<span class="eyebrow">Step 1 of 4</span><h1>What are you building?</h1><p class="lede">Choose the primary workload. The next questions change with it.</p>
-    <div class="opts" role="radiogroup" aria-label="Workload">${WL_ORDER.map(k=>`<button class="opt" role="radio" aria-checked="${S.wl===k}" data-wl="${k}"><span class="ph"><img src="img/${WL[k].img}.webp" alt=""></span><span><b>${WL[k].name}</b><span>${WL[k].stack}</span></span><span class="rd"></span></button>`).join('')}</div>
+    main=`<span class="eyebrow">Step 1 of 4</span><h1>What are you building?</h1><p class="lede">Pick the main thing you want the GPU to do. The next questions change with it.</p>
+    <div class="opts" role="radiogroup" aria-label="Workload">${WL_ORDER.map(k=>`<button class="opt" role="radio" aria-checked="${S.wl===k}" data-wl="${k}"><span class="ph"><img src="img/${WL[k].img}.webp" alt=""></span><span><b>${WL[k].name}</b><span>${WL[k].q}</span></span><span class="rd"></span></button>`).join('')}</div>
     <div class="adv-nav"><a class="btn btn-primary" href="#/advisor/2">Continue ${ico('i-arrow')}</a></div>`;
   }
   if(step===2){
-    const T=n.total,scale=Math.max(T*1.12,90),cols=['#141E28','#245AE8','#8794A1'];
+    const T=n.total,scale=Math.max(T*1.12,90),cols=['#141E28','#245AE8','#8794A1','#C3CBD3'];
     main=`<span class="eyebrow">Step 2 of 4 · ${w.name}</span><h1>Define the workload.</h1><p class="lede">These answers set the memory estimate. Every number shows its formula.</p>
     <div class="fields">${w.fields.map(f=>`<div class="field"><label for="f-${f.k}">${f.label}</label><select class="sel" id="f-${f.k}" data-f="${f.k}">${f.opts.map(([v,t])=>`<option value="${v}" ${String(a[f.k])===String(v)?'selected':''}>${t}</option>`).join('')}</select></div>`).join('')}</div>
     <div class="panel estimate" aria-live="polite">
@@ -1196,13 +1229,13 @@ function renderAdvisor(step){
     main=`<span class="eyebrow">Step 3 of 4</span><h1>Set your priorities.</h1><p class="lede">We rank by product class and memory, not price — DBM pricing appears with availability.</p>
     <span class="qlabel">Priority</span><div class="opts" style="margin-top:0;grid-template-columns:repeat(3,1fr)" role="radiogroup" aria-label="Priority">${og('pri','cost','Lowest cost','Smallest product class that fits')}${og('pri','bal','Balanced','Fits with at least 15% headroom')}${og('pri','head','Most headroom','Largest memory pool')}</div>
     <span class="qlabel">GPU count</span><div class="opts" style="margin-top:0" role="radiogroup" aria-label="GPU count">${og('multi','no','Single GPU','Simplest to deploy and run')}${og('multi','yes','Multi-GPU is fine','Split across up to 8 GPUs')}</div>
-    <span class="qlabel">Requirements</span><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-ecc" ${S.ecc?'checked':''}>ECC memory required (production, 24/7)</label>
+    <span class="qlabel">Requirements</span><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-ecc" ${S.ecc?'checked':''}>ECC memory required (production, 24/7)</label><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-mig" ${S.mig?'checked':''}>Split into isolated slices for several users (MIG)</label>
     <div class="adv-nav"><a class="btn btn-line" href="#/advisor/2">${ico('i-back')}Back</a><a class="btn btn-primary" href="#/advisor/4">See recommendation ${ico('i-arrow')}</a></div>`;
   }
   if(step===4){
     const {fit}=recommend();
     if(!fit.length){
-      main=`<span class="eyebrow">Step 4 of 4</span><h1>Nothing fits on a single GPU.</h1><p class="lede">The estimate is ${f1(n.total)} GB${S.ecc?' with ECC required':''}. Ways forward:</p>
+      main=`<span class="eyebrow">Step 4 of 4</span><h1>Nothing fits on a single GPU.</h1><p class="lede">The estimate is ${f1(n.total)} GB${S.ecc?' with ECC required':''}${S.mig?(S.ecc?' and':' with')+' MIG required':''}. Ways forward:</p>
       <div class="panel" style="padding:4px 24px;margin-top:24px">
        <div class="fitrow"><div class="w">Allow multi-GPU<small>Split the model across several cards</small></div><span></span><button class="btn btn-primary btn-sm" data-set="multi|yes">Allow</button></div>
        ${S.wl==='llm'&&a.prec!=='int4'?`<div class="fitrow"><div class="w">Use INT4 weights<small>About a quarter of FP16 weight memory</small></div><span></span><button class="btn btn-line btn-sm" data-setf="prec|int4">Switch to INT4</button></div>`:''}
@@ -1222,11 +1255,11 @@ function renderAdvisor(step){
       <div class="adv-nav"><a class="btn btn-line" href="#/advisor/3">${ico('i-back')}Adjust priorities</a><a class="link" href="#/advisor/1">Start over</a></div>`;
     }
   }
-  const val=f=>(f.opts.find(o=>String(o[0])===String(a[f.k]))||['',''])[1].replace(/ \(.*\)/,'');
+  const lab=v=>(f=>(f.opts.find(o=>String(o[0])===String(v))||['',''])[1].replace(/ \(.*\)/,'')),val=f=>a[f.k]==='?'?'Not sure → '+lab(f.ns)(f):lab(a[f.k])(f);
   const side=`<aside class="panel side" aria-label="Your configuration"><span class="eyebrow">Your configuration</span><h3>${w.name}</h3>
-    <dl>${step>=2?w.fields.map(f=>`<dt>${f.label}</dt><dd>${val(f)}</dd>`).join(''):''}
-    <dt>Memory target</dt><dd>${f1(n.total)} GB</dd>${step>=3?`<dt>Priority</dt><dd>${{cost:'Lowest cost',bal:'Balanced',head:'Most headroom'}[S.pri]}</dd><dt>GPUs</dt><dd>${S.multi==='yes'?'Multi OK':'Single'}</dd>${S.ecc?'<dt>ECC</dt><dd>Required</dd>':''}`:''}</dl>
-    <div class="why"><b>WHY THIS MATTERS</b>${{1:'The workload decides which limits matter: memory for LLMs, encoders for video, rendering for simulation.',2:'Weights are only part of it. Context and concurrency drive KV cache, which can exceed the model itself.',3:'Fit first, then optimize for what you value. A bigger GPU you do not need is wasted budget.',4:'This is a starting point, not a guarantee. Test with your own workload before committing.'}[step]}</div></aside>`;
+    <dl>${step>=2?w.fields.map(f=>`<dt class="q">${f.label}</dt><dd class="q">${val(f)}</dd>`).join(''):''}
+    <dt>Memory target</dt><dd>${f1(n.total)} GB</dd>${step>=3?`<dt>Priority</dt><dd>${{cost:'Lowest cost',bal:'Balanced',head:'Most headroom'}[S.pri]}</dd><dt>GPUs</dt><dd>${S.multi==='yes'?'Multi OK':'Single'}</dd>${S.ecc?'<dt>ECC</dt><dd>Required</dd>':''}${S.mig?'<dt>MIG</dt><dd>Required</dd>':''}`:''}</dl>
+    <div class="why"><b>WHY THIS MATTERS</b>${{1:'The workload decides which limits matter: memory for LLMs, encoders for video, rendering for simulation.',2:S.wl==='llm'?'Weights are only part of it. Context and concurrency drive KV cache, which can exceed the model itself.':'Each answer moves one part of the estimate. The breakdown shows which part drives the size.',3:'Fit first, then optimize for what you value. A bigger GPU you do not need is wasted budget.',4:'This is a starting point, not a guarantee. Test with your own workload before committing.'}[step]}</div></aside>`;
   $('#p-advisor').innerHTML=`<div class="wrap adv"><div class="${step!==lastStep?'step-in':''}"><nav class="steps" aria-label="Advisor steps">${steps}</nav>${main}</div>${side}</div>`;
   lastStep=step;
 }
@@ -1314,6 +1347,7 @@ document.addEventListener('change',e=>{
   if(t.id==='sort'){renderExplorer();return;}
   if(t.dataset.f){const f=WL[S.wl].fields.find(x=>x.k===t.dataset.f);S.a[S.wl][f.k]=f.opts.find(o=>String(o[0])===t.value)[0];renderAdvisor(2);$('#f-'+f.k).focus();return;}
   if(t.id==='req-ecc'){S.ecc=t.checked;renderAdvisor(3);$('#req-ecc').focus();return;}
+  if(t.id==='req-mig'){S.mig=t.checked;renderAdvisor(3);$('#req-mig').focus();return;}
   if(t.id==='addgpu'&&t.value){sel.push(t.value);syncCmp();renderCompare();return;}
   if(t.id==='b-wl'){B.wl={'LLM inference':'llm','Image generation':'img','Computer vision':'cv'}[t.value];renderBench();$('#b-wl').focus();return;}
   if(t.id==='b-model'){B.model=t.value;renderBench();$('#b-model').focus();return;}
