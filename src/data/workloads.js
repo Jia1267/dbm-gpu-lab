@@ -319,7 +319,7 @@ export function reasonsFor(x, n, S) {
   return { R: Rr, L: Ll };
 }
 
-/* Fixed reference workloads shown on GPU detail and compare pages */
+/* Fixed reference workloads shown on GPU detail pages */
 export const SCEN = [
   { t: 'Llama 3.1 8B', s: 'FP16 · 8K × 4', wl: 'llm', a: { model: 'llama-8b', prec: 'fp16', ctx: 8192, conc: 4, rag: 'no' } },
   { t: 'Qwen2.5 32B', s: 'INT4 · 8K × 4', wl: 'llm', a: { model: 'qwen-32b', prec: 'int4', ctx: 8192, conc: 4, rag: 'no' } },

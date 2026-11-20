@@ -6,7 +6,7 @@ import { G } from '../data/gpus.js';
 import { SCENARIOS, SC } from '../data/scenarios.js';
 import { VLLM, BENCH_SRC } from '../data/bench.js';
 import { Ico, A, St, img } from '../ui.jsx';
-import { VllmChart } from './Bench.jsx';
+import { VllmChart, ExtChart, TestCards } from './charts.jsx';
 
 /* Index of all scenario guides */
 export default function Scenarios() {
@@ -43,7 +43,8 @@ export function Scenario() {
   }, []);
   if (!s) return <Navigate to={p('/scenarios')} replace />;
 
-  const tabs = [['how', tr('How it works', '原理')], ['pick', tr('Which GPU', '选型')], ['test', tr('Test data', '测试数据')], ['cases', tr('Cases', '案例')], ['faq', 'FAQ']];
+  const hasCases = s.cases?.length > 0;
+  const tabs = [['how', tr('How it works', '原理')], ['pick', tr('Which GPU', '选型')], ['test', tr('Test data', '测试数据')], ...(hasCases ? [['cases', tr('Cases', '案例')]] : []), ['faq', 'FAQ']];
   const go = (e, k) => { e.preventDefault(); document.getElementById(k)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
 
   return (
@@ -89,14 +90,13 @@ export function Scenario() {
               </div></div>
             <VllmChart modelKey={model} conc={conc} compact />
             <p className="sc-note"><St t="dbm" /> {VLLM[model].name} · <a className="link" href={BENCH_SRC} target="_blank" rel="noopener">{tr('Source and full table', '来源和完整数据')}</a> · <A className="link" to="/benchmarks">{tr('All benchmarks', '全部测试')}</A></p>
-          </> : <div className="sc-grid">{s.test.items.map((x, i) => (
-            <div className="panel sc-case" key={i}><div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}><h3>{L(x.t)}</h3><St t="dbm" /></div>
-              <dl><dt>GPU</dt><dd><A className="link" to={'/gpu/' + x.gpu}>{G(x.gpu).name}</A></dd><dt>{tr('Setup', '环境')}</dt><dd className="mono" style={{ fontSize: 13 }}>{x.setup}</dd></dl>
-              <div className="res">{x.res.map((r, j) => <span key={j}>{L(r)}</span>)}</div>{x.note && <p className="sc-note" style={{ marginTop: 0 }}>{L(x.note)}</p>}</div>
-          ))}</div>}
+          </> : <>
+            {s.test.charts?.map((k) => <ExtChart key={k} k={k} />)}
+            {s.test.items?.length > 0 && <div style={{ marginTop: s.test.charts?.length ? 32 : 0 }}><TestCards items={s.test.items} /></div>}
+          </>}
         </section>
 
-        <section className="sc-sec" id="cases"><h2>{tr('Customer cases', '客户案例')}</h2>
+        {hasCases && <section className="sc-sec" id="cases"><h2>{tr('Customer cases', '客户案例')}</h2>
           <div className="sc-grid">{s.cases.map((c, i) => (
             <div className="panel sc-case" key={i}><div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}><h3>{L(c.t)}</h3><St t="cust" /></div>
               <dl>{c.gpu && <><dt>GPU</dt><dd><A className="link" to={'/gpu/' + c.gpu}>{G(c.gpu).name}</A></dd></>}<dt>{tr('Stack', '软件')}</dt><dd className="mono" style={{ fontSize: 13 }}>{c.stack}</dd></dl>
@@ -104,7 +104,7 @@ export function Scenario() {
               {c.note && <p className="sc-note" style={{ marginTop: 0 }}>{L(c.note)}</p>}
               {c.link && <A className="link" to={c.link} style={{ fontSize: 14 }}>{tr('See streaming guide', '查看直播方案')} <Ico id="i-arrow" /></A>}</div>
           ))}</div>
-        </section>
+        </section>}
 
         <section className="sc-sec sc-faq" id="faq"><h2>FAQ</h2>
           {s.faq.map(([q, a], i) => <details key={i}><summary>{L(q)}</summary><p>{L(a)}</p></details>)}

@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 
-/* Tiny shared store: compare selection, Advisor answers and Models filters survive page changes. */
+/* Tiny shared store: Advisor answers and Models filters survive page changes. */
 export function createStore(initial) {
   let state = initial;
   const subs = new Set();

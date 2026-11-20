@@ -4,32 +4,61 @@ import { useStore } from '../store.js';
 import { app, setS, setAns, preset } from '../state.js';
 import { GPUS, G, fmt, f1 } from '../data/gpus.js';
 import { WL, WL_ORDER, LLM, recommend } from '../data/workloads.js';
-import { SCENARIOS } from '../data/scenarios.js';
-import { Ico, A, Ctog, St, img } from '../ui.jsx';
+import { SCENARIOS, WL_GUIDE } from '../data/scenarios.js';
+import { Ico, A, St, img } from '../ui.jsx';
+import Select from '../Select.jsx';
+
+/* Start loading the 3D hero as soon as this page's code loads */
+const hero3d = typeof window === 'undefined' ? Promise.reject() : import('../hero3d.js');
+
+/* Hero visual: the 3D exploded-view card; the photo only shows if WebGL is unavailable */
+function HeroGpu() {
+  const { tr, lang } = useLang();
+  const host = useRef(null);
+  const api = useRef(null);
+  const [mode, setMode] = useState('load'); // load → 3d, or photo if WebGL is unavailable
+  const ready = mode === '3d';
+  const [open, setOpen] = useState(false);
+  const touch = typeof matchMedia !== 'undefined' && matchMedia('(hover: none)').matches;
+  useEffect(() => {
+    let dead = false;
+    const labels = [[tr('Backplate', '背板'), tr('Anodized aluminium', '阳极氧化铝')], ['PCB', 'GB202 · PCIe 5.0 ×16'], [tr('Vapor chamber', '均热板'), tr('Copper', '纯铜')],
+      [tr('Heat pipes', '热管'), '5 × 8 mm'], [tr('Fin stack', '散热鳍片'), tr('64 fins', '64 片')], [tr('Shroud', '外壳'), tr('Dual-slot · 304 mm', '双槽 · 304 mm')], null];
+    hero3d.then((m) => {
+      if (dead || !host.current) return;
+      api.current = m.mount(host.current.querySelector('.stage'), document.getElementById('hero'), labels);
+      setMode('3d');
+    }).catch(() => !dead && setMode('photo'));
+    return () => { dead = true; api.current?.destroy(); api.current = null; setOpen(false); };
+  }, [lang]);
+  const toggle = () => { const v = !open; setOpen(v); api.current?.pin(v); };
+  return (
+    <div className="hero-visual" ref={host}>
+      {mode === 'photo' && <img src={img('hero')} alt={tr('Workstation GPU with machined aluminium fin stack and copper heat pipes', '带铝制散热鳍片和铜热管的工作站显卡')} width="1600" height="1088" />}
+      <div className={'stage' + (ready ? ' on' : '')} aria-hidden="true" />
+      {ready && <button type="button" className="hx-btn" aria-pressed={open} onClick={toggle}>
+        <span className="dot" />{open ? tr('Put it back together', '合上') : touch ? tr('Tap to look inside', '点一下看内部') : tr('Move closer to look inside', '鼠标靠近，看看内部')}</button>}
+    </div>
+  );
+}
 
 export default function Home() {
   const { tr, L } = useLang();
   useEffect(() => { document.title = 'DBM GPU Lab'; });
   return (
     <>
-      <section className="hero" aria-labelledby="hero-h">
+      <section className="hero" id="hero" aria-labelledby="hero-h">
         <div className="wrap">
           <div className="hero-copy">
             <h1 id="hero-h">{tr('The right GPU for every AI workload.', '每种 AI 工作，都有对的 GPU。')}</h1>
-            <p className="lede">{tr('Compare GPUs and see what fits your workload.', '对比 GPU，看看哪张适合你的工作。')}</p>
+            <p className="lede">{tr('See which GPU fits your workload.', '看看哪张 GPU 适合你的工作。')}</p>
             <div className="hero-ctas">
               <A to="/advisor/1" className="btn btn-primary">{tr('Find my GPU', '帮我选卡')} <Ico id="i-arrow" /></A>
               <A to="/gpus" className="btn btn-dark-line">{tr('Explore GPUs', '浏览 GPU')}</A>
             </div>
           </div>
         </div>
-        <div className="hero-visual"><img src={img('hero')} alt={tr('Workstation GPU with machined aluminium fin stack and copper heat pipes', '带铝制散热鳍片和铜热管的工作站显卡')} width="1600" height="1088" /></div>
-        <svg className="callouts" viewBox="0 0 1440 580" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
-          <polyline points="1000,228 1000,142 905,142" /><circle cx="1000" cy="228" r="3.5" />
-          <polyline points="1116,376 1182,376" /><circle cx="1116" cy="376" r="3.5" />
-          <g textAnchor="end"><text x="895" y="136" className="k">{tr('FORM FACTOR', '外形')}</text><text x="895" y="156" className="v">Dual-slot · 304 mm</text></g>
-          <g><text x="1192" y="370" className="k">{tr('INTERFACE', '接口')}</text><text x="1192" y="390" className="v">PCIe 5.0 ×16</text></g>
-        </svg>
+        <HeroGpu />
         <div className="readout" aria-label="RTX 5090">
           <div><span className="k">{tr('Model', '型号')}</span><span className="v">RTX 5090</span></div>
           <div><span className="k">{tr('Memory', '显存')}</span><span className="v">32 GB GDDR7</span></div>
@@ -43,7 +72,7 @@ export default function Home() {
       <section className="block" aria-labelledby="sc-h">
         <div className="wrap">
           <div className="sec-head"><div><h2 id="sc-h">{tr('Scenario guides', '场景方案')}</h2></div><A to="/scenarios" className="link">{tr('All scenarios', '全部场景')} <Ico id="i-arrow" /></A></div>
-          <div className="sc-idx">{SCENARIOS.map((s) => (
+          <div className="sc-idx">{SCENARIOS.slice(0, 3).map((s) => (
             <A key={s.id} to={'/scenarios/' + s.id} className="panel"><div className="ph"><img src={img(s.img)} alt="" loading="lazy" /></div>
               <div className="bd"><h3>{L(s.name)} <Ico id="i-arrow" /></h3><p>{L(s.tagline)}</p></div></A>
           ))}</div>
@@ -55,7 +84,7 @@ export default function Home() {
           <div className="sec-head"><div><h2 id="wl-h">{tr('Start from what you want to run.', '从你要跑的东西开始。')}</h2></div></div>
           <div className="wl-grid">
             {WL_ORDER.map((k) => { const w = WL[k]; return (
-              <A key={k} className="wl" to="/advisor/2" onClick={() => preset(k)}><div className="ph"><img src={img(w.img)} alt="" loading="lazy" width="1024" height="576" /></div><h3>{L(w.name)} <Ico id="i-arrow" /></h3><div className="wl-stack">{w.stack}</div></A>
+              <A key={k} className="wl" to={WL_GUIDE[k] ? '/scenarios/' + WL_GUIDE[k] : '/advisor/2'} onClick={() => preset(k)}><div className="ph"><img src={img(w.img)} alt="" loading="lazy" width="1024" height="576" /></div><h3>{L(w.name)} <Ico id="i-arrow" /></h3><div className="wl-stack">{w.stack}</div></A>
             ); })}
             <A className="wl cta" to="/advisor/1"><span className="eyebrow">{tr('Not sure?', '不确定？')}</span><h3>{tr('Answer four questions', '回答四个问题')} <Ico id="i-arrow" /></h3></A>
           </div>
@@ -70,7 +99,7 @@ export default function Home() {
               <div className="series">{L(g.seriesI)}</div><h3><A to={'/gpu/' + id}>{g.name}</A></h3>
               <div className="vram"><b>{g.vtot}</b><span>GB {g.mem}</span></div>
               <dl className="specs"><dt>{tr('Architecture', '架构')}</dt><dd>{g.arch}</dd><dt>{tr('Bandwidth', '带宽')}</dt><dd>{fmt(g.bw)} GB/s</dd><dt>{tr('Max power', '最大功耗')}</dt><dd>{g.tdp} W</dd></dl>
-              <div className="acts"><Ctog id={id} /><A to={'/gpu/' + id} className="link" style={{ fontSize: 14 }}>{tr('Details', '详情')} <Ico id="i-arrow" /></A></div></article>
+              <div className="acts"><A to={'/gpu/' + id} className="link" style={{ fontSize: 14 }}>{tr('Details', '详情')} <Ico id="i-arrow" /></A></div></article>
           ); })}</div>
           <p className="note" style={{ marginTop: 18 }}>{tr('Images: NVIDIA.', '图片：NVIDIA。')}</p>
         </div>
@@ -99,12 +128,11 @@ function Quick() {
         <div><h2 id="q-h">{tr('What are you building?', '你要做什么？')}</h2></div>
         <div ref={ref}>
           <p className="sentence">{tr('I want to run ', '我想运行 ')}
-            <span className="pick"><select aria-label={tr('Workload', '工作负载')} value={S.wl} onChange={(e) => setS({ wl: e.target.value })}>{WL_ORDER.map((k) => <option key={k} value={k}>{L(WL[k].name)}</option>)}</select></span>
-            {showM && <>{tr(' on a ', '，用 ')}<span className="pick"><select aria-label={tr('Model', '模型')} value={S.wl === 'llm' ? S.a.llm.model : S.a.train.size} onChange={(e) => (S.wl === 'llm' ? setAns('llm', { model: e.target.value }) : setAns('train', { size: +e.target.value }))}>
-              {S.wl === 'llm' ? Object.entries(LLM).filter(([, m]) => !m.est).map(([v, m]) => <option key={v} value={v}>{m.name}</option>) : [8, 14, 32, 70].map((v) => <option key={v} value={v}>{v}B</option>)}
-            </select></span>{tr(' model', ' 模型')}</>}
+            <Select variant="inline" label={tr('Workload', '工作负载')} value={S.wl} onChange={(v) => setS({ wl: v })} options={WL_ORDER.map((k) => [k, L(WL[k].name)])} />
+            {showM && <>{tr(' on a ', '，用 ')}<Select variant="inline" label={tr('Model', '模型')} value={S.wl === 'llm' ? S.a.llm.model : S.a.train.size} onChange={(v) => (S.wl === 'llm' ? setAns('llm', { model: v }) : setAns('train', { size: +v }))}
+              options={S.wl === 'llm' ? Object.entries(LLM).filter(([, m]) => !m.est).map(([v, m]) => [v, m.name]) : [8, 14, 32, 70].map((v) => [v, v + 'B'])} />{tr(' model', ' 模型')}</>}
             {tr(', optimizing for ', '，优先考虑 ')}
-            <span className="pick"><select aria-label={tr('Priority', '优先级')} value={S.pri} onChange={(e) => setS({ pri: e.target.value })}><option value="cost">{tr('lowest cost', '最低成本')}</option><option value="bal">{tr('balanced value', '均衡')}</option><option value="head">{tr('most headroom', '最大余量')}</option></select></span>.
+            <Select variant="inline" label={tr('Priority', '优先级')} value={S.pri} onChange={(v) => setS({ pri: v })} options={[['cost', tr('lowest cost', '最低成本')], ['bal', tr('balanced value', '均衡')], ['head', tr('most headroom', '最大余量')]]} />.
           </p>
           <div className="quick-out">
             <span className="need">{tr('Estimate', '估算')} <b>{f1(n.total)} GB</b> · {tr(`${fit.length} GPUs fit`, `${fit.length} 张卡装得下`)}</span>

@@ -1,12 +1,13 @@
 /* Scenario guides. Content paraphrased from GPU Mart public pages (sources on each page).
    Prices are list prices seen in Nov 2026 and change; promotions are not used. */
+import { SCENARIOS2 } from './scenarios2.js';
 const b = (en, zh) => ({ en, zh });
 const LLM_SRC = 'https://www.gpu-mart.com/guides/self-hosted-llm';
 const HOST_SRC = 'https://www.gpu-mart.com/llm-hosting';
 const V_SRC = 'https://www.gpu-mart.com/gpu-virtualization';
 const S_SRC = 'https://www.gpu-mart.com/gpu-for-streaming';
 
-export const SCENARIOS = [
+const FIRST = [
   {
     id: 'llm', img: 'wl-llm', wl: 'llm',
     name: b('LLM inference', '大模型推理'),
@@ -153,5 +154,11 @@ export const SCENARIOS = [
     sources: [[S_SRC, 'GPU Mart · GPU for streaming']],
   },
 ];
+
+/* Guides in workload order; the first three keep their place */
+const ORDER = ['llm', 'vgpu', 'streaming', 'img', 'vgen', 'speech', 'train', 'cv', 'render', 'game', 'cad', 'data', 'bio', 'robot', 'hpc'];
+export const SCENARIOS = [...FIRST, ...SCENARIOS2].sort((a, c) => ORDER.indexOf(a.id) - ORDER.indexOf(c.id));
+/* Workload id → its guide */
+export const WL_GUIDE = { llm: 'llm', video: 'streaming', ...Object.fromEntries(SCENARIOS2.map((s) => [s.wl, s.id])) };
 
 export const SC = (id) => SCENARIOS.find((s) => s.id === id);

@@ -6,6 +6,7 @@ import { app, setS, setAns } from '../state.js';
 import { fmt, f1 } from '../data/gpus.js';
 import { WL, WL_ORDER, MIG, need, recommend, reasonsFor } from '../data/workloads.js';
 import { Ico, A, St, img } from '../ui.jsx';
+import Select from '../Select.jsx';
 
 export default function Advisor() {
   const { step: st } = useParams();
@@ -35,7 +36,7 @@ export default function Advisor() {
     main = <><span className="eyebrow">{tr('Step 2 of 4', '第 2 步，共 4 步')} · {L(w.name)}</span><h1>{tr('Define the workload.', '描述你的工作。')}</h1>
       <div className="fields">{w.fields.map((f) => (
         <div className="field" key={f.k}><label htmlFor={'f-' + f.k}>{L(f.label)}</label>
-          <select className="sel" id={'f-' + f.k} value={String(a[f.k])} onChange={(e) => setAns(S.wl, { [f.k]: f.opts.find((o) => String(o[0]) === e.target.value)[0] })}>{f.opts.map(([v, t]) => <option key={v} value={String(v)}>{L(t)}</option>)}</select></div>
+          <Select id={'f-' + f.k} label={L(f.label)} value={a[f.k]} onChange={(v) => setAns(S.wl, { [f.k]: f.opts.find((o) => String(o[0]) === String(v))[0] })} options={f.opts.map(([v, t]) => [v, L(t)])} /></div>
       ))}</div>
       <div className="panel estimate" aria-live="polite">
         <div className="hd"><div><span className="eyebrow">{tr('Estimated memory target', '估算显存需求')}</span><div className="tot">{f1(T)}<small>GB</small></div></div><St t="est" /></div>
@@ -77,7 +78,7 @@ export default function Advisor() {
             <div className="parts"><span>{tr('Estimate', '估算')} <b>{f1(n.total)} GB</b></span><span>{tr('Capacity', '容量')} <b>{top.cap} GB</b></span><span>{tr('Headroom', '余量')} <b>{f1(top.head)} GB</b></span></div></div>
           <ul className="reasons">{R.map((r, i) => <li key={'r' + i}><span className="ok"><Ico id="i-ok" /></span><span>{L(r)}</span></li>)}{Lim.map((r, i) => <li key={'l' + i} className="lim"><span style={{ color: 'var(--amber)', display: 'inline-flex' }}><Ico id="i-warn" /></span><span>{L(r)}</span></li>)}</ul>
           <div className="evi"><St t="ds" /><span className="note">{tr('specs', '规格')}</span><St t="est" /><span className="note">{tr('memory fit', '显存匹配')}</span><St t="nt" /><span className="note">{tr('throughput', '吞吐量')}</span></div>
-          <div className="adv-nav" style={{ marginTop: 22 }}><A className="btn btn-primary" to={'/gpu/' + top.g.id}><Ico id="i-clock" />{tr('View this GPU', '查看这张卡')}</A>{fit.length > 1 && <A className="btn btn-line" to={'/compare/' + fit.slice(0, 3).map((x) => x.g.id).join(',')} onClick={() => app.set({ sel: fit.slice(0, 3).map((x) => x.g.id) })}>{tr(`Compare top ${Math.min(3, fit.length)}`, `对比前 ${Math.min(3, fit.length)} 名`)}</A>}</div>
+          <div className="adv-nav" style={{ marginTop: 22 }}><A className="btn btn-primary" to={'/gpu/' + top.g.id}><Ico id="i-clock" />{tr('View this GPU', '查看这张卡')}</A></div>
         </div></div>
         {fit.length > 1 && <><h2 style={{ fontSize: 20, fontWeight: 600, marginTop: 40 }}>{tr('Also fits', '也装得下')}</h2><div>{fit.slice(1, 5).map((x) => (
           <div className="altrow" key={x.g.id}><span className="nm"><span className="sw" style={{ background: '#5C6B79' }} />{x.count > 1 ? x.count + ' × ' : ''}{x.g.name}</span><span className="why"><span className="mono">{x.g.vram} GB · {fmt(x.g.bw)} GB/s · {x.g.tdp} W</span></span><span className="r">{tr(`${f1(x.head)} GB spare`, `余 ${f1(x.head)} GB`)}</span><A className="link" to={'/gpu/' + x.g.id}>{tr('View', '查看')}</A></div>

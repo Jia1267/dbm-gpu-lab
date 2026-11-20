@@ -5,6 +5,7 @@ import { app, setMF, setS, setAns } from '../state.js';
 import { MCATS, MODELS, MCAT_ZH, NOTE_ZH, licZh } from '../data/models.js';
 import { LLM, WL } from '../data/workloads.js';
 import { Ico, A } from '../ui.jsx';
+import Select from '../Select.jsx';
 
 const MTIER = (g) => (g <= 24 ? 1 : g <= 48 ? 2 : g <= 96 ? 3 : g <= 768 ? 4 : 5);
 const MCAP = { 1: 24, 2: 48, 3: 96, 4: 768 };
@@ -65,8 +66,8 @@ export default function Models() {
         <div className="mfil"><div className="msearch"><Ico id="i-search" /><input type="search" value={MF.q} onChange={(e) => setMF({ q: e.target.value })} placeholder={tr('Search models or tasks', '搜索模型或用途')} aria-label={tr('Search models', '搜索模型')} autoComplete="off" /></div>
           <button type="button" className="btn btn-line mfbtn" aria-expanded={MF.open} aria-controls="m-sels" onClick={() => setMF({ open: !MF.open })}><Ico id="i-filter" />{tr('Filters', '筛选')}<span className="mfn mono">{nf ? ' · ' + nf : ''}</span></button>
           <div className={'msels' + (MF.open ? ' open' : '')} id="m-sels">
-            <select className="sel" value={MF.tier} onChange={(e) => setMF({ tier: +e.target.value })} aria-label={tr('Filter by GPU memory', '按显存筛选')}><option value={0}>{tr('Any GPU size', '任意显存')}</option>{[1, 2, 3].map((t) => <option key={t} value={t}>{TN[t][0]}</option>)}<option value={4}>{tr('Needs multi-GPU', '需要多卡')}</option></select>
-            <select className="sel" value={MF.lic} onChange={(e) => setMF({ lic: e.target.value })} aria-label={tr('Filter by license', '按许可证筛选')}><option value="">{tr('Any license', '任意许可证')}</option>{Object.entries(LIC).map(([k, v]) => <option key={k} value={k}>{v[0]}</option>)}</select></div>
+            <Select label={tr('Filter by GPU memory', '按显存筛选')} value={MF.tier} onChange={(v) => setMF({ tier: +v })} options={[[0, tr('Any GPU size', '任意显存')], ...[1, 2, 3].map((t) => [t, TN[t][0]]), [4, tr('Needs multi-GPU', '需要多卡')]]} />
+            <Select label={tr('Filter by license', '按许可证筛选')} value={MF.lic} onChange={(v) => setMF({ lic: v })} options={[['', tr('Any license', '任意许可证')], ...Object.entries(LIC).map(([k, v]) => [k, v[0]])]} /></div>
           <span className="mcount mono" aria-live="polite">{rows.length} / {MODELS.length}</span></div>
         <div className="mcats" role="group" aria-label={tr('Category', '类别')}>
           <button type="button" className="mpick" title={tr('Chat models that fit one 24 GB GPU and allow commercial use', '能在一张 24 GB 卡上跑、可商用的聊天模型')} onClick={() => { setMF({ cat: 'llm-s', tier: 1, lic: 'o', q: '' }); document.querySelector('.mbar')?.scrollIntoView({ behavior: 'smooth' }); }}>{tr('1 GPU · commercial', '单卡 · 可商用')}</button>
