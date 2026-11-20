@@ -491,6 +491,104 @@ table.bt td{font-family:var(--mono);font-size:13px}
 .env .src{margin-top:18px;font-size:13.5px;display:grid;gap:6px}
 
 /* ---------- responsive ---------- */
+/* ---------- open models ---------- */
+.mlegend{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:24px;font-size:12.5px;color:var(--steel)}
+.mlegend span{display:flex;flex-direction:column;gap:2px;padding-left:16px;position:relative;line-height:1.4}
+.mlegend b{color:var(--text);font-weight:500;font-size:13.5px}
+.mlegend .tier-dot{position:absolute;left:0;top:4px}
+.mhow{font-size:13.5px;color:var(--steel);margin-top:16px;max-width:52em}
+.mhow b{color:var(--text);font-weight:500}
+/* memory tiers: one ordered blue-to-graphite ramp; green/amber/red belong to licenses only */
+.t1{--tc:#9DB6F5}.t2{--tc:#5F86EE}.t3{--tc:var(--blue)}.t4{--tc:#3A4654}.t5{--tc:var(--graphite)}
+.tier-dot{display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--tc);flex:none}
+.tier-dot.t5,.vm-fill.t5{background:repeating-linear-gradient(135deg,var(--graphite) 0 4px,#3A4654 4px 7px)}
+.mbar{position:sticky;top:var(--nav);z-index:20;background:rgba(244,246,248,.97);border-bottom:1px solid var(--border);padding:14px 0 12px}
+.mfil{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.msearch{flex:1 1 260px;display:flex;align-items:center;gap:8px;height:44px;padding:0 12px;border:1px solid var(--border-strong);border-radius:8px;background:var(--surface);color:var(--steel)}
+.msearch:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-tint)}
+.msearch input{border:none;outline:none;background:transparent;font-size:15px;flex:1;min-width:0;color:var(--text)}
+.mfil .sel{flex:0 0 auto}
+.msels{display:contents}
+.mfbtn{display:none;height:44px;padding:0 14px;font-size:14px}
+.mfbtn svg{width:16px;height:16px}
+.mfn{font-size:12px;color:var(--blue)}
+.mquick{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:22px}
+.mquick .btn{white-space:normal;text-align:left;height:auto;min-height:36px;padding:6px 12px}
+.mcount{font-size:13px;color:var(--steel);margin-left:auto;white-space:nowrap}
+.mcats{display:flex;gap:6px;margin-top:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 48px),transparent)}
+.mcats::-webkit-scrollbar{display:none}
+.mcats button{flex:none;font-size:13.5px;padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--steel);white-space:nowrap;min-height:36px;transition:border-color var(--d-fast),color var(--d-fast),background-color var(--d-fast)}
+.mcats button:last-child{margin-right:40px}
+.mcats button i{font-style:normal;font-family:var(--mono);font-size:11.5px;margin-left:4px;color:var(--steel-2)}
+.mcats button:hover:not(:disabled){border-color:var(--border-strong);color:var(--text)}
+.mcats button:disabled{opacity:.4;cursor:default}
+.mcats button[aria-pressed=true]{background:var(--graphite);border-color:var(--graphite);color:#fff}
+.mcats button[aria-pressed=true] i{color:#8EA0B3}
+.mbody{padding-top:8px;padding-bottom:96px}
+.ms{margin-top:44px}
+.ms-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:14px}
+.ms-head h2{font-size:22px;font-weight:600;letter-spacing:-.015em}
+.ms-head h2 .mono{font-size:13px;font-weight:400;color:var(--steel-2);margin-left:6px}
+.ms-head p{color:var(--steel);font-size:14.5px;margin-top:4px;max-width:46em}
+.ms-head .link{font-size:14px;white-space:nowrap}
+.mt{overflow:hidden}
+.mr{display:grid;grid-template-columns:minmax(0,2.6fr) minmax(0,.9fr) minmax(0,1.4fr) minmax(0,1.9fr);gap:24px;padding:12px 22px;border-top:1px solid var(--border);align-items:start}
+.mr.mh{border-top:none;background:var(--sunk);padding-top:10px;padding-bottom:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--steel);align-items:end}
+.mh-mem{display:block}
+.mh-mem .vm-scale{margin-top:8px}
+.mn{min-width:0}
+.mname{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:15.5px;letter-spacing:-.005em;color:var(--text)}
+.mname svg{width:13px;height:13px;color:var(--steel-2);transition:color var(--d-fast)}
+.mname:hover{color:var(--blue)}.mname:hover svg{color:var(--blue)}
+.mn span{display:block;font-size:13px;color:var(--steel);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp{font-size:13px;line-height:1.5;padding-top:2px}
+.ml,.ml-in{display:none}
+.mlc{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.ld{font-size:12.5px;color:var(--steel);line-height:1.4}
+.lic{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:2px 8px;border-radius:5px;white-space:nowrap}
+.lic::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.lic-ok{color:var(--green);background:var(--green-tint)}
+.lic-cond{color:var(--amber);background:var(--amber-tint)}
+.lic-nc{color:var(--red);background:var(--red-tint)}
+.mm-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.mm-top .mono{font-size:12.5px;color:var(--steel)}
+.tier{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--text);white-space:nowrap}
+.tier em{font-style:normal;font-weight:400;color:var(--amber)}
+.vm{margin-top:8px}
+.vm-trk{position:relative;height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.vm-fill{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--tc)}
+.vm-trk i{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--surface)}
+.vm-scale{position:relative;display:block;height:13px}
+.vm-scale i{position:absolute;top:0;transform:translateX(-50%);font-style:normal;font-family:var(--mono);font-size:10.5px;letter-spacing:0;text-transform:none;color:var(--steel-2);line-height:1}
+.vm-lab{display:none;margin-top:4px}
+.msz{font-size:13px;margin-top:8px}
+.mempty{padding:40px 32px;margin-top:40px;text-align:left}
+.mempty h3{font-size:18px;font-weight:600}
+.mempty p{color:var(--steel);margin:6px 0 16px}
+.mnotes{margin-top:64px;padding-top:28px;border-top:1px solid var(--border);max-width:56em}
+.mnotes h3{font-size:16px;font-weight:600}
+.mnotes ul{margin:10px 0 18px 18px;color:var(--steel);font-size:14px;display:grid;gap:6px}
+.mnotes .note a{color:var(--blue)}
+@media (max-width:1100px){.mlegend{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:860px){
+  .mlegend{grid-template-columns:1fr 1fr}
+  .mbar{padding:10px 0 8px}
+  .mfil{gap:8px}
+  .msearch{flex:1 1 0;min-width:0}
+  .mfbtn{display:inline-flex}
+  .msels{display:none;flex-basis:100%;gap:8px}
+  .msels.open{display:flex}
+  .msels .sel{flex:1 1 0;min-width:0;height:40px;font-size:14px}
+  .mcount{display:none}
+  .ms-head{flex-direction:column;align-items:flex-start;gap:8px}
+  .mr.mh{display:none}
+  .mr{grid-template-columns:1fr 1fr;gap:10px 16px;padding:14px 16px}
+  .mn,.mm{grid-column:1/-1}
+  .mn span{white-space:normal}
+  .ml{display:block;font-family:var(--sans);font-size:11.5px;color:var(--steel-2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+  .ml-in{display:inline}
+  .vm-lab{display:block}
+}
 @media (max-width:1200px){.callouts{display:none}}
 @media (max-width:1100px){
   :root{--pad:40px}
@@ -567,6 +665,7 @@ table.bt td{font-family:var(--mono);font-size:13px}
   <symbol id="i-warn" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="14" r="1" fill="currentColor"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 5h5v5M19 5l-8 8M17 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h4"/></symbol>
   <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
   <symbol id="i-sort" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m8 9 4-4 4 4M8 15l4 4 4-4"/></symbol>
   <symbol id="i-est" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.2 1.6"/></symbol>
@@ -588,6 +687,7 @@ table.bt td{font-family:var(--mono);font-size:13px}
       <a href="#/gpus" data-nav="gpus">GPUs</a>
       <a href="#/compare" data-nav="compare">Compare <span class="badge" id="nav-count" hidden></span></a>
       <a href="#/workloads" data-nav="workloads">Workloads</a>
+      <a href="#/models" data-nav="models">Models</a>
       <a href="#/benchmarks" data-nav="benchmarks">Benchmarks</a>
     </nav>
     <form class="nsearch" role="search" id="nsearch"><svg class="i"><use href="#i-search"/></svg><input id="nsq" type="search" placeholder="Search GPUs" aria-label="Search GPUs" autocomplete="off"><kbd>/</kbd></form>
@@ -599,6 +699,7 @@ table.bt td{font-family:var(--mono);font-size:13px}
   <a href="#/gpus">GPUs <svg class="i"><use href="#i-arrow"/></svg></a>
   <a href="#/compare">Compare <svg class="i"><use href="#i-arrow"/></svg></a>
   <a href="#/workloads">Workloads <svg class="i"><use href="#i-arrow"/></svg></a>
+  <a href="#/models">Open models <svg class="i"><use href="#i-arrow"/></svg></a>
   <a href="#/benchmarks">Benchmarks <svg class="i"><use href="#i-arrow"/></svg></a>
   <a href="#/advisor/1" style="color:var(--blue)">Find my GPU <svg class="i"><use href="#i-arrow"/></svg></a>
 </nav>
@@ -747,6 +848,7 @@ table.bt td{font-family:var(--mono);font-size:13px}
 <div data-page="compare" id="p-compare"></div>
 <div data-page="advisor" id="p-advisor"></div>
 <div data-page="benchmarks" id="p-bench"></div>
+<div data-page="models" id="p-models"></div>
 
 </main>
 
@@ -755,7 +857,7 @@ table.bt td{font-family:var(--mono);font-size:13px}
     <div class="foot-grid">
       <div><a class="logo" href="#/" style="color:#fff"><svg width="28" height="28" aria-hidden="true"><use href="#i-chip"/></svg><span>DBM <small style="color:#8EA0B3">GPU Lab</small></span></a>
         <p class="tag">Hardware data, workload sizing and transparent methodology for AI infrastructure decisions.</p></div>
-      <div><h5>Explore</h5><ul><li><a href="#/gpus">GPU Explorer</a></li><li><a href="#/compare">Compare</a></li><li><a href="#/workloads">Workloads</a></li></ul></div>
+      <div><h5>Explore</h5><ul><li><a href="#/gpus">GPU Explorer</a></li><li><a href="#/compare">Compare</a></li><li><a href="#/workloads">Workloads</a></li><li><a href="#/models">Open models</a></li></ul></div>
       <div><h5>Evidence</h5><ul><li><a href="#/benchmarks">Benchmarks</a></li><li><a href="#/benchmarks">Test methodology</a></li></ul></div>
       <div><h5>Choose</h5><ul><li><a href="#/advisor/1">GPU Advisor</a></li><li><a href="#/gpus">Check availability</a></li></ul></div>
       <div><h5>Company</h5><ul><li><a href="#/">About Database Mart</a></li><li><a href="#/">Contact</a></li></ul></div>
@@ -865,7 +967,7 @@ const WL={
   def:{model:'llama-8b',prec:'fp16',ctx:8192,conc:4,rag:'no'},
   need(a){const m=LLM[a.model],w=m.p*BITS[a.prec]/8,kv=2*m.L*m.kv*m.hd*2*a.ctx*a.conc/1e9,rt=1.5+.05*w,rag=a.rag==='yes';
    return{parts:[['Weights',w],['KV cache',kv],['Search models (RAG)',rag?2.5:0],['Runtime',rt]],
-   basis:`Weights = ${m.p}B × ${BITS[a.prec]} bit ÷ 8. KV cache = 2 × ${m.L} layers × ${m.kv} KV heads × ${m.hd} dim × 2 bytes (FP16) × ${fmt(a.ctx)} tokens × ${a.conc} requests. Runtime allowance = 1.5 GB + 5% of weights (assumption).${m.moe?` Mixture-of-experts: all ${m.p}B weights must sit in GPU memory, but only about ${m.moe}B are used per token, so it answers much faster than a dense model of the same size.`:''}${rag?' RAG adds an embedding model and a reranker (about 2.5 GB, e.g. BGE-M3 + BGE reranker); the document index itself usually lives in system RAM or a vector database. Retrieved passages make prompts longer, so pick a longer chat length.':''}`,
+   basis:`Weights = ${m.p}B × ${BITS[a.prec]} bit ÷ 8. KV cache = 2 × ${m.L} layers × ${m.kv} KV heads × ${m.hd} dim × 2 bytes (FP16) × ${fmt(a.ctx)} tokens × ${a.conc} requests. Runtime allowance = 1.5 GB + 5% of weights (assumption).${m.est?' KV cache uses a typical 60-layer, 8-KV-head layout, because this model\'s exact architecture is not in our table.':''}${m.moe?` Mixture-of-experts: all ${m.p}B weights must sit in GPU memory, but only about ${m.moe}B are used per token, so it answers much faster than a dense model of the same size.`:''}${rag?' RAG adds an embedding model and a reranker (about 2.5 GB, e.g. BGE-M3 + BGE reranker); the document index itself usually lives in system RAM or a vector database. Retrieved passages make prompts longer, so pick a longer chat length.':''}`,
    label:`${m.name} · ${a.prec.toUpperCase()} · ${a.ctx/1024}K context × ${a.conc}${rag?' + RAG':''}`}}},
  img:{name:'Image generation',req:noKepler('PyTorch builds'),img:'wl-img',stack:'ComfyUI · FLUX · Stable Diffusion',q:'AI pictures, product shots and art with ComfyUI',desc:'Generation memory by model, image size and batch.',
   fields:[
@@ -1086,7 +1188,7 @@ function fitSelects(){$$('.sentence select').forEach(s=>{const cs=getComputedSty
 function quick(){
   $('#q-wl').value=S.wl;$('#q-pri').value=S.pri;
   const showM=S.wl==='llm'||S.wl==='train';$('#q-model-wrap').hidden=!showM;
-  if(S.wl==='llm'){$('#q-model').innerHTML=Object.entries(LLM).map(([v,m])=>`<option value="${v}">${m.name}</option>`).join('');$('#q-model').value=S.a.llm.model;}
+  if(S.wl==='llm'){$('#q-model').innerHTML=Object.entries(LLM).filter(([,m])=>!m.est).map(([v,m])=>`<option value="${v}">${m.name}</option>`).join('');$('#q-model').value=S.a.llm.model;}
   if(S.wl==='train'){$('#q-model').innerHTML=[8,14,32,70].map(v=>`<option value="${v}">${v}B</option>`).join('');$('#q-model').value=S.a.train.size;}
   const {n,fit}=recommend();
   $('#q-need').innerHTML=`Estimate <b>${f1(n.total)} GB</b> · ${fit.length} GPU${fit.length===1?'':'s'} fit`;
@@ -1309,10 +1411,220 @@ function renderBench(){
   </div>`;
 }
 
+/* ================= OPEN MODELS ================= */
+/* Open-weight models you can self-host. gb = rough GPU memory at 4-bit (or the model's recommended precision), weights only.
+   lic: o = commercial use OK, c = commercial with conditions, n = non-commercial. Sources listed on the page. Checked Nov 2026. */
+const MCATS=[
+ ['llm-s','Single-GPU LLMs','Run on one 24 to 48 GB card. Private chat, support bots and coding assistants.','llm'],
+ ['llm-m','Mid-size LLMs','100B to 400B class. One large-memory GPU up to four GPUs; the best value for capable private models.','llm'],
+ ['llm-xl','Frontier LLMs','Hundreds of billions of parameters. Needs a full multi-GPU server; the private alternative to GPT-class APIs.','llm'],
+ ['code','Coding models','Built for writing code and running coding agents.','llm'],
+ ['vlm','Vision-language','Understand photos, screenshots, charts and video.','llm'],
+ ['embed','Embeddings & rerankers','Search for RAG and knowledge bases: turn documents into vectors, then re-rank the hits.','llm'],
+ ['ocr','Document OCR','Turn scans, PDFs and tables into text and structured data.','data'],
+ ['img','Image generation','Text-to-image, image editing and inpainting, usually run in ComfyUI.','img'],
+ ['video','Video generation','Text-to-video and image-to-video clips.','vgen'],
+ ['3d','3D generation','Create 3D models from an image or a prompt.',null],
+ ['speech','Speech','Speech-to-text (ASR) and text-to-speech (TTS).','speech'],
+ ['music','Music & audio','Generate songs and background music.',null],
+ ['cv','Detection & segmentation','Vision models for cameras, inspection and labelling.','cv'],
+ ['robot','Robotics','Vision-language-action (VLA) models that output robot actions.','robot'],
+ ['bio','Life sciences','Protein structure, molecules and genomics.','bio'],
+];
+const MODELS=[
+ // cat, name, developer, params, license, lic, memory text, gb, note
+ ['llm-xl','Kimi K3','Moonshot AI','2.8T / 104B active','Kimi K3 License','c','~1.5 TB',1540,'Ranked among the strongest open models; 1M context'],
+ ['llm-xl','Kimi K3.1 Pro','Moonshot AI','2.8T / 104B active','Kimi K3.1 Pro License','c','~1.5 TB',1540,'Post-trained K3; weights out early Nov 2026'],
+ ['llm-xl','Qwen3.8-2.4T-A95B','Alibaba Qwen','2.4T / 95B active','Custom Qwen license','c','~1.3 TB',1320,'Largest open Qwen, Aug 2026'],
+ ['llm-xl','DeepSeek-V4-Pro','DeepSeek','1.6T / 49B active','MIT','o','~880 GB',880,'Aug 2026; 1M context'],
+ ['llm-xl','MiMo-V2.6-Pro','Xiaomi','1.02T / 42B active','MIT','o','~560 GB',560,'Text, image, video and audio input'],
+ ['llm-xl','Mistral Large 4','Mistral AI','~1T / 52B active','Mistral open-weight license (modified MIT)','c','~550 GB',550,'Released Oct 29, 2026'],
+ ['llm-xl','Muse Spark Open','Meta','816B / 42B active','Muse Model License','c','NVFP4 fits one B200 node',450,'Multimodal input; NVFP4 fits one B200 node; gated download'],
+ ['llm-xl','Hy4 Preview','Tencent Hunyuan','770B / 49B active','Apache 2.0','o','~425 GB',425,'Aug 2026'],
+ ['llm-xl','GLM-5.3','Z.ai','753B / 40B active','GLM-5.3 License (review above $10B revenue)','c','~415 GB',415,'1M context; strong agentic coder'],
+ ['llm-xl','GLM-5.2','Z.ai','753B','MIT','o','~415 GB',415,'1M context'],
+ ['llm-xl','Mistral Large 3','Mistral AI','675B','Apache 2.0','o','~370 GB',370,''],
+ ['llm-xl','DeepSeek-V3.2','DeepSeek','671B / 37B active','MIT','o','~370 GB',370,''],
+ ['llm-xl','DeepSeek-R1','DeepSeek','671B / 37B active','MIT','o','~370 GB',370,'Reasoning model; distillation allowed'],
+ ['llm-xl','Step 5 Preview','StepFun','600B / 27B active','StepFun Model License','c','~330 GB',330,'Sep 2026'],
+ ['llm-xl','DeepSeek-V4.1-Flash','DeepSeek','552B / 16B active','MIT','o','Published weights ~510 GB',300,'Image input; often top pick for coding agents. Published weights are ~510 GB'],
+ ['llm-xl','Nemotron 3 Ultra','NVIDIA','550B / 55B active','OpenMDW-1.1','o','~300 GB',300,'Hybrid Mamba + MoE'],
+ ['llm-xl','Reflection Beam','Reflection AI','501B / 23B active','Apache 2.0','o','~280 GB (NVFP4)',280,'Coding-focused, Oct 2026'],
+
+ ['llm-m','MiniMax M3','MiniMax','428B / 23B active','MiniMax Community License','n','~235 GB',235,'Image and video input; 1M context'],
+ ['llm-m','Llama 4 Maverick','Meta','400B / 17B active','Llama 4 Community License','c','~220 GB',220,'Apr 2025; image input'],
+ ['llm-m','Qwen3.5-397B-A17B','Alibaba Qwen','397B / 17B active','Apache 2.0','o','~220 GB',220,'Feb 2026; multimodal'],
+ ['llm-m','GLM-4.6','Z.ai','355B / 32B active','MIT','o','~195 GB',195,''],
+ ['llm-m','GLM-5.3-Flash','Z.ai','320B / 18B active','MIT','o','~175 GB',175,'Image input; 1M context'],
+ ['llm-m','Hy3','Tencent Hunyuan','295B / 21B active','Apache 2.0','o','~160 GB',160,'Jul 2026'],
+ ['llm-m','DeepSeek-V4-Flash','DeepSeek','284B / 13B active','MIT','o','~160 GB',160,''],
+ ['llm-m','MiniMax-M2','MiniMax','230B / 10B active','Modified MIT','o','~125 GB',125,''],
+ ['llm-m','Qwen3.8-Flash-Next','Alibaba Qwen','125B / 6B active','Qwen Community License','c','~100 GB',100,'Very few active parameters, so it is fast'],
+ ['llm-m','gpt-oss-120b','OpenAI','117B / 5.1B active','Apache 2.0','o','~65 GB (native 4-bit)',65,'Fits one 80 or 96 GB card'],
+ ['llm-m','Llama 4 Scout','Meta','109B / 17B active','Llama 4 Community License','c','~60 GB',60,'Image input'],
+ ['llm-m','GLM-4.5-Air','Z.ai','106B / 12B active','MIT','o','~60 GB',60,'DBM customer deployment'],
+
+ ['llm-s','Llama 3.3 70B','Meta','70B','Llama 3.3 Community License','c','~40 GB',40,''],
+ ['llm-s','Qwen3.6-35B-A3B','Alibaba Qwen','35B / 3B active','Apache 2.0','o','~20 GB',20,'MoE; very fast'],
+ ['llm-s','Gemma 4 31B','Google','31B','Apache 2.0','o','~20 GB',20,'Image input; 256K context'],
+ ['llm-s','Muse Glimmer','Meta','~30B','Apache 2.0','o','~17 GB',17,'Agent model distilled from Muse Spark'],
+ ['llm-s','Qwen3.8-27B','Alibaba Qwen','27B','Apache 2.0','o','~17 GB (BF16 ~55 GB)',17,'A first choice for one GPU, Aug 2026'],
+ ['llm-s','Qwen3.6-27B','Alibaba Qwen','27B','Apache 2.0','o','~16–20 GB',20,'Apr 2026'],
+ ['llm-s','Gemma 3 27B','Google','27B','Gemma License','c','~17 GB',17,''],
+ ['llm-s','Gemma 4 26B-A4B','Google','26B / 4B active','Apache 2.0','o','~16 GB',16,'MoE; image input'],
+ ['llm-s','Gemma 4 12B','Google','12B','Apache 2.0','o','~8 GB',8,''],
+ ['llm-s','Phi-4 family','Microsoft','14B and smaller','MIT','o','~9 GB',9,''],
+ ['llm-s','Llama 3.1 8B','Meta','8B','Llama 3.1 Community License','c','~6 GB',6,''],
+ ['llm-s','OLMo','Allen AI','7B–32B','Apache 2.0','o','5–20 GB',20,'Fully open, including training data'],
+ ['llm-s','Gemma 4 E2B / E4B','Google','2B / 4B','Apache 2.0','o','<4 GB',3,'Small enough for phones'],
+ ['llm-s','Qwen3.5 small models','Alibaba Qwen','0.8B and up','Apache 2.0','o','1–16 GB',16,''],
+
+ ['code','Kimi K2.7-Code','Moonshot AI','1T / 32B active','Modified MIT','o','~550 GB',550,'K2 API retires end of 2026; weights stay'],
+ ['code','Qwen3-Coder-480B-A35B','Alibaba Qwen','480B / 35B active','Apache 2.0','o','~265 GB',265,'256K context, extends to 1M'],
+
+ ['vlm','GLM-4.6V','Z.ai','106B (also 9B Flash)','MIT','o','~60 GB',60,''],
+ ['vlm','Qwen3-VL','Alibaba Qwen','2B–235B (flagship 22B active)','Apache 2.0','o','8B: 8–12 GB',12,'OCR, charts and UI grounding; most recommended'],
+ ['vlm','InternVL3.5','Shanghai AI Lab','8B and other sizes','Open license','o','8B: ~8 GB',8,'Reasoning over images'],
+
+ ['embed','harrier-oss-v1-27b','Microsoft','27B','See model card','c','~55 GB (BF16)',55,'Top of one 2026 multilingual ranking'],
+ ['embed','KaLM-Embedding-Gemma3-12B','Tencent','12B','See model card','c','~24 GB',24,''],
+ ['embed','Llama-Embed-Nemotron-8B','NVIDIA','8B','See model card','c','~16 GB',16,'NVIDIA reports #1 multilingual retrieval'],
+ ['embed','Qwen3-Embedding','Alibaba Qwen','0.6B / 4B / 8B','Apache 2.0','o','2–16 GB',16,'100+ languages; 32K input'],
+ ['embed','Qwen3-Reranker','Alibaba Qwen','0.6B / 4B / 8B','Apache 2.0','o','2–16 GB',16,''],
+ ['embed','bge-m3','BAAI','0.57B','MIT','o','~2 GB',2,'Common default for multilingual RAG'],
+ ['embed','bge-reranker-v2-m3','BAAI','0.57B','Apache 2.0','o','~2 GB',2,''],
+ ['embed','nomic-embed-text-v2-moe','Nomic AI','475M / 305M active','Apache 2.0','o','<2 GB',1.5,''],
+
+ ['ocr','dots.ocr','Xiaohongshu','3B','See model card','c','~8 GB',8,''],
+ ['ocr','DeepSeek-OCR-2','DeepSeek','3B','MIT','o','~8 GB',8,''],
+ ['ocr','PaddleOCR-VL 1.6','Baidu','~1B','Apache 2.0','o','<8 GB',6,'Authors report #1 on OmniDocBench'],
+ ['ocr','MinerU 2.5 Pro','Shanghai AI Lab','1.2B','See model card','c','<8 GB',6,'Outputs JSON and Markdown'],
+ ['ocr','GLM-OCR · LightOnOCR-2 · MonkeyOCR v2','Several','1–3B','See model card','c','<8 GB',6,''],
+
+ ['img','HunyuanImage 3.0','Tencent Hunyuan','80B','Tencent community license (excl. EU, UK, KR)','c','~168 GB (BF16)',168,'Largest open image model'],
+ ['img','FLUX.2 [dev]','Black Forest Labs','32B','FLUX non-commercial license','n','~40 GB (FP8)',40,'Photoreal; consistent'],
+ ['img','Qwen-Image-2.1','Alibaba Qwen','—','Qwen Research License','n','24–48 GB',36,'Tops open leaderboards; not for commercial use'],
+ ['img','Qwen-Image-2512','Alibaba Qwen','20B','Apache 2.0','o','~24 GB (FP8)',24,'Best text-in-image you can use commercially'],
+ ['img','HiDream-I1','HiDream','17B','MIT','o','~24 GB',24,''],
+ ['img','FLUX.1 [schnell]','Black Forest Labs','12B','Apache 2.0','o','16–24 GB',20,'1 to 4 steps'],
+ ['img','FLUX.1 [dev]','Black Forest Labs','12B','FLUX.1 non-commercial license','n','16–24 GB',20,''],
+ ['img','Z-Image-Turbo','Alibaba','~6B','Apache 2.0','o','~16 GB',16,''],
+ ['img','Stable Diffusion 3.5 Large','Stability AI','8B','Stability Community License (free under $1M revenue)','c','~16 GB',16,''],
+ ['img','FLUX.2 [klein] 4B','Black Forest Labs','4B','Apache 2.0','o','~13 GB',13,'Runs on consumer GPUs'],
+ ['img','SDXL · SD 1.5','Stability AI','2.6B / 0.9B','OpenRAIL','o','4–10 GB',10,'Largest LoRA and plugin ecosystem'],
+
+ ['video','MiniMax H3','MiniMax','—','Region restrictions','c','Size not published',200,'Best-looking output; heaviest hardware. Size not published, memory is an estimate'],
+ ['video','LTX-2.5','Lightricks','—','Free under $10M revenue','c','24–48 GB',40,'Native audio and multi-shot'],
+ ['video','Wan 2.2 (5B · A14B)','Alibaba Qwen','5B / 14B','Apache 2.0','o','5B ~18 GB · 14B FP8 ~24 GB',24,'Cleanest license; silent by default'],
+ ['video','HunyuanVideo 1.5','Tencent Hunyuan','8.3B','Tencent community license (excl. EU, UK, KR)','c','~14 GB with offload',14,'Lowest hardware floor'],
+
+ ['3d','Hunyuan3D 2.1','Tencent Hunyuan','—','Tencent community license (excl. EU, UK, KR)','c','16–29 GB',29,'PBR material textures'],
+ ['3d','TRELLIS.2 4B','Microsoft','4B','MIT','o','~24 GB',24,'Quality leader among fully open 3D'],
+ ['3d','Step1X-3D','StepFun','—','Apache 2.0','o','~24 GB',24,''],
+ ['3d','Direct3D-S2 · Pixal3D','Several','—','MIT','o','~24 GB',24,''],
+ ['3d','TRELLIS','Microsoft','1–2B','MIT','o','~16 GB',16,''],
+ ['3d','TripoSR','Stability · Tripo','~0.4B','MIT','o','<8 GB',6,'Seconds per model; basic quality'],
+
+ ['speech','Fish Speech · Higgs Audio v3','Fish Audio · Boson AI','—','See model card','c','<24 GB',20,'Voice cloning TTS'],
+ ['speech','VibeVoice','Microsoft','—','MIT','o','<24 GB',20,'Long multi-speaker podcasts'],
+ ['speech','Granite Speech 4.1 · Cohere Transcribe · Voxtral','IBM · Cohere · Mistral','—','Apache 2.0','o','<16 GB',16,''],
+ ['speech','Qwen3-TTS','Alibaba Qwen','—','See model card','c','<16 GB',12,'Text-to-speech'],
+ ['speech','Whisper large-v3 · turbo','OpenAI','1.55B / 0.8B','MIT','o','4–10 GB',10,'99 languages; largest ecosystem'],
+ ['speech','Qwen3-ASR-1.7B','Alibaba Qwen','1.7B','Apache 2.0','o','<8 GB',6,'Lowest error on Open ASR board, Oct 2026'],
+ ['speech','Nemotron 3.5 Transcribe','NVIDIA','—','CC-BY-4.0','c','<8 GB',6,'Tops another 2026 ranking'],
+ ['speech','Canary','NVIDIA','~1B','CC-BY-4.0','c','<8 GB',6,'Transcription and translation'],
+ ['speech','CosyVoice 2','Alibaba Qwen','0.5B','Apache 2.0','o','<8 GB',6,'CosyVoice 3 is not open'],
+ ['speech','Chatterbox Multilingual','Resemble AI','0.5B','MIT','o','<8 GB',6,'23 languages'],
+ ['speech','Parakeet TDT 0.6B v3','NVIDIA','0.6B','CC-BY-4.0 (attribution)','c','<4 GB',4,'Fastest for its accuracy'],
+ ['speech','Kokoro-82M','hexgrad','82M','Apache 2.0','o','<2 GB',1,'Tiny; runs on CPU too'],
+
+ ['music','ACE-Step 1.5 · XL','ACE Studio · StepFun','XL 4B','MIT','o','12 GB with offload, 20 GB advised',20,'Full song in under 2 s on A100'],
+ ['music','YuE','HKUST and others','—','See model card','c','~24 GB',24,'Full songs with lyrics'],
+ ['music','DiffRhythm · SongGen','Several','—','See model card','c','<24 GB',16,''],
+ ['music','Magenta RT','Google','0.8B','Permissive','o','<8 GB',6,'Real-time music'],
+
+ ['cv','SAM 3','Meta','—','Meta SAM License (sources differ)','c','8–16 GB',16,'Segment anything by text prompt; auto-labelling'],
+ ['cv','RF-DETR','Roboflow','Nano to Large','Apache 2.0 (XL and up paid)','o','<8 GB',4,'Detect, segment, keypoints; 6 ms/frame on T4'],
+ ['cv','YOLO26','Ultralytics','Several sizes','AGPL-3.0 (commercial licence sold)','c','<8 GB',4,'43% faster CPU inference than YOLO11'],
+
+ ['robot','π0 · π0.5 (openpi)','Physical Intelligence','~3B','Not verified','c','16–24 GB',24,'License not confirmed from a primary source'],
+ ['robot','GR00T N1.7','NVIDIA','~3B','NVIDIA Open Model License','o','~16 GB',16,'First commercial-use GR00T; humanoids'],
+ ['robot','GR00T N1.5 · N1.6','NVIDIA','~3B','Non-commercial','n','~16 GB',16,''],
+ ['robot','OpenVLA','Stanford and others','7B','MIT','o','16 GB+',16,'Most-used open VLA'],
+
+ ['bio','Evo 2','Arc Institute','7B / 40B','Apache 2.0','o','40B needs multi-GPU',110,'DNA and genome model'],
+ ['bio','Chai-1','Chai Discovery','—','Apache 2.0','o','24–80 GB',80,'Protein complex structure'],
+ ['bio','OpenFold3','OpenFold Consortium','—','Apache 2.0','o','24–80 GB',80,'Open AlphaFold 3 counterpart'],
+ ['bio','Boltz-2','MIT and others','—','MIT','o','24–48 GB',48,'Structure plus binding affinity'],
+ ['bio','ESM-2 · ESM C','Meta · EvolutionaryScale','8M–15B','MIT / community license','c','<40 GB',40,'Protein language models'],
+];
+const MTIER=g=>g<=24?1:g<=48?2:g<=96?3:g<=768?4:5;
+const MCAP={1:24,2:48,3:96,4:768};
+const MTN={1:['Fits 24 GB','RTX 4090 · RTX A5000'],2:['Fits 48 GB','RTX A6000 · RTX PRO 5000'],3:['Fits 96 GB','RTX PRO 6000 · H100'],4:['Multi-GPU','2 to 8 GPUs in one server'],5:['Beyond one server','More than 8 × 96 GB']};
+const MLIC={o:['Commercial OK','ok'],c:['Conditions','cond'],n:['Non-commercial','nc']};
+const LLMK='llm chat chatgpt gpt assistant chatbot large language model text';
+const MKEY={'llm-s':LLMK+' small local','llm-m':LLMK,'llm-xl':LLMK,code:'code coding programming copilot developer agent',vlm:'vision image understanding multimodal screenshot chart',embed:'rag search retrieval knowledge base vector embedding rerank',ocr:'ocr pdf document scan invoice table',img:'image picture photo art text to image text-to-image comfyui diffusion',video:'video clip animation text to video text-to-video image to video','3d':'3d mesh asset game image to 3d',speech:'speech voice audio transcription transcribe asr tts text to speech speech to text call center',music:'music song audio soundtrack',cv:'vision camera cctv detection segmentation yolo inspection',robot:'robot robotics vla humanoid',bio:'biology protein drug discovery genome dna science'};
+const MF={cat:'',q:'',tier:0,lic:'',y:0,ret:false,open:false};
+const mnorm=x=>String(x).toLowerCase().replace(/[^a-z0-9.]+/g,'');
+const mfmt=g=>g>=1000?`~${(g/1000).toFixed(1)} TB`:`~${Math.round(g)} GB`;
+const mtight=g=>{const t=MTIER(g);return t<=4&&g>MCAP[t]*.9;};
+const mpos=g=>Math.max(2,Math.min(100,Math.log2(Math.max(g,1))/Math.log2(2048)*100));
+const MTICK=[[24,'24'],[48,'48'],[96,'96'],[768,'8×96']];
+const mscale=()=>`<span class="vm-scale" aria-hidden="true">${MTICK.map(([g,l])=>`<i style="left:${mpos(g)}%">${l}</i>`).join('')}</span>`;
+function meter(gb){const t=MTIER(gb);return `<div class="vm" aria-hidden="true"><div class="vm-trk"><div class="vm-fill t${t}" style="width:${mpos(gb)}%"></div>${MTICK.map(([x])=>`<i style="left:${mpos(x)}%"></i>`).join('')}</div><div class="vm-lab">${mscale()}</div></div>`;}
+/* LLM rows can be sized in the Advisor: parse total / active params from the parameter text */
+function mparams(m){if(!/^(llm|code|vlm)/.test(m[0])||/[–]/.test(m[3]))return null;const t=m[3].match(/^~?([\d.]+)\s*([TB])\b/);if(!t)return null;const a=m[3].match(/\/\s*([\d.]+)B active/);return{p:+t[1]*(t[2]==='T'?1000:1),act:a?+a[1]:null};}
+function sizeModel(i){const m=MODELS[i],pp=mparams(m);if(!pp)return;MF.y=window.scrollY;MF.ret=true;const id='x'+i;
+  LLM[id]={name:m[1],p:pp.p,L:60,kv:8,hd:128,moe:pp.act&&pp.act<pp.p?pp.act:null,est:true};
+  const f=WL.llm.fields[0];if(!f.opts.some(o=>o[0]===id))f.opts.unshift([id,m[1]+' (from Open models)']);
+  S.wl='llm';S.a.llm={...S.a.llm,model:id,prec:'int4'};}
+function mhit(m,skipCat){const q=MF.q.trim();
+  if(!skipCat&&MF.cat&&m[0]!==MF.cat)return false;
+  if(MF.tier&&!(MF.tier===4?MTIER(m[7])>=4:MTIER(m[7])<=MF.tier))return false;
+  if(MF.lic&&m[5]!==MF.lic)return false;
+  if(!q)return true;
+  const hay=mnorm(m.join(' ')+' '+MCATS.find(c=>c[0]===m[0])[1]+' '+(MKEY[m[0]]||''));
+  return q.split(/\s+/).map(mnorm).filter(Boolean).every(w=>hay.includes(w));}
+function renderModelList(){
+  const rows=MODELS.filter(m=>mhit(m));
+  const secs=MCATS.filter(c=>!MF.cat||c[0]===MF.cat).map(c=>{const r=rows.filter(m=>m[0]===c[0]);if(!r.length)return '';
+    return `<section class="ms" aria-labelledby="ms-${c[0]}"><div class="ms-head"><div><h2 id="ms-${c[0]}">${c[1]} <span class="mono">${r.length}</span></h2><p>${c[2]}</p></div>${c[3]?`<a class="link" href="#/advisor/2" data-preset="${c[3]}">Size it in the Advisor ${ico('i-arrow')}</a>`:''}</div>
+     <div class="panel mt" role="table" aria-label="${c[1]}"><div class="mr mh" role="row"><span role="columnheader">Model</span><span role="columnheader">Parameters</span><span role="columnheader">License</span><span role="columnheader" class="mh-mem">4-bit memory · log scale ${mscale()}</span></div>
+     ${r.map(m=>{const i=MODELS.indexOf(m),t=MTIER(m[7]),L=MLIC[m[5]],sub=m[2]+(m[8]?' · '+m[8]:''),pp=mparams(m);
+      return `<div class="mr" role="row"><div class="mn" role="cell"><a class="mname" href="https://huggingface.co/models?search=${encodeURIComponent(m[1].split(/ [·(]/)[0])}" target="_blank" rel="noopener" title="Find ${m[1].replace(/"/g,'&quot;')} on Hugging Face">${m[1]} ${ico('i-ext')}</a><span title="${sub.replace(/"/g,'&quot;')}">${sub}</span></div><div class="mp mono" role="cell"><span class="ml">Parameters</span>${m[3]}</div><div class="mlc" role="cell"><span class="lic lic-${L[1]}">${L[0]}</span><span class="ld">${m[4]}</span></div><div class="mm" role="cell"><div class="mm-top"><span class="tier"><i class="tier-dot t${t}"></i>${MTN[t][0]}${mtight(m[7])?' <em>· tight</em>':''}</span><span class="mono" title="${m[6].replace(/"/g,'&quot;')}"><span class="ml-in">4-bit </span>${mfmt(m[7])}</span></div>${meter(m[7])}${pp?`<a class="link msz" href="#/advisor/2" data-msize="${i}" aria-label="Size ${m[1]} in the Advisor">Size it for my users ${ico('i-arrow')}</a>`:''}</div></div>`;}).join('')}</div></section>`;}).join('');
+  $('#m-list').innerHTML=secs||`<div class="panel mempty"><h3>No models match these filters</h3><p>Try a broader GPU size or license, or clear the search.</p><button class="btn btn-line btn-sm" id="m-reset">Clear filters</button></div>`;
+  $('#m-count').textContent=`${rows.length} of ${MODELS.length}`;
+  const nf=(MF.tier?1:0)+(MF.lic?1:0);$('#m-fn').textContent=nf?` · ${nf}`:'';$('#m-tier').value=String(MF.tier);$('#m-lic').value=MF.lic;
+  $$('[data-mcat]').forEach(b=>{const k=b.dataset.mcat,n=MODELS.filter(m=>mhit(m,true)&&(!k||m[0]===k)).length;b.setAttribute('aria-pressed',k===MF.cat);b.querySelector('i').textContent=n;b.disabled=!!k&&!n&&k!==MF.cat;});
+}
+function renderModels(){
+  $('#p-models').innerHTML=`<div class="page-head"><div class="wrap"><div class="crumb"><a href="#/">Home</a> / Open models</div><h1>Open models you can self-host</h1>
+   <p class="lede">${MODELS.length} open-weight models across ${MCATS.length} categories, from chat models to speech, 3D and robotics. Each shows its license and the smallest DBM GPU class that holds it.</p>
+   <div class="mlegend">${[1,2,3,4,5].map(t=>`<span><i class="tier-dot t${t}"></i><b>${MTN[t][0]}</b> ${MTN[t][1]}</span>`).join('')}</div>
+   <div class="mquick"><span class="eyebrow">Quick pick</span><button type="button" class="btn btn-line btn-sm" id="m-pick1">Private chat on one 24 GB GPU, commercial use OK ${ico('i-arrow')}</button></div>
+   <p class="mhow">Each bar shows the model's memory at 4-bit on a log scale; the gaps mark 24, 48 and 96 GB cards and an 8 × 96 GB server. <b>Tight</b> means within 10% of the card, with little room left for long chats or many users.</p></div></div>
+  <div class="mbar"><div class="wrap">
+   <div class="mfil"><div class="msearch"><svg class="i"><use href="#i-search"/></svg><input id="m-q" type="search" placeholder="Search a model or a task, e.g. glm 4.5 or text to video" aria-label="Search models" value="${MF.q.replace(/"/g,'&quot;')}" autocomplete="off"></div>
+    <button type="button" class="btn btn-line mfbtn" id="m-fbtn" aria-expanded="${MF.open}" aria-controls="m-sels">${ico('i-filter')}Filters<span class="mfn mono" id="m-fn"></span></button>
+    <div class="msels${MF.open?' open':''}" id="m-sels"><select class="sel" id="m-tier" aria-label="Filter by GPU memory"><option value="0">Any GPU size</option>${[1,2,3].map(t=>`<option value="${t}" ${MF.tier===t?'selected':''}>${MTN[t][0]}</option>`).join('')}<option value="4" ${MF.tier===4?'selected':''}>Needs multi-GPU</option></select>
+    <select class="sel" id="m-lic" aria-label="Filter by license"><option value="">Any license</option>${Object.entries(MLIC).map(([k,v])=>`<option value="${k}" ${MF.lic===k?'selected':''}>${v[0]}</option>`).join('')}</select></div>
+    <span class="mcount mono" id="m-count" aria-live="polite"></span></div>
+   <div class="mcats" role="group" aria-label="Category"><button aria-pressed="${!MF.cat}" data-mcat="">All <i></i></button>${MCATS.map(c=>`<button aria-pressed="${MF.cat===c[0]}" data-mcat="${c[0]}">${c[1]} <i></i></button>`).join('')}</div>
+  </div></div>
+  <div class="wrap mbody"><div id="m-list"></div>
+   <div class="mnotes"><h3>How to read this list</h3><ul>
+    <li>Memory is a rough estimate of the weights at 4-bit: about 0.55 GB per billion parameters. Long context and many users add more; size those in the <a class="link" href="#/advisor/1">Advisor</a>. Hover a value to see the source figure.</li>
+    <li>Mixture-of-experts models must hold every parameter in GPU memory. Active parameters set the speed, not the memory.</li>
+    <li>Late-2026 releases come from public roundups, several written by API sellers, and they disagree on some sizes and dates. Check the Hugging Face model card before you deploy commercially.</li>
+    <li>CC-BY-4.0 models (NVIDIA Parakeet, Canary) allow commercial use with attribution. Tencent Hunyuan licenses exclude the EU, UK and South Korea. The life-sciences rows were not re-checked online for this update.</li></ul>
+    <p class="note">Sources: <a href="https://www.morphllm.com/best-open-source-llm" target="_blank" rel="noopener">Morph LLM ranking</a> · <a href="https://www.morphllm.com/open-source-ai-models" target="_blank" rel="noopener">Morph open models</a> · <a href="https://geotoolbox.ai/blog/best-open-source-llms" target="_blank" rel="noopener">GeoToolbox</a> · <a href="https://pinggy.io/blog/best_free_open_source_ai_image_generators_to_self_host/" target="_blank" rel="noopener">Pinggy image</a> · <a href="https://ltx.io/blog/open-source-video-generation-models-guide" target="_blank" rel="noopener">LTX video guide</a> · <a href="https://www.3daistudio.com/state-of-ai-3d-generation-2026" target="_blank" rel="noopener">3D AI Studio</a> · <a href="https://pinggy.io/blog/best_open_source_self_hosted_speech_to_text_models/" target="_blank" rel="noopener">Pinggy speech</a> · <a href="https://arxiv.org/pdf/2606.03264" target="_blank" rel="noopener">PaddleOCR-VL 1.6</a> · <a href="https://arxiv.org/html/2602.00744v1" target="_blank" rel="noopener">ACE-Step 1.5</a> · <a href="https://developer.nvidia.com/isaac/gr00t/llm-info.md" target="_blank" rel="noopener">NVIDIA GR00T</a> · <a href="https://blog.roboflow.com/best-computer-vision-models/" target="_blank" rel="noopener">Roboflow</a> · <a href="https://andrew.ooo/answers/best-embedding-models-2026-ranked/" target="_blank" rel="noopener">Embedding ranking</a>. Checked November 2026.</p></div>
+  </div>`;
+  renderModelList();
+}
 /* ================= ROUTER ================= */
 function route(){
   const [p,arg]=(location.hash.replace(/^#\/?/,'')||'').split('/');
-  const page={'':'home',workloads:'home',gpus:'gpus',gpu:'gpu',compare:'compare',advisor:'advisor',benchmarks:'benchmarks'}[p]??'home';
+  const page={'':'home',workloads:'home',gpus:'gpus',gpu:'gpu',compare:'compare',advisor:'advisor',benchmarks:'benchmarks',models:'models'}[p]??'home';
   cur.page=page;cur.arg=arg;
   $$('[data-page]').forEach(el=>el.classList.toggle('on',el.dataset.page===page));
   const navKey=p==='gpu'?'gpus':p;
@@ -1323,14 +1635,23 @@ function route(){
   if(page==='compare'){if(arg){const ids=arg.split(',').filter(G).slice(0,4);if(ids.length)sel=ids;}renderCompare();}
   if(page==='advisor')renderAdvisor(arg);
   if(page==='benchmarks')renderBench();
+  if(page==='models')renderModels();
+  if(page!=='models'&&page!=='advisor')MF.ret=false;
   closeDrawer();syncCmp();
-  if(p==='workloads')requestAnimationFrame(()=>$('#workloads').scrollIntoView());else window.scrollTo(0,0);
-  document.title=({home:'DBM GPU Lab',gpus:'GPU Explorer · DBM GPU Lab',gpu:(G(arg)?.name||'GPU')+' · DBM GPU Lab',compare:'Compare GPUs · DBM GPU Lab',advisor:'GPU Advisor · DBM GPU Lab',benchmarks:'Benchmarks · DBM GPU Lab'})[page];
+  if(p==='workloads')requestAnimationFrame(()=>$('#workloads').scrollIntoView());else if(page==='models'&&MF.ret){const y=MF.y;MF.ret=false;requestAnimationFrame(()=>window.scrollTo(0,y));}else window.scrollTo(0,0);
+  document.title=({home:'DBM GPU Lab',gpus:'GPU Explorer · DBM GPU Lab',gpu:(G(arg)?.name||'GPU')+' · DBM GPU Lab',compare:'Compare GPUs · DBM GPU Lab',advisor:'GPU Advisor · DBM GPU Lab',benchmarks:'Benchmarks · DBM GPU Lab',models:'Open models · DBM GPU Lab'})[page];
 }
 function closeDrawer(){$('#drawer').classList.remove('open');$('#burger').setAttribute('aria-expanded','false');}
 
 /* ---------------- events (delegated) ---------------- */
 document.addEventListener('click',e=>{
+  const ms=e.target.closest('[data-msize]');
+  if(ms){sizeModel(+ms.dataset.msize);return;}
+  const mc=e.target.closest('[data-mcat]');
+  if(mc){MF.cat=mc.dataset.mcat;renderModelList();if(MF.cat&&matchMedia('(min-width:861px)').matches)window.scrollTo({top:0});return;}
+  if(e.target.closest('#m-fbtn')){MF.open=!MF.open;$('#m-sels').classList.toggle('open',MF.open);$('#m-fbtn').setAttribute('aria-expanded',MF.open);return;}
+  if(e.target.closest('#m-pick1')){MF.cat='llm-s';MF.tier=1;MF.lic='o';MF.q='';$('#m-q').value='';renderModelList();$('.mbar').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});return;}
+  if(e.target.closest('#m-reset')){MF.cat='';MF.q='';MF.tier=0;MF.lic='';renderModels();$('#m-q').focus();return;}
   const sub=e.target.closest('.subnav a');
   if(sub){e.preventDefault();document.getElementById(sub.getAttribute('href').slice(1)).scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});return;}
   const t=e.target.closest('[data-cmp],[data-rm],[data-pair],[data-preset],[data-scen],[data-wl],[data-set],[data-setf],[data-un],[data-sort],[data-l],#clr,#empty-reset,#f-reset,#f-open,#diff,#b-demo,#burger');
@@ -1367,6 +1688,8 @@ document.addEventListener('change',e=>{
   if(t.id==='b-batch'){B.batch=t.value;renderBench();$('#b-batch').focus();return;}
 });
 $('#q').addEventListener('input',renderExplorer);
+document.addEventListener('input',e=>{if(e.target.id==='m-q'){MF.q=e.target.value;renderModelList();}});
+document.addEventListener('change',e=>{if(e.target.id==='m-tier'){MF.tier=+e.target.value;renderModelList();}if(e.target.id==='m-lic'){MF.lic=e.target.value;renderModelList();}});
 $('#nsearch').addEventListener('submit',e=>{e.preventDefault();$('#q').value=$('#nsq').value;if(location.hash==='#/gpus')renderExplorer();else location.hash='#/gpus';});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();(cur.page==='gpus'?$('#q'):$('#nsq')).focus();}if(e.key==='Escape')closeDrawer();});
 window.addEventListener('scroll',()=>{if(cur.page!=='gpu')return;let c=null;$$('.dsec').forEach(s=>{if(s.getBoundingClientRect().top<170)c=s.id;});if(c)$$('.subnav a').forEach(a=>a.classList.toggle('cur',a.getAttribute('href')==='#'+c));},{passive:true});
