@@ -1,6 +1,6 @@
 # AI image source files (the site uses the .webp versions)
-img/*.png
-img/_*.jpg
+public/img/*.png
+public/img/_*.jpg
 # working screenshots; finished ones live in shots/final
 shots/*.png
 shots/_*
@@ -8,3 +8,4 @@ shots/_*
 ai-art/.wrangler/
 node_modules/
 .claude/
+dist/
