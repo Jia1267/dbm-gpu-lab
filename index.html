@@ -656,7 +656,7 @@ table.bt td{font-family:var(--mono);font-size:13px}
   <section class="block" id="workloads" aria-labelledby="wl-h">
     <div class="wrap">
       <div class="sec-head">
-        <div><span class="idx">01 — Workloads</span><h2 id="wl-h">Start from what you want to run.</h2><p>Thirteen workloads, from cloud desktops and gaming to LLMs, life sciences and FP64 simulation. Each opens the Advisor with plain-language questions.</p></div>
+        <div><span class="idx">01 — Workloads</span><h2 id="wl-h">Start from what you want to run.</h2><p>Fourteen workloads, from cloud desktops and gaming to LLMs, life sciences and FP64 simulation. Each opens the Advisor with plain-language questions.</p></div>
       </div>
       <div class="wl-grid" id="wl-grid"></div>
     </div>
@@ -794,31 +794,31 @@ const GPUS=[
  {id:'rtx-2060',imgNote:'Illustrative render. The product page has been retired from nvidia.com.',full:'GeForce RTX 2060',name:'RTX 2060',series:'GeForce',tier:1,arch:'Turing',vram:6,mem:'GDDR6',bus:192,bw:336,tdp:160,cuda:1920,tensor:240,rt:30,fp32:6.5,fp64:null,pcie:'PCIe 3.0 ×16',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'gpu1',
   use:['game','video','render','cv'],intro:'First-generation RTX: ray tracing and DLSS for gaming, plus Tensor cores for light AI.'},
  {id:'rtx-3060-ti',full:'GeForce RTX 3060 Ti',name:'RTX 3060 Ti',series:'GeForce',tier:1,arch:'Ampere',vram:8,mem:'GDDR6',bus:256,bw:448,tdp:200,cuda:4864,tensor:152,rt:38,fp32:16.2,fp64:null,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-3060-ti',
-  use:['game','video','render','img','cv','data','speech'],intro:'Ampere gaming GPU for 1440p, creator apps and small AI models.'},
+  use:['game','video','render','img','vgen','cv','data','speech'],intro:'Ampere gaming GPU for 1440p, creator apps and small AI models.'},
  {id:'rtx-4060',imgNote:'Illustrative render. NVIDIA made no Founders Edition of this model, so there is no NVIDIA product photo; cards come from board partners.',full:'GeForce RTX 4060',name:'RTX 4060',series:'GeForce',tier:1,arch:'Ada Lovelace',vram:8,mem:'GDDR6',bus:128,bw:272,tdp:115,cuda:3072,tensor:96,rt:24,fp32:15.1,fp64:null,pcie:'PCIe 4.0 ×8',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'gpu1',
-  use:['game','video','render','img','cv','speech'],intro:'Efficient Ada GPU with AV1 encode and DLSS 3 for 1080p gaming and streaming.'},
+  use:['game','video','render','img','vgen','cv','speech'],intro:'Efficient Ada GPU with AV1 encode and DLSS 3 for 1080p gaming and streaming.'},
  {id:'rtx-5060',imgNote:'Illustrative render. NVIDIA made no Founders Edition of this model, so there is no NVIDIA product photo; cards come from board partners.',full:'GeForce RTX 5060',name:'RTX 5060',series:'GeForce',tier:1,arch:'Blackwell',vram:8,mem:'GDDR7',bus:128,bw:448,tdp:145,cuda:3840,tensor:120,rt:30,fp32:19.2,fp64:null,pcie:'PCIe 5.0 ×8',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'gpu1',
-  use:['game','video','render','img','cv','speech'],intro:'Blackwell entry GPU with GDDR7 and DLSS 4 for gaming, streaming and creator apps.'},
+  use:['game','video','render','img','vgen','cv','speech'],intro:'Blackwell entry GPU with GDDR7 and DLSS 4 for gaming, streaming and creator apps.'},
  {id:'rtx-a4000',full:'NVIDIA RTX A4000',name:'RTX A4000',series:'Professional',tier:2,arch:'Ampere',vram:16,mem:'GDDR6',bus:256,bw:448,tdp:140,cuda:6144,tensor:192,rt:48,fp32:19.2,fp64:null,pcie:'PCIe 4.0 ×16',slots:'1-slot',cool:'Blower',ecc:true,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-a4000',
-  use:['cad','render','video','img','llm','cv','data','speech'],intro:'Single-slot professional GPU with 16 GB ECC for CAD, rendering and mid-size AI.'},
+  use:['cad','render','video','img','vgen','llm','cv','data','speech'],intro:'Single-slot professional GPU with 16 GB ECC for CAD, rendering and mid-size AI.'},
  {id:'rtx-pro-2000',full:'RTX PRO 2000 Blackwell',name:'RTX PRO 2000',series:'Professional',tier:2,arch:'Blackwell',vram:16,mem:'GDDR7',bus:128,bw:288,tdp:70,cuda:4352,tensor:136,rt:34,fp32:17,fp64:null,pcie:'PCIe 5.0 ×8',slots:'2-slot, low profile',cool:'Active',ecc:true,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-pro-2000',
-  use:['cad','render','video','img','llm','cv','data','speech'],intro:'70 W compact Blackwell card with 16 GB ECC GDDR7 for design, visualization and AI.'},
+  use:['cad','render','video','img','vgen','llm','cv','data','speech'],intro:'70 W compact Blackwell card with 16 GB ECC GDDR7 for design, visualization and AI.'},
  {id:'rtx-a5000',full:'NVIDIA RTX A5000',name:'RTX A5000',series:'Professional',tier:2,arch:'Ampere',vram:24,mem:'GDDR6',bus:384,bw:768,tdp:230,cuda:8192,tensor:256,rt:64,fp32:27.8,fp64:null,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Blower',ecc:true,nvlink:true,mig:false,nvenc:true,gfx:true,img:'official/rtx-a5000',
-  use:['cad','render','video','img','llm','train','cv','data','speech','bio'],intro:'24 GB ECC workstation GPU for rendering, simulation and AI, with NVLink.'},
+  use:['cad','render','video','img','vgen','llm','train','cv','data','speech','bio'],intro:'24 GB ECC workstation GPU for rendering, simulation and AI, with NVLink.'},
  {id:'rtx-pro-4000',full:'RTX PRO 4000 Blackwell',name:'RTX PRO 4000',series:'Professional',tier:2,arch:'Blackwell',vram:24,mem:'GDDR7',bus:192,bw:672,tdp:145,cuda:8960,tensor:280,rt:70,fp32:null,pcie:'PCIe 5.0 ×16',slots:'1-slot',cool:'Active',ecc:true,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-pro-4000',
-  use:['cad','render','video','img','llm','cv','data','speech'],intro:'Single-slot Blackwell professional GPU with 24 GB ECC GDDR7.'},
+  use:['cad','render','video','img','vgen','llm','cv','data','speech'],intro:'Single-slot Blackwell professional GPU with 24 GB ECC GDDR7.'},
  {id:'rtx-a6000',full:'NVIDIA RTX A6000',name:'RTX A6000',series:'Professional',tier:2,arch:'Ampere',vram:48,mem:'GDDR6',bus:384,bw:768,tdp:300,cuda:10752,tensor:336,rt:84,fp32:38.7,fp64:null,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Blower',ecc:true,nvlink:true,mig:false,nvenc:true,gfx:true,img:'official/rtx-a6000',
-  use:['cad','render','video','img','llm','train','robot','cv','data','speech','bio'],intro:'48 GB ECC workstation GPU for large scenes, simulation and AI, with NVLink.'},
+  use:['cad','render','video','img','vgen','llm','train','robot','cv','data','speech','bio'],intro:'48 GB ECC workstation GPU for large scenes, simulation and AI, with NVLink.'},
  {id:'rtx-pro-5000',full:'RTX PRO 5000 Blackwell',name:'RTX PRO 5000',series:'Professional',tier:2,arch:'Blackwell',vram:48,mem:'GDDR7',bus:384,bw:1344,tdp:300,cuda:14080,tensor:440,rt:110,fp32:null,pcie:'PCIe 5.0 ×16',slots:'2-slot',cool:'Active',ecc:true,nvlink:false,mig:true,nvenc:true,gfx:true,img:'official/rtx-pro-5000',
-  use:['cad','render','video','img','llm','train','robot','cv','data','speech','bio'],intro:'Blackwell professional GPU with 48 GB ECC GDDR7 and MIG partitioning.'},
+  use:['cad','render','video','img','vgen','llm','train','robot','cv','data','speech','bio'],intro:'Blackwell professional GPU with 48 GB ECC GDDR7 and MIG partitioning.'},
  {id:'rtx-pro-6000',full:'RTX PRO 6000 Blackwell',name:'RTX PRO 6000',series:'Professional',tier:2,arch:'Blackwell',vram:96,mem:'GDDR7',bus:512,bw:1792,tdp:600,cuda:24064,tensor:752,rt:188,fp32:125,fp64:null,pcie:'PCIe 5.0 ×16',slots:'2-slot',cool:'Edition-dependent',ecc:true,nvlink:false,mig:true,nvenc:true,gfx:true,img:'official/rtx-pro-6000',
-  use:['cad','render','video','img','llm','train','robot','cv','data','speech','bio'],intro:'Full GB202 with 96 GB ECC GDDR7 — the largest single-GPU memory here outside HBM cards.'},
+  use:['cad','render','video','img','vgen','llm','train','robot','cv','data','speech','bio'],intro:'Full GB202 with 96 GB ECC GDDR7 — the largest single-GPU memory here outside HBM cards.'},
  {id:'rtx-4090',full:'GeForce RTX 4090',name:'RTX 4090',series:'GeForce',tier:1,arch:'Ada Lovelace',vram:24,mem:'GDDR6X',bus:384,bw:1008,tdp:450,cuda:16384,tensor:512,rt:128,fp32:82.6,fp64:null,pcie:'PCIe 4.0 ×16',slots:'3-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-4090',
-  use:['game','video','render','img','llm','train','cv','data','speech','bio'],intro:'Ada flagship with 24 GB. Strong for 4K gaming, rendering, image generation and small LLMs.'},
+  use:['game','video','render','img','vgen','llm','train','cv','data','speech','bio'],intro:'Ada flagship with 24 GB. Strong for 4K gaming, rendering, image generation and small LLMs.'},
  {id:'rtx-5090',full:'GeForce RTX 5090',name:'RTX 5090',series:'GeForce',tier:1,arch:'Blackwell',vram:32,mem:'GDDR7',bus:512,bw:1792,tdp:575,cuda:21760,tensor:680,rt:170,fp32:104.8,fp64:null,pcie:'PCIe 5.0 ×16',slots:'2-slot',cool:'Active (fans)',ecc:false,nvlink:false,mig:false,nvenc:true,gfx:true,img:'official/rtx-5090',
-  use:['game','video','render','img','llm','train','cv','data','speech','bio'],intro:'Blackwell flagship with 32 GB GDDR7 and 1.79 TB/s for gaming, rendering and AI.'},
+  use:['game','video','render','img','vgen','llm','train','cv','data','speech','bio'],intro:'Blackwell flagship with 32 GB GDDR7 and 1.79 TB/s for gaming, rendering and AI.'},
  {id:'a40',full:'NVIDIA A40',name:'A40',series:'Data Center',tier:3,arch:'Ampere',vram:48,mem:'GDDR6',bus:384,bw:696,tdp:300,cuda:10752,tensor:336,rt:84,fp32:37.4,fp64:null,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Passive',ecc:true,nvlink:true,mig:false,nvenc:true,gfx:true,img:'official/a40',
-  use:['render','cad','video','img','llm','train','robot','cv','speech'],intro:'Data center visual computing GPU: 48 GB ECC, RT cores and vGPU support for rendering and virtual workstations.'},
+  use:['render','cad','video','img','vgen','llm','train','robot','cv','speech'],intro:'Data center visual computing GPU: 48 GB ECC, RT cores and vGPU support for rendering and virtual workstations.'},
  {id:'a100-40',full:'NVIDIA A100 40GB PCIe',name:'A100 40GB',series:'Data Center',tier:3,arch:'Ampere',vram:40,mem:'HBM2',bus:5120,bw:1555,tdp:250,cuda:6912,tensor:432,rt:0,fp32:19.5,fp64:9.7,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Passive',ecc:true,nvlink:true,mig:true,nvenc:false,gfx:false,img:'official/a100',
   use:['llm','train','hpc','cv','data','speech','bio'],intro:'Ampere data center GPU for AI training, inference and FP64 HPC. MIG splits it into up to 7 instances.'},
  {id:'a100-80',full:'NVIDIA A100 80GB PCIe',name:'A100 80GB',series:'Data Center',tier:3,arch:'Ampere',vram:80,mem:'HBM2e',bus:5120,bw:1935,tdp:300,cuda:6912,tensor:432,rt:0,fp32:19.5,fp64:9.7,pcie:'PCIe 4.0 ×16',slots:'2-slot',cool:'Passive',ecc:true,nvlink:true,mig:true,nvenc:false,gfx:false,img:'official/a100',
@@ -845,6 +845,7 @@ const LLM={
  'qwen-14b':{name:'Qwen2.5 14B',p:14.7,L:48,kv:8,hd:128},
  'qwen-32b':{name:'Qwen2.5 32B',p:32.5,L:64,kv:8,hd:128},
  'llama-70b':{name:'Llama 3.3 70B',p:70.6,L:80,kv:8,hd:128},
+ 'glm-air':{name:'GLM-4.5-Air 106B',p:106,L:46,kv:8,hd:128,moe:12},
 };
 const BITS={fp16:16,int8:8,int4:4};
 
@@ -854,17 +855,18 @@ const noKepler=w=>g=>g.arch==='Kepler'?`Kepler is not supported by current ${w}`
 /* Max MIG slices and slice size (GB) at that count, from NVIDIA MIG profiles */
 const MIG={'a100-40':[7,5],'a100-80':[7,10],'h100-pcie':[7,10],'rtx-pro-6000':[4,24],'rtx-pro-5000':[2,24]};
 const WL={
- llm:{name:'LLM inference',req:noKepler('LLM runtimes'),img:'wl-llm',stack:'Qwen · Llama · DeepSeek · vLLM',q:'A private ChatGPT, coding assistant or chat API',desc:'Run your own chat model: memory, context length and users.',
+ llm:{name:'LLM inference',req:noKepler('LLM runtimes'),img:'wl-llm',stack:'Qwen · Llama · GLM · vLLM · LangChain RAG',q:'A private ChatGPT, AI agent, coding assistant or chat API',desc:'Run your own chat model or AI agent: memory, context length and users.',
   fields:[
-   {k:'model',label:'Which model do you want to run?',ns:'qwen-14b',opts:[['llama-8b','Small — Llama 3.1 8B'],['qwen-14b','Medium — Qwen2.5 14B'],['qwen-32b','Large — Qwen2.5 32B'],['llama-70b','Very large — Llama 3.3 70B']]},
+   {k:'model',label:'Which model do you want to run?',ns:'qwen-14b',opts:[['llama-8b','Small — Llama 3.1 8B'],['qwen-14b','Medium — Qwen2.5 14B'],['qwen-32b','Large — Qwen2.5 32B'],['llama-70b','Very large — Llama 3.3 70B'],['glm-air','Huge, mixture-of-experts — GLM-4.5-Air 106B']]},
    {k:'prec',label:'Quality or cost?',ns:'int8',opts:[['fp16','Best quality (uses the most memory)'],['int8','Balanced (8-bit, near-identical quality)'],['int4','Lowest cost (4-bit, small quality loss)']]},
    {k:'ctx',label:'How long are the chats or documents?',ns:8192,opts:[[4096,'Short chats (about 3 pages)'],[8192,'Normal (about 6 pages)'],[16384,'Long documents (about 12 pages)'],[32768,'Very long (about 25 pages)']]},
-   {k:'conc',label:'How many people use it at the same time?',ns:8,opts:[[1,'1'],[4,'4'],[8,'8'],[16,'16'],[32,'32']]}],
-  def:{model:'llama-8b',prec:'fp16',ctx:8192,conc:4},
-  need(a){const m=LLM[a.model],w=m.p*BITS[a.prec]/8,kv=2*m.L*m.kv*m.hd*2*a.ctx*a.conc/1e9,rt=1.5+.05*w;
-   return{parts:[['Weights',w],['KV cache',kv],['Runtime',rt]],
-   basis:`Weights = ${m.p}B × ${BITS[a.prec]} bit ÷ 8. KV cache = 2 × ${m.L} layers × ${m.kv} KV heads × ${m.hd} dim × 2 bytes (FP16) × ${fmt(a.ctx)} tokens × ${a.conc} requests. Runtime allowance = 1.5 GB + 5% of weights (assumption).`,
-   label:`${m.name} · ${a.prec.toUpperCase()} · ${a.ctx/1024}K context × ${a.conc}`}}},
+   {k:'conc',label:'How many people use it at the same time?',ns:8,opts:[[1,'1'],[4,'4'],[8,'8'],[16,'16'],[32,'32']]},
+   {k:'rag',label:'Does it answer from your own documents (knowledge base, AI agent)?',ns:'yes',opts:[['no','No — chat only'],['yes','Yes — search our documents first (RAG)']]}],
+  def:{model:'llama-8b',prec:'fp16',ctx:8192,conc:4,rag:'no'},
+  need(a){const m=LLM[a.model],w=m.p*BITS[a.prec]/8,kv=2*m.L*m.kv*m.hd*2*a.ctx*a.conc/1e9,rt=1.5+.05*w,rag=a.rag==='yes';
+   return{parts:[['Weights',w],['KV cache',kv],['Search models (RAG)',rag?2.5:0],['Runtime',rt]],
+   basis:`Weights = ${m.p}B × ${BITS[a.prec]} bit ÷ 8. KV cache = 2 × ${m.L} layers × ${m.kv} KV heads × ${m.hd} dim × 2 bytes (FP16) × ${fmt(a.ctx)} tokens × ${a.conc} requests. Runtime allowance = 1.5 GB + 5% of weights (assumption).${m.moe?` Mixture-of-experts: all ${m.p}B weights must sit in GPU memory, but only about ${m.moe}B are used per token, so it answers much faster than a dense model of the same size.`:''}${rag?' RAG adds an embedding model and a reranker (about 2.5 GB, e.g. BGE-M3 + BGE reranker); the document index itself usually lives in system RAM or a vector database. Retrieved passages make prompts longer, so pick a longer chat length.':''}`,
+   label:`${m.name} · ${a.prec.toUpperCase()} · ${a.ctx/1024}K context × ${a.conc}${rag?' + RAG':''}`}}},
  img:{name:'Image generation',req:noKepler('PyTorch builds'),img:'wl-img',stack:'ComfyUI · FLUX · Stable Diffusion',q:'AI pictures, product shots and art with ComfyUI',desc:'Generation memory by model, image size and batch.',
   fields:[
    {k:'model',label:'Which image model?',ns:'flux8',opts:[['sd15','Stable Diffusion 1.5 (fast, basic)'],['sdxl','SDXL (good all-rounder)'],['flux8','FLUX.1 [dev], compressed (high quality)'],['flux16','FLUX.1 [dev], full (highest quality)']]},
@@ -875,6 +877,16 @@ const WL={
    return{parts:[['Models loaded',base],['Activations',act],['Runtime',1.5]],
    basis:'Rule of thumb with all components resident (diffusion model, text encoders, VAE). Activation memory scales with pixels and batch. Extra nodes, LoRAs and ControlNets add more.',
    label:`${{sd15:'SD 1.5',sdxl:'SDXL',flux8:'FLUX.1 dev FP8',flux16:'FLUX.1 dev FP16'}[a.model]} · ${a.res}px × ${a.batch}`}}},
+ vgen:{name:'AI video generation',req:noKepler('PyTorch builds'),img:'wl-vgen',stack:'ComfyUI · Wan 2.2 · LTX-Video',q:'Turn a prompt or a photo into a short video clip',desc:'Text-to-video and image-to-video by model, resolution and clip length.',
+  fields:[
+   {k:'model',label:'Which video model?',ns:'wan14f8',opts:[['wan5','Wan 2.2 5B (fast, good quality)'],['wan14f8','Wan 2.2 14B, compressed (high quality)'],['wan14','Wan 2.2 14B, full (highest quality)']]},
+   {k:'res',label:'What resolution?',ns:'720',opts:[['480','480p (preview, social)'],['720','720p (HD)']]},
+   {k:'len',label:'How long is each clip?',ns:5,opts:[[3,'About 3 seconds'],[5,'About 5 seconds']]}],
+  def:{model:'wan5',res:'720',len:5},
+  need(a){const base={wan5:10,wan14f8:14.5,wan14:28.5}[a.model],act={480:2.5,720:5.5}[a.res]*(a.len/5);
+   return{parts:[['Video model',base],['VAE',1],['Frame activations',act],['Runtime',1.5]],
+   basis:'Rule of thumb for ComfyUI. The text encoder is unloaded after the prompt is read, and Wan 2.2 14B loads its two expert models one at a time. Activation memory grows with resolution and clip length. Generation is slow: a 5-second clip takes minutes, and speed is not estimated here.',
+   label:`${{wan5:'Wan 2.2 5B',wan14f8:'Wan 2.2 14B FP8',wan14:'Wan 2.2 14B FP16'}[a.model]} · ${a.res}p · ${a.len}s`}}},
  speech:{name:'Speech AI',req:noKepler('PyTorch builds'),img:'wl-speech',stack:'Whisper · TTS · voice agents',q:'Transcribe audio, or turn text into a voice',desc:'Speech-to-text, text-to-speech and voice bots.',
   fields:[
    {k:'task',label:'What do you need?',ns:'both',opts:[['asr','Turn speech into text (transcription)'],['tts','Turn text into speech (voice)'],['both','Both — a voice assistant or call bot']]}],
@@ -979,7 +991,7 @@ Object.values(WL).forEach(w=>{
   const R=a=>{const r={...a};w.fields.forEach(f=>{if(r[f.k]==='?')r[f.k]=f.ns;});return r;};
   const n0=w.need,r0=w.req;w.need=a=>n0(R(a));if(r0)w.req=(g,a)=>r0(g,R(a||w.def));
 });
-const WL_ORDER=['llm','img','speech','train','cv','render','game','cad','video','data','bio','robot','hpc'];
+const WL_ORDER=['llm','img','vgen','speech','train','cv','render','game','cad','video','data','bio','robot','hpc'];
 
 /* ---------------- state ---------------- */
 const S={wl:'llm',a:{},pri:'bal',multi:'no',ecc:false,mig:false};
@@ -1229,7 +1241,7 @@ function renderAdvisor(step){
     main=`<span class="eyebrow">Step 3 of 4</span><h1>Set your priorities.</h1><p class="lede">We rank by product class and memory, not price — DBM pricing appears with availability.</p>
     <span class="qlabel">Priority</span><div class="opts" style="margin-top:0;grid-template-columns:repeat(3,1fr)" role="radiogroup" aria-label="Priority">${og('pri','cost','Lowest cost','Smallest product class that fits')}${og('pri','bal','Balanced','Fits with at least 15% headroom')}${og('pri','head','Most headroom','Largest memory pool')}</div>
     <span class="qlabel">GPU count</span><div class="opts" style="margin-top:0" role="radiogroup" aria-label="GPU count">${og('multi','no','Single GPU','Simplest to deploy and run')}${og('multi','yes','Multi-GPU is fine','Split across up to 8 GPUs')}</div>
-    <span class="qlabel">Requirements</span><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-ecc" ${S.ecc?'checked':''}>ECC memory required (production, 24/7)</label><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-mig" ${S.mig?'checked':''}>Split into isolated slices for several users (MIG)</label>
+    <span class="qlabel">Requirements</span><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-ecc" ${S.ecc?'checked':''}>ECC memory required (production, 24/7)</label><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-mig" ${S.mig?'checked':''}>Split into isolated slices for several users (MIG)</label><p style="font-size:13.5px;color:var(--steel);margin:4px 0 0 28px;max-width:60ch">MIG gives each user fixed, fully isolated memory and compute on one card. Need to share a GPU between virtual machines or cloud desktops instead? That is NVIDIA vGPU: licensed software that time-slices the card. <a class="link" href="https://www.gpu-mart.com/gpu-virtualization" target="_blank" rel="noopener">DBM GPU virtualization</a></p>
     <div class="adv-nav"><a class="btn btn-line" href="#/advisor/2">${ico('i-back')}Back</a><a class="btn btn-primary" href="#/advisor/4">See recommendation ${ico('i-arrow')}</a></div>`;
   }
   if(step===4){
