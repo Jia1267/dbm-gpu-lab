@@ -441,6 +441,10 @@ table.ct td.best::after{content:" ▲";font-size:10px;color:var(--steel)}
 .parts{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--steel)}
 .parts span{display:inline-flex;align-items:center;gap:6px}
 .parts b{font-family:var(--mono);font-weight:500;color:var(--text)}
+.basis-d{margin-top:14px}
+.basis-d summary{cursor:pointer;font-size:13px;color:var(--steel)}
+.basis-d summary:hover{color:var(--text)}
+.basis-d .basis{margin-top:8px}
 .basis{font-size:12.5px;color:var(--steel);margin-top:12px;line-height:1.6}
 .adv-nav{display:flex;gap:12px;margin-top:32px;align-items:center;flex-wrap:wrap}
 .side{position:sticky;top:calc(var(--nav) + 24px);padding:22px 24px;margin-top:62px}
@@ -492,10 +496,10 @@ table.bt td{font-family:var(--mono);font-size:13px}
 
 /* ---------- responsive ---------- */
 /* ---------- open models ---------- */
-.mlegend{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:24px;font-size:12.5px;color:var(--steel)}
-.mlegend span{display:flex;flex-direction:column;gap:2px;padding-left:16px;position:relative;line-height:1.4}
+.mlegend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:20px;font-size:13.5px;color:var(--text)}
+.mlegend span{display:inline-flex;align-items:center;gap:8px}
 .mlegend b{color:var(--text);font-weight:500;font-size:13.5px}
-.mlegend .tier-dot{position:absolute;left:0;top:4px}
+
 .mhow{font-size:13.5px;color:var(--steel);margin-top:16px;max-width:52em}
 .mhow b{color:var(--text);font-weight:500}
 /* memory tiers: one ordered blue-to-graphite ramp; green/amber/red belong to licenses only */
@@ -525,14 +529,14 @@ table.bt td{font-family:var(--mono);font-size:13px}
 .mcats button[aria-pressed=true]{background:var(--graphite);border-color:var(--graphite);color:#fff}
 .mcats button[aria-pressed=true] i{color:#8EA0B3}
 .mbody{padding-top:8px;padding-bottom:96px}
-.ms{margin-top:44px}
-.ms-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:14px}
+.ms{margin-top:36px}
+.ms-head{margin-bottom:12px}
 .ms-head h2{font-size:22px;font-weight:600;letter-spacing:-.015em}
 .ms-head h2 .mono{font-size:13px;font-weight:400;color:var(--steel-2);margin-left:6px}
 .ms-head p{color:var(--steel);font-size:14.5px;margin-top:4px;max-width:46em}
 .ms-head .link{font-size:14px;white-space:nowrap}
 .mt{overflow:hidden}
-.mr{display:grid;grid-template-columns:minmax(0,2.6fr) minmax(0,.9fr) minmax(0,1.4fr) minmax(0,1.9fr);gap:24px;padding:12px 22px;border-top:1px solid var(--border);align-items:start}
+.mr{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(0,1fr) minmax(0,1fr) minmax(0,2fr) 56px;gap:24px;padding:12px 22px;border-top:1px solid var(--border);align-items:start}
 .mr.mh{border-top:none;background:var(--sunk);padding-top:10px;padding-bottom:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--steel);align-items:end}
 .mh-mem{display:block}
 .mh-mem .vm-scale{margin-top:8px}
@@ -561,17 +565,21 @@ table.bt td{font-family:var(--mono);font-size:13px}
 .vm-scale{position:relative;display:block;height:13px}
 .vm-scale i{position:absolute;top:0;transform:translateX(-50%);font-style:normal;font-family:var(--mono);font-size:10.5px;letter-spacing:0;text-transform:none;color:var(--steel-2);line-height:1}
 .vm-lab{display:none;margin-top:4px}
-.msz{font-size:13px;margin-top:8px}
+.mz{text-align:right;padding-top:1px}
+.msz{font-size:13.5px}
+.mcats .mpick{flex:none;font-size:13.5px;padding:6px 12px;border:1px solid var(--blue-line);border-radius:6px;background:var(--blue-tint);color:var(--blue);font-weight:500;white-space:nowrap;min-height:36px;margin-right:6px}
+.mcats .mpick:hover{border-color:var(--blue);color:var(--blue)}
+summary{cursor:pointer;font-weight:500;font-size:14.5px;color:var(--steel)}
+summary:hover{color:var(--text)}
 .mempty{padding:40px 32px;margin-top:40px;text-align:left}
 .mempty h3{font-size:18px;font-weight:600}
 .mempty p{color:var(--steel);margin:6px 0 16px}
-.mnotes{margin-top:64px;padding-top:28px;border-top:1px solid var(--border);max-width:56em}
+.mnotes{margin-top:56px;padding-top:20px;border-top:1px solid var(--border);max-width:56em}
 .mnotes h3{font-size:16px;font-weight:600}
 .mnotes ul{margin:10px 0 18px 18px;color:var(--steel);font-size:14px;display:grid;gap:6px}
 .mnotes .note a{color:var(--blue)}
-@media (max-width:1100px){.mlegend{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:860px){
-  .mlegend{grid-template-columns:1fr 1fr}
+  .mlegend{gap:6px 16px;font-size:13px}
   .mbar{padding:10px 0 8px}
   .mfil{gap:8px}
   .msearch{flex:1 1 0;min-width:0}
@@ -583,11 +591,12 @@ table.bt td{font-family:var(--mono);font-size:13px}
   .ms-head{flex-direction:column;align-items:flex-start;gap:8px}
   .mr.mh{display:none}
   .mr{grid-template-columns:1fr 1fr;gap:10px 16px;padding:14px 16px}
-  .mn,.mm{grid-column:1/-1}
+  .mr{grid-template-columns:1fr auto}
+  .mn{grid-column:1;grid-row:1}
+  .mz{grid-column:2;grid-row:1}
+  .mm{grid-column:1/-1}
+  .mlc{align-items:flex-end}
   .mn span{white-space:normal}
-  .ml{display:block;font-family:var(--sans);font-size:11.5px;color:var(--steel-2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
-  .ml-in{display:inline}
-  .vm-lab{display:block}
 }
 @media (max-width:1200px){.callouts{display:none}}
 @media (max-width:1100px){
@@ -711,9 +720,8 @@ table.bt td{font-family:var(--mono);font-size:13px}
   <section class="hero" aria-labelledby="hero-h">
     <div class="wrap">
       <div class="hero-copy">
-        <span class="eyebrow">GPU intelligence for AI workloads</span>
         <h1 id="hero-h">The right GPU for every AI workload.</h1>
-        <p class="lede">Compare hardware, size your workload and choose infrastructure — with every estimate and source shown.</p>
+        <p class="lede">Compare GPUs and see what fits your workload.</p>
         <div class="hero-ctas">
           <a href="#/advisor/1" class="btn btn-primary">Find my GPU <svg class="i"><use href="#i-arrow"/></svg></a>
           <a href="#/gpus" class="btn btn-dark-line">Explore GPUs</a>
@@ -732,13 +740,12 @@ table.bt td{font-family:var(--mono);font-size:13px}
       <div><span class="k">Memory</span><span class="v">32 GB GDDR7</span></div>
       <div><span class="k">Bandwidth</span><span class="v">1,792 GB/s</span></div>
       <div><span class="k">Board power</span><span class="v">575 W</span></div>
-      <p>Reference specifications · render is illustrative</p>
     </div>
   </section>
 
   <section class="quick" aria-labelledby="q-h">
     <div class="wrap">
-      <div><h2 id="q-h">What are you building?</h2><p class="sub">Three answers give a first estimate. No account needed.</p></div>
+      <div><h2 id="q-h">What are you building?</h2></div>
       <div>
         <p class="sentence">I want to run
           <span class="pick"><select id="q-wl" aria-label="Workload"></select></span>
@@ -757,7 +764,7 @@ table.bt td{font-family:var(--mono);font-size:13px}
   <section class="block" id="workloads" aria-labelledby="wl-h">
     <div class="wrap">
       <div class="sec-head">
-        <div><span class="idx">01 — Workloads</span><h2 id="wl-h">Start from what you want to run.</h2><p>Fourteen workloads, from cloud desktops and gaming to LLMs, life sciences and FP64 simulation. Each opens the Advisor with plain-language questions.</p></div>
+        <div><h2 id="wl-h">Start from what you want to run.</h2></div>
       </div>
       <div class="wl-grid" id="wl-grid"></div>
     </div>
@@ -766,27 +773,25 @@ table.bt td{font-family:var(--mono);font-size:13px}
   <section class="band" aria-labelledby="hw-h">
     <div class="wrap" style="padding-top:88px;padding-bottom:64px">
       <div class="sec-head">
-        <div><span class="idx">02 — Hardware</span><h2 id="hw-h">Explore the hardware.</h2><p>Core specifications from manufacturer datasheets. Full tables on each GPU page.</p></div>
+        <div><h2 id="hw-h">Explore the hardware.</h2></div>
         <a href="#/gpus" class="link">All <span id="gpu-count"></span> GPUs <svg class="i"><use href="#i-arrow"/></svg></a>
       </div>
       <div class="strip" id="home-strip"></div>
-      <p class="note" style="margin-top:18px">Product images: NVIDIA. Pricing and availability appear only when confirmed by DBM.</p>
+      <p class="note" style="margin-top:18px">Images: NVIDIA.</p>
     </div>
   </section>
 
   <section class="block" aria-labelledby="an-h">
     <div class="wrap analysis">
       <div>
-        <span class="idx">03 — Analysis</span>
-        <h2 id="an-h">How much GPU memory does a language model need?</h2>
-        <p class="body">Weights are the floor, not the total. KV cache grows with context length and concurrent requests — the Advisor adds both.</p>
+        <h2 id="an-h">How much memory does an LLM need?</h2>
         <div style="margin-top:18px"><span class="st st-est"><svg><use href="#i-est"/></svg>Estimated — theoretical, not measured</span></div>
         <div class="formula">weight_GB = params<span>(B)</span> × bits ÷ 8<br><span>// weights only</span></div>
         <a href="#/advisor/2" class="link" data-preset="llm" style="margin-top:22px">Add KV cache and concurrency <svg class="i"><use href="#i-arrow"/></svg></a>
       </div>
       <div class="panel chart">
         <div class="chart-top">
-          <h3>Model weight memory (GB)<small>Dashed lines mark single-GPU memory capacity</small></h3>
+          <h3>Model weight memory (GB)</h3>
           <div class="seg m" role="group" aria-label="Precision" id="prec-seg">
             <button aria-pressed="false" data-bits="4">INT4</button><button aria-pressed="false" data-bits="8">INT8</button><button aria-pressed="true" data-bits="16">FP16</button>
           </div>
@@ -799,19 +804,18 @@ table.bt td{font-family:var(--mono);font-size:13px}
 
   <section class="block" style="padding-top:0" aria-labelledby="sol-h">
     <div class="wrap">
-      <div class="sec-head"><div><span class="idx">04 — Guides</span><h2 id="sol-h">Deployment guides, sized to your setup.</h2><p>Each guide opens the Advisor with its configuration loaded.</p></div></div>
+      <div class="sec-head"><div><h2 id="sol-h">Deployment guides</h2></div></div>
       <div class="sol">
         <a class="sol-feat" href="#/advisor/2" data-preset="img">
           <div class="ph"><img src="img/wl-img.webp" alt="" loading="lazy" width="1024" height="576"></div>
           <div class="meta"><span class="cat">Image generation</span><span>·</span><span class="st st-nt"><svg><use href="#i-nt"/></svg>Benchmarks pending</span></div>
           <h3>Choosing the right GPU for ComfyUI</h3>
-          <p>Memory by model and resolution, and how we will test generation time.</p>
           <span class="link go">Size a ComfyUI setup <svg class="i"><use href="#i-arrow"/></svg></span>
         </a>
         <div class="sol-list">
-          <a class="sol-item" href="#/advisor/2" data-preset="llm32"><div><div class="meta"><span class="cat">Large language models</span></div><h4>Running a 32B model on a single GPU</h4><p>Quantization, KV cache and serving trade-offs.</p><span class="link go">Size it <svg class="i"><use href="#i-arrow"/></svg></span></div><div class="th"><img src="img/wl-llm.webp" alt="" loading="lazy"></div></a>
-          <a class="sol-item" href="#/advisor/2" data-preset="robot"><div><div class="meta"><span class="cat">Robotics</span></div><h4>GPU infrastructure for robotics simulation</h4><p>Scene complexity, parallel environments and memory.</p><span class="link go">Size it <svg class="i"><use href="#i-arrow"/></svg></span></div><div class="th"><img src="img/wl-robot.webp" alt="" loading="lazy"></div></a>
-          <a class="sol-item" href="#/advisor/2" data-preset="cv"><div><div class="meta"><span class="cat">Computer vision</span></div><h4>Building a real-time vision pipeline</h4><p>Streams per GPU and model size.</p><span class="link go">Size it <svg class="i"><use href="#i-arrow"/></svg></span></div><div class="th"><img src="img/wl-cv.webp" alt="" loading="lazy"></div></a>
+          <a class="sol-item" href="#/advisor/2" data-preset="llm32"><div><div class="meta"><span class="cat">Large language models</span></div><h4>Running a 32B model on a single GPU</h4></div><div class="th"><img src="img/wl-llm.webp" alt="" loading="lazy"></div></a>
+          <a class="sol-item" href="#/advisor/2" data-preset="robot"><div><div class="meta"><span class="cat">Robotics</span></div><h4>GPU infrastructure for robotics simulation</h4></div><div class="th"><img src="img/wl-robot.webp" alt="" loading="lazy"></div></a>
+          <a class="sol-item" href="#/advisor/2" data-preset="cv"><div><div class="meta"><span class="cat">Computer vision</span></div><h4>Building a real-time vision pipeline</h4></div><div class="th"><img src="img/wl-cv.webp" alt="" loading="lazy"></div></a>
         </div>
       </div>
     </div>
@@ -823,7 +827,7 @@ table.bt td{font-family:var(--mono);font-size:13px}
   <div class="page-head"><div class="wrap">
     <div class="crumb"><a href="#/">Home</a> / GPU Explorer</div>
     <h1>Explore GPUs</h1>
-    <p class="lede">Filter by memory, architecture and features. Select up to four to compare side by side.</p>
+    
   </div></div>
   <div class="wrap ex">
     <aside class="filters" id="filters" aria-label="Filters">
@@ -856,7 +860,7 @@ table.bt td{font-family:var(--mono);font-size:13px}
   <div class="wrap">
     <div class="foot-grid">
       <div><a class="logo" href="#/" style="color:#fff"><svg width="28" height="28" aria-hidden="true"><use href="#i-chip"/></svg><span>DBM <small style="color:#8EA0B3">GPU Lab</small></span></a>
-        <p class="tag">Hardware data, workload sizing and transparent methodology for AI infrastructure decisions.</p></div>
+        <p class="tag">GPU data and sizing for AI workloads.</p></div>
       <div><h5>Explore</h5><ul><li><a href="#/gpus">GPU Explorer</a></li><li><a href="#/compare">Compare</a></li><li><a href="#/workloads">Workloads</a></li><li><a href="#/models">Open models</a></li></ul></div>
       <div><h5>Evidence</h5><ul><li><a href="#/benchmarks">Benchmarks</a></li><li><a href="#/benchmarks">Test methodology</a></li></ul></div>
       <div><h5>Choose</h5><ul><li><a href="#/advisor/1">GPU Advisor</a></li><li><a href="#/gpus">Check availability</a></li></ul></div>
@@ -1138,7 +1142,7 @@ function reasonsFor(x,n){
   if(!g.use.includes(S.wl))L.push(`DBM does not list the ${g.name} as a typical card for ${WL[S.wl].name.toLowerCase()}.`);
   if(S.mig&&MIG[g.id])R.push(`MIG splits it into up to ${MIG[g.id][0]} isolated slices of ${MIG[g.id][1]} GB each (NVIDIA MIG profiles).`);
   if(g.dual)R.push('Dual-GPU board: two GPUs with 12 GB each; the estimate is per GPU.');
-  L.push('Throughput for this exact setup has not been tested by DBM yet.');
+  void 0;
   return{R,L};
 }
 
@@ -1163,7 +1167,7 @@ let flashT;function flash(msg){let t=$('#toast');if(!t){t=document.createElement
 
 /* ================= HOME ================= */
 function initHome(){
-  $('#wl-grid').innerHTML=WL_ORDER.map(k=>{const w=WL[k];return `<a class="wl" href="#/advisor/2" data-preset="${k}"><div class="ph"><img src="img/${w.img}.webp" alt="" loading="lazy" width="1024" height="576"></div><h3>${w.name} ${ico('i-arrow')}</h3><div class="wl-stack">${w.stack}</div><p>${w.desc}</p></a>`;}).join('')+`<a class="wl cta" href="#/advisor/1"><span class="eyebrow">Not sure?</span><h3>Answer four questions ${ico('i-arrow')}</h3><p>The Advisor sizes memory and checks hard requirements like NVENC, RT cores and FP64.</p></a>`;
+  $('#wl-grid').innerHTML=WL_ORDER.map(k=>{const w=WL[k];return `<a class="wl" href="#/advisor/2" data-preset="${k}"><div class="ph"><img src="img/${w.img}.webp" alt="" loading="lazy" width="1024" height="576"></div><h3>${w.name} ${ico('i-arrow')}</h3><div class="wl-stack">${w.stack}</div></a>`;}).join('')+`<a class="wl cta" href="#/advisor/1"><span class="eyebrow">Not sure?</span><h3>Answer four questions ${ico('i-arrow')}</h3></a>`;
   $('#home-strip').innerHTML=['rtx-5090','rtx-pro-6000','a100-80','h100-pcie'].map(id=>{const g=G(id);return `
    <article class="scol"><a class="ph" href="#/gpu/${g.id}" tabindex="-1" aria-hidden="true"><img src="img/${g.img}.webp" alt="" loading="lazy" width="1024" height="768"></a>
     <div class="series">${g.series}</div><h3><a href="#/gpu/${g.id}">${g.name}</a></h3>
@@ -1220,7 +1224,6 @@ function renderExplorer(){
     <div class="bd">
      <div class="top"><div><h3><a href="#/gpu/${g.id}">${g.name}</a></h3><div class="series">${g.series} · ${g.arch}</div></div><div class="vr">${g.vtot} GB<small>${g.dual?'2 × 12 GB ':''}${g.mem}</small></div></div>
      <div class="kv"><div><span>Bandwidth GB/s</span><b>${fmt(g.bw)}</b></div><div><span>Power W</span><b>${g.tdp}</b></div><div><span>${g.fp64>=2?'FP64':'FP32'} TFLOPS</span><b>${g.fp64>=2?g.fp64:(g.fp32??'n/p')}</b></div></div>
-     <div class="uses">${g.use.slice(0,4).map(k=>WL[k].name).join(' · ')}${g.use.length>4?` +${g.use.length-4}`:''}</div>
      <div class="foot"><span class="avail">${ico('i-clock')}Check availability</span>${ctog(g.id)}</div>
     </div></article>`).join(''):`<div class="empty"><b>No GPUs match these filters</b>Counts beside each option show what remains.<br><button class="btn btn-line" id="empty-reset">Reset filters</button></div>`;
 }
@@ -1252,21 +1255,20 @@ function renderDetail(id){
       <div class="big"><b>${g.vtot}</b><span>GB ${g.dual?'(2 × 12) ':''}${g.mem}</span></div>
       <div class="trio"><div><span>Bandwidth</span><b>${fmt(g.bw)} GB/s</b></div><div><span>Max power</span><b>${g.tdp} W</b></div><div><span>Architecture</span><b>${g.arch.replace(' Lovelace','')}</b></div></div>
       <div class="dctas"><a class="btn btn-primary" href="#/gpu/${g.id}">${ico('i-clock')}Check DBM availability</a>${ctog(g.id,' btn btn-line')}</div>
-      <p class="note" style="margin-top:14px">Pricing is shown only when confirmed by DBM.</p>
     </div>
   </div></div>
   <nav class="subnav" aria-label="On this page"><div class="wrap"><a href="#d-specs" class="cur">Specifications</a><a href="#d-use">Use cases</a><a href="#d-fit">Workload fit</a><a href="#d-perf">Performance</a><a href="#d-alt">Alternatives</a></div></nav>
   <div class="wrap">
-    <section class="dsec" id="d-specs"><div class="dgrid"><div><h2>Specifications</h2><p class="aside">Reference board values. Board-partner cards may differ.</p><div style="margin-top:12px">${st('ds')}</div></div>
+    <section class="dsec" id="d-specs"><div class="dgrid"><div><h2>Specifications</h2><div style="margin-top:12px">${st('ds')}</div></div>
       <div class="panel" style="padding:4px 24px"><table class="t"><tbody>${rows.map(r=>`<tr><th scope="row">${r[0]}</th><td class="m">${r[1]}</td></tr>`).join('')}</tbody></table></div></div></section>
-    <section class="dsec" id="d-use"><div class="dgrid"><div><h2>Use cases</h2><p class="aside">How NVIDIA positions this card, and what its hardware supports.</p></div>
-      <div class="panel" style="padding:4px 24px">${WL_ORDER.map(k=>{const why=(WL[k].req||(()=>null))(g,S.a[k]),on=g.use.includes(k);return `<div class="fitrow"><div class="w">${WL[k].name}<small>${WL[k].stack}</small></div><div class="r">${why?`<span class="no">${ico('i-warn')}</span><span style="font-family:var(--sans)">${why}</span>`:on?`<span class="ok">${ico('i-ok')}</span><span style="font-family:var(--sans)">Recommended</span>`:`<span style="font-family:var(--sans);color:var(--steel)">Possible, not a primary use</span>`}</div><a class="link" style="font-size:13.5px" href="#/advisor/2" data-preset="${k}">Size it ${ico('i-arrow')}</a></div>`;}).join('')}</div></div></section>
-    <section class="dsec" id="d-fit"><div class="dgrid"><div><h2>Workload fit</h2><p class="aside">Memory estimate only. Fitting in memory does not guarantee acceptable speed.</p><div style="margin-top:12px">${st('est')}</div></div>
+    <section class="dsec" id="d-use"><div class="dgrid"><div><h2>Use cases</h2></div>
+      <div class="panel" style="padding:4px 24px">${WL_ORDER.map(k=>{const why=(WL[k].req||(()=>null))(g,S.a[k]),on=g.use.includes(k);return `<div class="fitrow"><div class="w">${WL[k].name}</div><div class="r">${why?`<span class="no">${ico('i-warn')}</span><span style="font-family:var(--sans)">${why}</span>`:on?`<span class="ok">${ico('i-ok')}</span><span style="font-family:var(--sans)">Recommended</span>`:`<span style="font-family:var(--sans);color:var(--steel)">Possible</span>`}</div><a class="link" style="font-size:13.5px" href="#/advisor/2" data-preset="${k}">Size it ${ico('i-arrow')}</a></div>`;}).join('')}</div></div></section>
+    <section class="dsec" id="d-fit"><div class="dgrid"><div><h2>Workload fit</h2><div style="margin-top:12px">${st('est')}</div></div>
       <div class="panel" style="padding:4px 24px">${SCEN.map((sc,i)=>`<div class="fitrow"><div class="w">${sc.t}<small>${sc.s} · needs ${f1(need(sc.wl,sc.a).total)} GB</small></div><div class="r">${fitCell(g,sc)}</div><a class="link" style="font-size:13.5px" href="#/advisor/2" data-scen="${i}">Adjust ${ico('i-arrow')}</a></div>`).join('')}</div></div></section>
-    <section class="dsec" id="d-perf"><div class="dgrid"><div><h2>Performance</h2><p class="aside">Measured results appear here once validated in the DBM lab.</p><div style="margin-top:12px">${st('nt')}</div></div>
-      <div class="panel evid"><div><h3>No verified results for ${g.name} yet</h3><p>We publish numbers only with the full test environment: driver, CUDA, framework, model revision and input sizes.</p><a href="#/benchmarks" class="link" style="margin-top:12px">How we test ${ico('i-arrow')}</a></div>
+    <section class="dsec" id="d-perf"><div class="dgrid"><div><h2>Performance</h2><div style="margin-top:12px">${st('nt')}</div></div>
+      <div class="panel evid"><div><h3>Not tested yet</h3><a href="#/benchmarks" class="link" style="margin-top:12px">How we test ${ico('i-arrow')}</a></div>
       <div class="metrics"><div class="metric"><span>Throughput</span><b>—</b><small>tok/s</small></div><div class="metric"><span>Time to first token</span><b>—</b><small>ms</small></div><div class="metric"><span>Peak memory</span><b>—</b><small>GB</small></div><div class="metric"><span>Power</span><b>—</b><small>W</small></div></div></div></div></section>
-    <section class="dsec" id="d-alt"><div class="dgrid"><div><h2>Alternatives</h2><p class="aside">Closest memory capacity, then bandwidth.</p></div>
+    <section class="dsec" id="d-alt"><div class="dgrid"><div><h2>Alternatives</h2></div>
       <div class="alts">${alts.map(a=>`<div class="panel alt"><a class="ph" href="#/gpu/${a.id}" tabindex="-1" aria-hidden="true"><img src="img/${a.img}.webp" alt=""></a><div><h3><a href="#/gpu/${a.id}">${a.name}</a></h3><p class="mono" style="font-size:12.5px">${a.vtot} GB ${a.mem} · ${fmt(a.bw)} GB/s · ${a.tdp} W</p><div class="row"><button class="link" data-pair="${g.id},${a.id}">Compare with ${g.name} ${ico('i-arrow')}</button></div></div></div>`).join('')}</div></div></section>
   </div>`;
 }
@@ -1275,7 +1277,7 @@ function renderDetail(id){
 let diffOnly=false;
 function renderCompare(){
   const L=sel.map(G);
-  const head=`<div class="page-head"><div class="wrap"><div class="crumb"><a href="#/">Home</a> / Compare</div><h1>Compare GPUs</h1><p class="lede">Side by side, with memory fit for common workloads. Each GPU keeps the same colour on every chart.</p>
+  const head=`<div class="page-head"><div class="wrap"><div class="crumb"><a href="#/">Home</a> / Compare</div><h1>Compare GPUs</h1>
    <div class="cmp-tools"><div class="mono note">${L.length} of 4 selected</div>${L.length>=2?`<button class="switch" role="switch" aria-checked="${diffOnly}" id="diff"><span class="tr"></span>Show differences only</button>`:''}</div></div></div>`;
   if(L.length<2){
     $('#p-compare').innerHTML=head+`<div class="wrap" style="padding-top:40px;padding-bottom:96px"><div class="empty" style="background:var(--surface)"><b>${L.length?'Add one more GPU to compare':'Pick at least two GPUs'}</b>Start from a common pairing, or choose in the Explorer.
@@ -1321,29 +1323,29 @@ function renderAdvisor(step){
   const steps=['Workload','Requirements','Priorities','Recommendation'].map((t,i)=>`<a class="step ${i+1<step?'done':''} ${i+1===step?'cur':''}" href="#/advisor/${i+1}" ${i+1===step?'aria-current="step"':''}>0${i+1} ${t}</a>`).join('');
   let main='';
   if(step===1){
-    main=`<span class="eyebrow">Step 1 of 4</span><h1>What are you building?</h1><p class="lede">Pick the main thing you want the GPU to do. The next questions change with it.</p>
+    main=`<span class="eyebrow">Step 1 of 4</span><h1>What are you building?</h1>
     <div class="opts" role="radiogroup" aria-label="Workload">${WL_ORDER.map(k=>`<button class="opt" role="radio" aria-checked="${S.wl===k}" data-wl="${k}"><span class="ph"><img src="img/${WL[k].img}.webp" alt=""></span><span><b>${WL[k].name}</b><span>${WL[k].q}</span></span><span class="rd"></span></button>`).join('')}</div>
     <div class="adv-nav"><a class="btn btn-primary" href="#/advisor/2">Continue ${ico('i-arrow')}</a></div>`;
   }
   if(step===2){
     const T=n.total,scale=Math.max(T*1.12,90),cols=['#141E28','#245AE8','#8794A1','#C3CBD3'];
-    main=`<span class="eyebrow">Step 2 of 4 · ${w.name}</span><h1>Define the workload.</h1><p class="lede">These answers set the memory estimate. Every number shows its formula.</p>
+    main=`<span class="eyebrow">Step 2 of 4 · ${w.name}</span><h1>Define the workload.</h1>
     <div class="fields">${w.fields.map(f=>`<div class="field"><label for="f-${f.k}">${f.label}</label><select class="sel" id="f-${f.k}" data-f="${f.k}">${f.opts.map(([v,t])=>`<option value="${v}" ${String(a[f.k])===String(v)?'selected':''}>${t}</option>`).join('')}</select></div>`).join('')}</div>
     <div class="panel estimate" aria-live="polite">
       <div class="hd"><div><span class="eyebrow">Estimated memory target</span><div class="tot">${f1(T)}<small>GB</small></div></div>${st('est')}</div>
       <div class="stack" role="img" aria-label="Memory breakdown: ${n.parts.map(p=>p[0]+' '+f1(p[1])+' GB').join(', ')}">${n.parts.map((p,i)=>`<i style="width:${p[1]/scale*100}%;background:${cols[i]}"></i>`).join('')}</div>
       <div class="stack-scale">${[24,32,48,80].filter(v=>v<scale).map(v=>`<span class="mk" style="left:${v/scale*100}%">${v} GB</span>`).join('')}</div>
       <div class="parts">${n.parts.map((p,i)=>`<span><span class="sw" style="background:${cols[i]}"></span>${p[0]} <b>${f1(p[1])} GB</b></span>`).join('')}</div>
-      <p class="basis">${n.basis}</p>
+      <details class="basis-d"><summary>How it's calculated</summary><p class="basis">${n.basis}</p></details>
     </div>
     <div class="adv-nav"><a class="btn btn-line" href="#/advisor/1">${ico('i-back')}Back</a><a class="btn btn-primary" href="#/advisor/3">Continue ${ico('i-arrow')}</a></div>`;
   }
   if(step===3){
     const og=(k,v,t,s)=>`<button class="opt" role="radio" aria-checked="${S[k]===v}" data-set="${k}|${v}"><span><b>${t}</b><span>${s}</span></span><span class="rd"></span></button>`;
-    main=`<span class="eyebrow">Step 3 of 4</span><h1>Set your priorities.</h1><p class="lede">We rank by product class and memory, not price — DBM pricing appears with availability.</p>
+    main=`<span class="eyebrow">Step 3 of 4</span><h1>Set your priorities.</h1>
     <span class="qlabel">Priority</span><div class="opts" style="margin-top:0;grid-template-columns:repeat(3,1fr)" role="radiogroup" aria-label="Priority">${og('pri','cost','Lowest cost','Smallest product class that fits')}${og('pri','bal','Balanced','Fits with at least 15% headroom')}${og('pri','head','Most headroom','Largest memory pool')}</div>
     <span class="qlabel">GPU count</span><div class="opts" style="margin-top:0" role="radiogroup" aria-label="GPU count">${og('multi','no','Single GPU','Simplest to deploy and run')}${og('multi','yes','Multi-GPU is fine','Split across up to 8 GPUs')}</div>
-    <span class="qlabel">Requirements</span><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-ecc" ${S.ecc?'checked':''}>ECC memory required (production, 24/7)</label><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-mig" ${S.mig?'checked':''}>Split into isolated slices for several users (MIG)</label><p style="font-size:13.5px;color:var(--steel);margin:4px 0 0 28px;max-width:60ch">MIG gives each user fixed, fully isolated memory and compute on one card. Need to share a GPU between virtual machines or cloud desktops instead? That is NVIDIA vGPU: licensed software that time-slices the card. <a class="link" href="https://www.gpu-mart.com/gpu-virtualization" target="_blank" rel="noopener">DBM GPU virtualization</a></p>
+    <span class="qlabel">Requirements</span><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-ecc" ${S.ecc?'checked':''}>ECC memory required (production, 24/7)</label><label class="fopt" style="font-size:15px"><input type="checkbox" id="req-mig" ${S.mig?'checked':''}>Split into isolated slices for several users (MIG)</label><p style="font-size:13.5px;color:var(--steel);margin:4px 0 0 28px;max-width:60ch">Sharing one GPU across virtual machines instead? That is vGPU. <a class="link" href="https://www.gpu-mart.com/gpu-virtualization" target="_blank" rel="noopener">DBM GPU virtualization</a></p>
     <div class="adv-nav"><a class="btn btn-line" href="#/advisor/2">${ico('i-back')}Back</a><a class="btn btn-primary" href="#/advisor/4">See recommendation ${ico('i-arrow')}</a></div>`;
   }
   if(step===4){
@@ -1357,7 +1359,7 @@ function renderAdvisor(step){
       </div>`;
     }else{
       const top=fit[0],{R,L}=reasonsFor(top,n);
-      main=`<span class="eyebrow">Step 4 of 4 · Recommendation</span><h1>${top.count>1?top.count+' × ':''}${top.g.name}</h1><p class="lede">For ${n.label}. Rule-based and explained below — no hidden score.</p>
+      main=`<span class="eyebrow">Step 4 of 4 · Recommendation</span><h1>${top.count>1?top.count+' × ':''}${top.g.name}</h1><p class="lede">For ${n.label}.</p>
       <div class="panel pick-card"><div class="ph"><img src="img/${top.g.img}.webp" alt=""></div><div class="bd">
         <span class="eyebrow">${top.g.series} · ${top.g.arch}</span><h2>${top.g.vram} GB ${top.g.mem}${top.count>1?` <span class="note mono">× ${top.count} = ${top.cap} GB</span>`:''}</h2>
         <div class="headroom"><div class="stack" style="margin:8px 0 6px" role="img" aria-label="${f1(n.total)} of ${top.cap} GB used"><i style="width:${Math.min(100,n.total/top.cap*100)}%;background:var(--graphite)"></i></div><div class="parts"><span>Estimate <b>${f1(n.total)} GB</b></span><span>Capacity <b>${top.cap} GB</b></span><span>Headroom <b>${f1(top.head)} GB</b></span></div></div>
@@ -1373,7 +1375,7 @@ function renderAdvisor(step){
   const side=`<aside class="panel side" aria-label="Your configuration"><span class="eyebrow">Your configuration</span><h3>${w.name}</h3>
     <dl>${step>=2?w.fields.map(f=>`<dt class="q">${f.label}</dt><dd class="q">${val(f)}</dd>`).join(''):''}
     <dt>Memory target</dt><dd>${f1(n.total)} GB</dd>${step>=3?`<dt>Priority</dt><dd>${{cost:'Lowest cost',bal:'Balanced',head:'Most headroom'}[S.pri]}</dd><dt>GPUs</dt><dd>${S.multi==='yes'?'Multi OK':'Single'}</dd>${S.ecc?'<dt>ECC</dt><dd>Required</dd>':''}${S.mig?'<dt>MIG</dt><dd>Required</dd>':''}`:''}</dl>
-    <div class="why"><b>WHY THIS MATTERS</b>${{1:'The workload decides which limits matter: memory for LLMs, encoders for video, rendering for simulation.',2:S.wl==='llm'?'Weights are only part of it. Context and concurrency drive KV cache, which can exceed the model itself.':'Each answer moves one part of the estimate. The breakdown shows which part drives the size.',3:'Fit first, then optimize for what you value. A bigger GPU you do not need is wasted budget.',4:'This is a starting point, not a guarantee. Test with your own workload before committing.'}[step]}</div></aside>`;
+    </aside>`;
   $('#p-advisor').innerHTML=`<div class="wrap adv"><div class="${step!==lastStep?'step-in':''}"><nav class="steps" aria-label="Advisor steps">${steps}</nav>${main}</div>${side}</div>`;
   lastStep=step;
 }
@@ -1390,7 +1392,7 @@ function renderBench(){
   let rows=['rtx-4090','rtx-5090','rtx-pro-6000','a100-80','h100-pcie'].map((id,i)=>{const g=G(id);return{g,c:BC[i],v:B.wl==='img'?Math.round(9000/g.bw*10)/10:Math.round(g.bw*(B.wl==='llm'?.6:.25)/10)*10,ttft:Math.round(60000/g.bw)};});
   rows.sort((a,b)=>B.sortK==='v'?(a.v-b.v)*B.sortD:a.g.name.localeCompare(b.g.name)*B.sortD);
   const max=Math.max(...rows.map(r=>r.v)),better=B.wl==='img'?'lower':'higher';
-  $('#p-bench').innerHTML=`<div class="page-head"><div class="wrap"><div class="crumb"><a href="#/">Home</a> / Benchmarks</div><h1>Benchmarks</h1><p class="lede">Same workload, same conditions. Results from different configurations are never ranked together.</p>
+  $('#p-bench').innerHTML=`<div class="page-head"><div class="wrap"><div class="crumb"><a href="#/">Home</a> / Benchmarks</div><h1>Benchmarks</h1><p class="lede">Same workload, same conditions.</p>
    <div class="bfilters">${sl('b-wl','Workload',['LLM inference','Image generation','Computer vision'],{llm:'LLM inference',img:'Image generation',cv:'Computer vision'}[B.wl])}${sl('b-model','Model',models,B.model)}${sl('b-prec','Precision',['FP16','FP8','INT4'],B.prec)}${sl('b-batch','Batch / concurrency',['1','8','32'],B.batch)}
    <button class="switch" role="switch" aria-checked="${B.demo}" id="b-demo"><span class="tr"></span>Preview layout with demo data</button></div></div></div>
   <div class="wrap bwrap" style="padding-bottom:96px">
@@ -1401,11 +1403,11 @@ function renderBench(){
       <table class="bt"><thead><tr><th><button data-sort="n">GPU ${ico('i-sort')}</button></th><th><button data-sort="v">${unit} ${ico('i-sort')}</button></th>${B.wl==='llm'?'<th>TTFT p50</th>':''}<th>Status</th></tr></thead>
       <tbody>${rows.map(r=>`<tr><td style="font-family:var(--sans)"><span class="sw" style="background:${r.c};margin-right:8px"></span>${r.g.name}</td><td>${r.v}</td>${B.wl==='llm'?`<td>${r.ttft} ms</td>`:''}<td>${st('demo')}</td></tr>`).join('')}</tbody></table>`
     :`<div class="chart-top"><h3>${B.model} · ${B.prec} · batch ${B.batch}<small>${unit} · ${better} is better</small></h3>${st('nt')}</div>
-      <div class="evid" style="padding:24px 0 0"><div><h3>No verified results for this configuration yet</h3><p>Results publish only after three runs on identical software, with the environment on the right filled in. Until then, compare datasheet specs or size your workload.</p>
+      <div class="evid" style="padding:24px 0 0"><div><h3>No verified results for this configuration yet</h3><p>Results appear after three identical runs.</p>
       <div class="adv-nav" style="margin-top:18px"><a class="btn btn-line btn-sm" href="#/compare">Compare specs</a><a class="btn btn-line btn-sm" href="#/advisor/2" data-preset="${B.wl}">Size my workload</a></div></div>
       <div class="metrics">${(B.wl==='llm'?[['Throughput','tok/s'],['Time to first token','ms'],['Peak memory','GB'],['Power','W']]:B.wl==='img'?[['Time per image','s'],['Peak memory','GB'],['Images per hour',''],['Power','W']]:[['Throughput','FPS'],['Latency p95','ms'],['Streams per GPU',''],['Power','W']]).map(m=>`<div class="metric"><span>${m[0]}</span><b>—</b><small>${m[1]}</small></div>`).join('')}</div></div>`}
    </div>
-   <aside class="panel env"><h3>Test environment</h3><p class="note" style="margin-top:4px">Published with every result.</p>
+   <aside class="panel env"><h3>Test environment</h3>
     <dl><dt>Framework</dt><dd>${B.wl==='llm'?'vLLM':B.wl==='img'?'ComfyUI':'TensorRT'} · —</dd><dt>Driver / CUDA</dt><dd>— / —</dd><dt>Model revision</dt><dd>—</dd><dt>Input / output</dt><dd>${B.wl==='llm'?'2,048 / 128 tokens':B.wl==='img'?'1024px · 28 steps':'1080p'}</dd><dt>Protocol</dt><dd>warm-up excluded · 3-run median</dd><dt>Test date</dt><dd>—</dd></dl>
     <div class="src"><span class="eyebrow">Reference sources</span><span>NVIDIA product datasheets</span><span>vLLM benchmark documentation</span><span>MLCommons inference methodology</span></div></aside>
   </div>`;
@@ -1588,36 +1590,33 @@ function mhit(m,skipCat){const q=MF.q.trim();
 function renderModelList(){
   const rows=MODELS.filter(m=>mhit(m));
   const secs=MCATS.filter(c=>!MF.cat||c[0]===MF.cat).map(c=>{const r=rows.filter(m=>m[0]===c[0]);if(!r.length)return '';
-    return `<section class="ms" aria-labelledby="ms-${c[0]}"><div class="ms-head"><div><h2 id="ms-${c[0]}">${c[1]} <span class="mono">${r.length}</span></h2><p>${c[2]}</p></div>${c[3]?`<a class="link" href="#/advisor/2" data-preset="${c[3]}">Size it in the Advisor ${ico('i-arrow')}</a>`:''}</div>
-     <div class="panel mt" role="table" aria-label="${c[1]}"><div class="mr mh" role="row"><span role="columnheader">Model</span><span role="columnheader">Parameters</span><span role="columnheader">License</span><span role="columnheader" class="mh-mem">4-bit memory · log scale ${mscale()}</span></div>
+    return `<section class="ms" aria-labelledby="ms-${c[0]}"><div class="ms-head"><h2 id="ms-${c[0]}" title="${c[2]}">${c[1]} <span class="mono">${r.length}</span></h2></div>
+     <div class="panel mt" role="table" aria-label="${c[1]}"><div class="mr mh" role="row"><span role="columnheader">Model</span><span role="columnheader">Params</span><span role="columnheader">License</span><span role="columnheader" class="mh-mem">Memory, 4-bit ${mscale()}</span><span role="columnheader"><span class="sr">Advisor</span></span></div>
      ${r.map(m=>{const i=MODELS.indexOf(m),t=MTIER(m[7]),L=MLIC[m[5]],sub=m[2]+(m[8]?' · '+m[8]:''),pp=mparams(m);
-      return `<div class="mr" role="row"><div class="mn" role="cell"><a class="mname" href="https://huggingface.co/models?search=${encodeURIComponent(m[1].split(/ [·(]/)[0])}" target="_blank" rel="noopener" title="Find ${m[1].replace(/"/g,'&quot;')} on Hugging Face">${m[1]} ${ico('i-ext')}</a><span title="${sub.replace(/"/g,'&quot;')}">${sub}</span></div><div class="mp mono" role="cell"><span class="ml">Parameters</span>${m[3]}</div><div class="mlc" role="cell"><span class="lic lic-${L[1]}">${L[0]}</span><span class="ld">${m[4]}</span></div><div class="mm" role="cell"><div class="mm-top"><span class="tier"><i class="tier-dot t${t}"></i>${MTN[t][0]}${mtight(m[7])?' <em>· tight</em>':''}</span><span class="mono" title="${m[6].replace(/"/g,'&quot;')}"><span class="ml-in">4-bit </span>${mfmt(m[7])}</span></div>${meter(m[7])}${pp?`<a class="link msz" href="#/advisor/2" data-msize="${i}" aria-label="Size ${m[1]} in the Advisor">Size it for my users ${ico('i-arrow')}</a>`:''}</div></div>`;}).join('')}</div></section>`;}).join('');
+      return `<div class="mr" role="row"><div class="mn" role="cell"><a class="mname" href="https://huggingface.co/models?search=${encodeURIComponent(m[1].split(/ [·(]/)[0])}" target="_blank" rel="noopener" title="Find ${m[1].replace(/"/g,'&quot;')} on Hugging Face">${m[1]} ${ico('i-ext')}</a><span title="${sub.replace(/"/g,'&quot;')}">${m[2]}</span></div><div class="mp mono" role="cell"><span class="ml">Parameters</span>${m[3]}</div><div class="mlc" role="cell"><span class="lic lic-${L[1]}" title="${m[4].replace(/"/g,'&quot;')}">${L[0]}</span></div><div class="mm" role="cell"><div class="mm-top"><span class="tier"><i class="tier-dot t${t}"></i>${MTN[t][0]}${mtight(m[7])?' <em title="Within 10% of the card: little room for long chats">tight</em>':''}</span><span class="mono" title="${m[6].replace(/"/g,'&quot;')}"><span class="ml-in">4-bit </span>${mfmt(m[7])}</span></div>${meter(m[7])}</div><div class="mz" role="cell">${pp?`<a class="link msz" href="#/advisor/2" data-msize="${i}" aria-label="Size ${m[1]} for my users in the Advisor" title="Size it for my users">Size ${ico('i-arrow')}</a>`:''}</div></div>`;}).join('')}</div></section>`;}).join('');
   $('#m-list').innerHTML=secs||`<div class="panel mempty"><h3>No models match these filters</h3><p>Try a broader GPU size or license, or clear the search.</p><button class="btn btn-line btn-sm" id="m-reset">Clear filters</button></div>`;
   $('#m-count').textContent=`${rows.length} of ${MODELS.length}`;
   const nf=(MF.tier?1:0)+(MF.lic?1:0);$('#m-fn').textContent=nf?` · ${nf}`:'';$('#m-tier').value=String(MF.tier);$('#m-lic').value=MF.lic;
   $$('[data-mcat]').forEach(b=>{const k=b.dataset.mcat,n=MODELS.filter(m=>mhit(m,true)&&(!k||m[0]===k)).length;b.setAttribute('aria-pressed',k===MF.cat);b.querySelector('i').textContent=n;b.disabled=!!k&&!n&&k!==MF.cat;});
 }
 function renderModels(){
-  $('#p-models').innerHTML=`<div class="page-head"><div class="wrap"><div class="crumb"><a href="#/">Home</a> / Open models</div><h1>Open models you can self-host</h1>
-   <p class="lede">${MODELS.length} open-weight models across ${MCATS.length} categories, from chat models to speech, 3D and robotics. Each shows its license and the smallest DBM GPU class that holds it.</p>
-   <div class="mlegend">${[1,2,3,4,5].map(t=>`<span><i class="tier-dot t${t}"></i><b>${MTN[t][0]}</b> ${MTN[t][1]}</span>`).join('')}</div>
-   <div class="mquick"><span class="eyebrow">Quick pick</span><button type="button" class="btn btn-line btn-sm" id="m-pick1">Private chat on one 24 GB GPU, commercial use OK ${ico('i-arrow')}</button></div>
-   <p class="mhow">Each bar shows the model's memory at 4-bit on a log scale; the gaps mark 24, 48 and 96 GB cards and an 8 × 96 GB server. <b>Tight</b> means within 10% of the card, with little room left for long chats or many users.</p></div></div>
+  $('#p-models').innerHTML=`<div class="page-head"><div class="wrap"><div class="crumb"><a href="#/">Home</a> / Open models</div><h1>Open models</h1>
+   <p class="lede">${MODELS.length} models you can self-host, and the GPU each one needs.</p>
+   <div class="mlegend">${[1,2,3,4,5].map(t=>`<span title="${MTN[t][1]}"><i class="tier-dot t${t}"></i>${MTN[t][0]}</span>`).join('')}</div></div></div>
   <div class="mbar"><div class="wrap">
-   <div class="mfil"><div class="msearch"><svg class="i"><use href="#i-search"/></svg><input id="m-q" type="search" placeholder="Search a model or a task, e.g. glm 4.5 or text to video" aria-label="Search models" value="${MF.q.replace(/"/g,'&quot;')}" autocomplete="off"></div>
+   <div class="mfil"><div class="msearch"><svg class="i"><use href="#i-search"/></svg><input id="m-q" type="search" placeholder="Search models or tasks" aria-label="Search models" value="${MF.q.replace(/"/g,'&quot;')}" autocomplete="off"></div>
     <button type="button" class="btn btn-line mfbtn" id="m-fbtn" aria-expanded="${MF.open}" aria-controls="m-sels">${ico('i-filter')}Filters<span class="mfn mono" id="m-fn"></span></button>
     <div class="msels${MF.open?' open':''}" id="m-sels"><select class="sel" id="m-tier" aria-label="Filter by GPU memory"><option value="0">Any GPU size</option>${[1,2,3].map(t=>`<option value="${t}" ${MF.tier===t?'selected':''}>${MTN[t][0]}</option>`).join('')}<option value="4" ${MF.tier===4?'selected':''}>Needs multi-GPU</option></select>
     <select class="sel" id="m-lic" aria-label="Filter by license"><option value="">Any license</option>${Object.entries(MLIC).map(([k,v])=>`<option value="${k}" ${MF.lic===k?'selected':''}>${v[0]}</option>`).join('')}</select></div>
     <span class="mcount mono" id="m-count" aria-live="polite"></span></div>
-   <div class="mcats" role="group" aria-label="Category"><button aria-pressed="${!MF.cat}" data-mcat="">All <i></i></button>${MCATS.map(c=>`<button aria-pressed="${MF.cat===c[0]}" data-mcat="${c[0]}">${c[1]} <i></i></button>`).join('')}</div>
+   <div class="mcats" role="group" aria-label="Category"><button type="button" class="mpick" id="m-pick1" title="Chat models that fit one 24 GB GPU and allow commercial use">1 GPU · commercial</button><button aria-pressed="${!MF.cat}" data-mcat="">All <i></i></button>${MCATS.map(c=>`<button aria-pressed="${MF.cat===c[0]}" data-mcat="${c[0]}">${c[1]} <i></i></button>`).join('')}</div>
   </div></div>
   <div class="wrap mbody"><div id="m-list"></div>
-   <div class="mnotes"><h3>How to read this list</h3><ul>
-    <li>Memory is a rough estimate of the weights at 4-bit: about 0.55 GB per billion parameters. Long context and many users add more; size those in the <a class="link" href="#/advisor/1">Advisor</a>. Hover a value to see the source figure.</li>
-    <li>Mixture-of-experts models must hold every parameter in GPU memory. Active parameters set the speed, not the memory.</li>
-    <li>Late-2026 releases come from public roundups, several written by API sellers, and they disagree on some sizes and dates. Check the Hugging Face model card before you deploy commercially.</li>
-    <li>CC-BY-4.0 models (NVIDIA Parakeet, Canary) allow commercial use with attribution. Tencent Hunyuan licenses exclude the EU, UK and South Korea. The life-sciences rows were not re-checked online for this update.</li></ul>
-    <p class="note">Sources: <a href="https://www.morphllm.com/best-open-source-llm" target="_blank" rel="noopener">Morph LLM ranking</a> · <a href="https://www.morphllm.com/open-source-ai-models" target="_blank" rel="noopener">Morph open models</a> · <a href="https://geotoolbox.ai/blog/best-open-source-llms" target="_blank" rel="noopener">GeoToolbox</a> · <a href="https://pinggy.io/blog/best_free_open_source_ai_image_generators_to_self_host/" target="_blank" rel="noopener">Pinggy image</a> · <a href="https://ltx.io/blog/open-source-video-generation-models-guide" target="_blank" rel="noopener">LTX video guide</a> · <a href="https://www.3daistudio.com/state-of-ai-3d-generation-2026" target="_blank" rel="noopener">3D AI Studio</a> · <a href="https://pinggy.io/blog/best_open_source_self_hosted_speech_to_text_models/" target="_blank" rel="noopener">Pinggy speech</a> · <a href="https://arxiv.org/pdf/2606.03264" target="_blank" rel="noopener">PaddleOCR-VL 1.6</a> · <a href="https://arxiv.org/html/2602.00744v1" target="_blank" rel="noopener">ACE-Step 1.5</a> · <a href="https://developer.nvidia.com/isaac/gr00t/llm-info.md" target="_blank" rel="noopener">NVIDIA GR00T</a> · <a href="https://blog.roboflow.com/best-computer-vision-models/" target="_blank" rel="noopener">Roboflow</a> · <a href="https://andrew.ooo/answers/best-embedding-models-2026-ranked/" target="_blank" rel="noopener">Embedding ranking</a>. Checked November 2026.</p></div>
+   <details class="mnotes"><summary>Method and sources</summary><ul>
+    <li>Memory ≈ 0.55 GB per billion parameters at 4-bit. Long chats and many users need more: use the <a class="link" href="#/advisor/1">Advisor</a>.</li>
+    <li>Mixture-of-experts models load every parameter; active parameters only set the speed.</li>
+    <li>Late-2026 figures come from public roundups. Check the model card before commercial use.</li></ul>
+    <p class="note">Sources: <a href="https://www.morphllm.com/best-open-source-llm" target="_blank" rel="noopener">Morph LLM ranking</a> · <a href="https://www.morphllm.com/open-source-ai-models" target="_blank" rel="noopener">Morph open models</a> · <a href="https://geotoolbox.ai/blog/best-open-source-llms" target="_blank" rel="noopener">GeoToolbox</a> · <a href="https://pinggy.io/blog/best_free_open_source_ai_image_generators_to_self_host/" target="_blank" rel="noopener">Pinggy image</a> · <a href="https://ltx.io/blog/open-source-video-generation-models-guide" target="_blank" rel="noopener">LTX video guide</a> · <a href="https://www.3daistudio.com/state-of-ai-3d-generation-2026" target="_blank" rel="noopener">3D AI Studio</a> · <a href="https://pinggy.io/blog/best_open_source_self_hosted_speech_to_text_models/" target="_blank" rel="noopener">Pinggy speech</a> · <a href="https://arxiv.org/pdf/2606.03264" target="_blank" rel="noopener">PaddleOCR-VL 1.6</a> · <a href="https://arxiv.org/html/2602.00744v1" target="_blank" rel="noopener">ACE-Step 1.5</a> · <a href="https://developer.nvidia.com/isaac/gr00t/llm-info.md" target="_blank" rel="noopener">NVIDIA GR00T</a> · <a href="https://blog.roboflow.com/best-computer-vision-models/" target="_blank" rel="noopener">Roboflow</a> · <a href="https://andrew.ooo/answers/best-embedding-models-2026-ranked/" target="_blank" rel="noopener">Embedding ranking</a>. Checked November 2026.</p></details>
   </div>`;
   renderModelList();
 }
