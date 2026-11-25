@@ -135,9 +135,9 @@ function Quick() {
             <Select variant="inline" label={tr('Priority', '优先级')} value={S.pri} onChange={(v) => setS({ pri: v })} options={[['cost', tr('lowest cost', '最低成本')], ['bal', tr('balanced value', '均衡')], ['head', tr('most headroom', '最大余量')]]} />.
           </p>
           <div className="quick-out">
-            <span className="need">{tr('Estimate', '估算')} <b>{f1(n.total)} GB</b> · {tr(`${fit.length} GPUs fit`, `${fit.length} 张卡装得下`)}</span>
+            <span className="need">{tr('Estimate', '估算')} <b>{f1(n.total)} GB</b> · {tr(`${fit.length} GPUs fit`, `${fit.length} 张卡装得下`)}<br /><span className="note">{tr('Assumes ', '假设 ')}{n.label}</span></span>
             <div className="chips">{fit.length ? <>{fit.slice(0, 3).map((x) => <span className="chip" key={x.g.id}>{x.g.name}<i>{x.g.vram} GB</i></span>)}{fit.length > 3 && <span className="chip more">+{fit.length - 3}</span>}</> : <span className="chip">{tr('Needs more than one GPU', '需要多张卡')}</span>}</div>
-            <A to="/advisor/4" className="btn btn-primary">{tr('See recommendation', '查看推荐')} <Ico id="i-arrow" /></A>
+            <A to="/advisor/4" className="btn btn-primary" onClick={() => setS({})}>{tr('See recommendation', '查看推荐')} <Ico id="i-arrow" /></A>
           </div>
         </div>
       </div>

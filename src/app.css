@@ -180,3 +180,6 @@ html[lang="zh-CN"] .hero h1,html[lang="zh-CN"] .page-head h1{letter-spacing:-.01
 .lv-h{background:var(--blue-tint);color:var(--blue);border-color:transparent;font-weight:600}
 .lv-m{background:var(--surface);color:var(--text)}
 .lv-l{color:var(--steel);border-style:dashed}
+
+/* Advisor: plan price on the result card */
+.plan-line{margin:18px 0 0;font-size:15px;line-height:1.55}

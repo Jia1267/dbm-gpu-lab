@@ -18,6 +18,19 @@ const noKepler = (en, zh) => (g) => (g.arch === 'Kepler' ? b(`Kepler is not supp
 export const MIG = { 'a100-40': [7, 5], 'a100-80': [7, 10], 'h100-pcie': [7, 10], 'rtx-pro-6000': [4, 24], 'rtx-pro-5000': [2, 24] };
 
 const R = (en, zh) => ({ en, zh });
+
+/* NVENC per card: [encoders, 1080p H.264 P5 fps per encoder, session cap on GeForce-class cards].
+   Rates: NVIDIA NVENC Application Note (Video Codec SDK 13.0); encoder counts: NVIDIA Video Encode and Decode Support Matrix.
+   Same table as the internal streaming guide. Cards not listed are not sized for live encoding. */
+export const ENC = {
+  'rtx-pro-6000': [4, 323], 'rtx-pro-5000': [3, 323], 'rtx-5090': [3, 323, 8], 'rtx-pro-4000': [2, 323], 'rtx-4090': [2, 291, 8],
+  'rtx-pro-2000': [1, 323], 'rtx-5060': [1, 323, 8], 'rtx-4060': [1, 291, 8], 'rtx-a4000': [1, 273], 'rtx-a5000': [1, 273], 'rtx-a6000': [1, 273], a40: [1, 273],
+  'rtx-3060-ti': [1, 273, 8], t1000: [1, 271], 'gtx-1660': [1, 271, 8], 'rtx-2060': [1, 271, 8], 'quadro-p1000': [1, 363, 8], 'quadro-p600': [1, 363, 8],
+};
+const PIX = { 1080: 1, 1440: 1.78, 2160: 4, 4320: 16 };
+const encFps = (e) => e[0] * e[1] * 0.7;
+/* Live streams one card can encode in real time (also capped by sessions) */
+export const encStreams = (e, r, fps) => Math.min(Math.floor(encFps(e) / (PIX[r] * fps)), e[2] || Infinity);
 const res = { 1080: '1080p', 1440: '1440p', 2160: '4K', 4320: '8K' };
 
 export const WL = {
@@ -27,12 +40,12 @@ export const WL = {
     q: b('A private ChatGPT, AI agent, coding assistant or chat API', '私有 ChatGPT、AI 智能体、编程助手或对话 API'),
     fields: [
       { k: 'model', label: b('Which model do you want to run?', '想跑哪个模型？'), ns: 'qwen-14b', opts: [['llama-8b', b('Small — Llama 3.1 8B', '小 — Llama 3.1 8B')], ['qwen-14b', b('Medium — Qwen2.5 14B', '中 — Qwen2.5 14B')], ['qwen-32b', b('Large — Qwen2.5 32B', '大 — Qwen2.5 32B')], ['llama-70b', b('Very large — Llama 3.3 70B', '很大 — Llama 3.3 70B')], ['glm-air', b('Huge, mixture-of-experts — GLM-4.5-Air 106B', '超大，混合专家 — GLM-4.5-Air 106B')]] },
-      { k: 'prec', label: b('Quality or cost?', '质量优先还是成本优先？'), ns: 'int8', opts: [['fp16', b('Best quality (uses the most memory)', '质量最好（显存占用最多）')], ['int8', b('Balanced (8-bit, near-identical quality)', '均衡（8-bit，质量几乎不变）')], ['int4', b('Lowest cost (4-bit, small quality loss)', '成本最低（4-bit，质量略降）')]] },
+      { k: 'prec', label: b('How much should the model be compressed?', '模型压缩到多少位？'), ns: 'int8', opts: [['int8', b('8-bit (usual for production, near-identical quality)', '8-bit（生产常用，质量几乎不变）')], ['int4', b('4-bit (smallest, small quality loss)', '4-bit（最省显存，质量略降）')], ['fp16', b('16-bit, uncompressed (about twice the memory of 8-bit)', '16-bit 不压缩（显存约为 8-bit 的两倍）')]] },
       { k: 'ctx', label: b('How long are the chats or documents?', '对话或文档有多长？'), ns: 8192, opts: [[4096, b('Short chats (about 3 pages)', '短对话（约 3 页）')], [8192, b('Normal (about 6 pages)', '一般（约 6 页）')], [16384, b('Long documents (about 12 pages)', '长文档（约 12 页）')], [32768, b('Very long (about 25 pages)', '很长（约 25 页）')]] },
-      { k: 'conc', label: b('How many people use it at the same time?', '同时有多少人在用？'), ns: 8, opts: [[1, '1'], [4, '4'], [8, '8'], [16, '16'], [32, '32']] },
+      { k: 'conc', label: b('How many requests at the same moment? (people asking at once, not total users)', '同一时刻有几个请求？（同时提问的人数，不是总用户数）'), ns: 10, opts: [[1, '1'], [5, '5'], [10, '10'], [20, '20'], [50, '50']] },
       { k: 'rag', label: b('Does it answer from your own documents (knowledge base, AI agent)?', '是否要先查你自己的文档再回答（知识库、AI 智能体）？'), ns: 'yes', opts: [['no', b('No — chat only', '不需要 — 只聊天')], ['yes', b('Yes — search our documents first (RAG)', '需要 — 先检索文档（RAG）')]] },
     ],
-    def: { model: 'llama-8b', prec: 'fp16', ctx: 8192, conc: 4, rag: 'no' },
+    def: { model: 'llama-8b', prec: 'int8', ctx: 8192, conc: 5, rag: 'no' },
     need(a) {
       const m = LLM[a.model], w = m.p * BITS[a.prec] / 8, kv = 2 * m.L * m.kv * m.hd * 2 * a.ctx * a.conc / 1e9, rt = 1.5 + 0.05 * w, rag = a.rag === 'yes';
       return {
@@ -192,15 +205,23 @@ export const WL = {
       { k: 'res', label: b('What resolution?', '什么分辨率？'), ns: '2160', opts: [['1080', '1080p'], ['1440', '1440p'], ['2160', '4K'], ['4320', '8K']] },
       { k: 'codec', label: b('Which video format?', '什么视频格式？'), ns: 'hevc', opts: [['h264', b('H.264 (plays everywhere)', 'H.264（兼容性最好）')], ['hevc', b('HEVC / H.265 (smaller files)', 'HEVC / H.265（文件更小）')], ['av1', b('AV1 (best quality per bit)', 'AV1（同码率画质最好）')]] },
       { k: 'ai', label: b('Do you also want to improve quality?', '还要提升画质吗？'), ns: 'no', opts: [['no', b('No — just convert or broadcast', '不用 — 只转码或推流')], ['yes', b('Yes — AI upscale / denoise', '要 — AI 超分 / 降噪')]] },
-      { k: 'ch', label: b('How many videos or channels at once?', '同时几路？'), ns: 2, opts: [[1, '1'], [2, '2'], [4, '4'], [8, '8']] },
+      { k: 'fps', label: b('What frame rate?', '帧率多少？'), ns: 30, opts: [[30, '30 fps'], [60, '60 fps']] },
+      { k: 'ch', label: b('How many videos or channels at once?', '同时几路？'), ns: 4, opts: [[1, '1'], [2, '2'], [4, '4'], [8, '8'], [12, '12'], [16, '16'], [20, '20'], [32, '32'], [50, '50']] },
     ],
-    def: { out: 'file', res: '2160', codec: 'hevc', ai: 'no', ch: 1 },
+    def: { out: 'file', res: '2160', codec: 'hevc', ai: 'no', fps: 30, ch: 1 },
+    /* GPUs needed for the set: live streams must encode in real time (NVENC throughput); GeForce-class cards also cap sessions */
+    units(g, a) {
+      const e = ENC[g.id];
+      if (!e) return a.out === 'live' ? Infinity : 1;
+      const cap = e[2] ? Math.ceil(a.ch / e[2]) : 1;
+      return a.out === 'live' ? Math.max(cap, Math.ceil(a.ch * PIX[a.res] * a.fps / encFps(e))) : cap;
+    },
     need(a) {
       const per = { 1080: 0.3, 1440: 0.5, 2160: 1, 4320: 3 }[a.res], live = a.out === 'live', ai = a.ai === 'yes';
       return {
         parts: [[b('Encode / decode buffers', '编解码缓冲'), per * a.ch], [b('AI enhancement model', 'AI 增强模型'), ai ? 6 : 0], [b('AI frame buffers', 'AI 帧缓冲'), ai ? per * 2 * a.ch : 0], [b('Scene compositing', '画面合成'), live ? 1.5 : 0], [b('Runtime', '运行时'), 1]],
-        basis: b('Rule of thumb. Hardware encoding (NVENC) needs little memory; throughput and the number of encode sessions matter more and are not estimated here. GeForce cards cap concurrent encode sessions.', '经验值。硬件编码（NVENC）占显存很少，真正限制的是吞吐量和同时编码路数，这里不估算。GeForce 卡限制同时编码的路数。'),
-        label: `${live ? 'Live' : 'File'} · ${res[a.res]} ${a.codec.toUpperCase()}${ai ? ' + AI' : ''} × ${a.ch}`,
+        basis: b("Hardware encoding (NVENC) needs little memory; the limit is encoder throughput. For live streams we compare the frames per second the set needs (resolution × frame rate × streams) with NVIDIA's published 1080p H.264 P5 rate per encoder × number of encoders × 0.7. The 0.7 comes from our RTX 5090 test (10 × 1080p50). GeForce-class cards are counted at 8 sessions. HEVC and AV1 rates differ; test your own settings.", '硬件编码（NVENC）占显存很少，限制在编码吞吐。直播按需要的帧数（分辨率 × 帧率 × 路数）对比 NVIDIA 公布的单个编码器 1080p H.264 P5 速度 × 编码器数量 × 0.7。0.7 来自我们的 RTX 5090 实测（10 路 1080p50）。GeForce 一类的卡按 8 路上限计算。HEVC、AV1 速度不同，请按实际参数测试。'),
+        label: `${live ? 'Live' : 'File'} · ${res[a.res]}${live ? a.fps : ''} ${a.codec.toUpperCase()}${ai ? ' + AI' : ''} × ${a.ch}`,
       };
     },
   },
@@ -272,8 +293,10 @@ export const WL = {
 Object.values(WL).forEach((w) => {
   w.fields.forEach((f) => f.opts.push(['?', b('Not sure — use a safe default', '不确定 — 用稳妥的默认值')]));
   const Rz = (a) => { const r = { ...a }; w.fields.forEach((f) => { if (r[f.k] === '?') r[f.k] = f.ns; }); return r; };
-  const n0 = w.need, r0 = w.req;
+  const n0 = w.need, r0 = w.req, u0 = w.units;
+  w.rz = Rz;
   w.need = (a) => n0(Rz(a));
+  if (u0) w.units = (g, a) => u0(g, Rz(a));
   if (r0) w.req = (g, a) => r0(g, Rz(a || w.def));
 });
 export const WL_ORDER = ['llm', 'img', 'vgen', 'speech', 'train', 'cv', 'render', 'game', 'cad', 'video', 'data', 'bio', 'robot', 'hpc'];
@@ -288,9 +311,9 @@ export function need(wl, a) {
 /* Rule-based recommendation; S = advisor state */
 export function recommend(S) {
   const n = need(S.wl, S.a[S.wl]), T = n.total;
-  const rq = WL[S.wl].req || (() => null);
+  const rq = WL[S.wl].req || (() => null), un = WL[S.wl].units;
   const fit = GPUS.filter((g) => (!S.ecc || g.ecc) && (!S.mig || g.mig) && !rq(g, S.a[S.wl]))
-    .map((g) => { const count = Math.max(1, Math.ceil(T / (g.vram * 0.95))); return { g, count, cap: g.vram * count, head: g.vram * count - T }; })
+    .map((g) => { const count = Math.max(1, Math.ceil(T / (g.vram * 0.95)), un ? un(g, S.a[S.wl]) : 1); return { g, count, cap: g.vram * count, head: g.vram * count - T }; })
     .filter((x) => (S.multi === 'yes' ? x.count <= 8 : x.count === 1));
   const score = { cost: (x) => x.count * 100 + x.g.tier * 10 + x.g.vram / 100, bal: (x) => x.count * 100 + (x.head / x.cap < 0.15 ? 50 : 0) + x.g.tier * 6 + x.g.vram / 20, head: (x) => x.count * 100 - x.cap }[S.pri];
   const pos = (x) => (x.g.use.includes(S.wl) ? 0 : 10);
@@ -312,7 +335,14 @@ export function reasonsFor(x, n, S) {
   if (!g.ecc) Ll.push(R('No ECC memory; consumer card not designed for 24/7 duty.', '没有 ECC 显存；消费级卡不是为 7×24 运行设计的。'));
   if (g.cool === 'Passive') Ll.push(R('Passive cooling — needs a server chassis with directed airflow.', '被动散热 — 需要有定向风道的服务器机箱。'));
   if (x.count > 1) Ll.push(g.nvlink ? R('Multi-GPU: NVLink bridge available; otherwise traffic goes over PCIe.', '多卡：可用 NVLink 桥接，否则走 PCIe。') : R('Multi-GPU over PCIe only (no NVLink).', '多卡只能走 PCIe（没有 NVLink）。'));
-  if (S.wl === 'video' && g.tier === 1) Ll.push(R('GeForce cards limit concurrent NVENC encode sessions.', 'GeForce 卡限制同时编码的路数。'));
+  if (S.wl === 'video') {
+    const a = WL.video.rz(S.a.video), e = ENC[g.id];
+    if (e && a.out === 'live') {
+      Rr.push(R(`${e[0]} NVENC encoder${e[0] > 1 ? 's' : ''}: about ${encStreams(e, a.res, a.fps)} live ${res[a.res]}${a.fps} streams per card.`, `${e[0]} 个 NVENC 编码器：每张卡约 ${encStreams(e, a.res, a.fps)} 路 ${res[a.res]}${a.fps} 直播。`));
+      Ll.push(R('Stream count is an estimate from NVIDIA encoder rates and our RTX 5090 test, not a guarantee. Test your exact settings.', '路数按 NVIDIA 编码速度和我们的 RTX 5090 实测估算，不是承诺。请按实际参数测试。'));
+    }
+    if (e && e[2]) Ll.push(R(`Counted at ${e[2]} encode sessions per card (GeForce-class limit).`, `按每张卡 ${e[2]} 路编码计算（GeForce 一类卡的路数上限）。`));
+  }
   if ((S.wl === 'render' || S.wl === 'game') && !g.rt) Ll.push(R('No RT cores — ray tracing is much slower.', '没有 RT 核心 — 光追会慢很多。'));
   if (S.wl === 'cad' && g.tier === 1) Ll.push(R('GeForce drivers are not ISV-certified for CAD.', 'GeForce 驱动没有 CAD 软件认证。'));
   if (!g.use.includes(S.wl)) Ll.push(R(`DBM does not list the ${g.name} as a typical card for this workload.`, `DBM 没有把 ${g.name} 列为这类工作的常用卡。`));
@@ -322,7 +352,7 @@ export function reasonsFor(x, n, S) {
 /* Fixed reference workloads shown on GPU detail pages */
 export const SCEN = [
   { t: 'Llama 3.1 8B', s: 'FP16 · 8K × 4', wl: 'llm', a: { model: 'llama-8b', prec: 'fp16', ctx: 8192, conc: 4, rag: 'no' } },
-  { t: 'Qwen2.5 32B', s: 'INT4 · 8K × 4', wl: 'llm', a: { model: 'qwen-32b', prec: 'int4', ctx: 8192, conc: 4, rag: 'no' } },
+  { t: 'Qwen2.5 32B', s: 'INT8 · 8K × 5', wl: 'llm', a: { model: 'qwen-32b', prec: 'int8', ctx: 8192, conc: 5, rag: 'no' } },
   { t: 'FLUX.1 [dev]', s: 'FP16 · 1024px', wl: 'img', a: { model: 'flux16', res: 1024, batch: 1 } },
   { t: b('3D rendering', '3D 渲染'), s: '4K', wl: 'render', a: { scene: 'l', res: '2160' } },
   { t: b('Gaming', '游戏'), s: '1440p · high', wl: 'game', a: { res: '1440', q: 'high', s: 1 } },

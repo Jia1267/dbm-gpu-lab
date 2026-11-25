@@ -4,7 +4,7 @@ import { EXT, FACTS } from './ext.js';
 const b = (en, zh) => ({ en, zh });
 const GM = 'https://www.gpu-mart.com/';
 const VPS = b('GPU VPS', 'GPU 云服务器'), DED = b('Dedicated', '独立服务器');
-const SPEC = {
+export const SPEC = {
   'rtx-5060': [VPS, 85, b('16 cores · 28 GB RAM · 200 Mbps', '16 核 · 28 GB 内存 · 200 Mbps')],
   'rtx-pro-4000': [VPS, 189, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps')],
   'rtx-pro-5000': [VPS, 359, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps')],

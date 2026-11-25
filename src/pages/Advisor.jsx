@@ -5,6 +5,8 @@ import { useStore } from '../store.js';
 import { app, setS, setAns } from '../state.js';
 import { fmt, f1 } from '../data/gpus.js';
 import { WL, WL_ORDER, MIG, need, recommend, reasonsFor } from '../data/workloads.js';
+import { SPEC } from '../data/scenarios2.js';
+import { WL_GUIDE } from '../data/scenarios.js';
 import { Ico, A, St, img } from '../ui.jsx';
 import Select from '../Select.jsx';
 
@@ -62,7 +64,10 @@ export default function Advisor() {
   }
   if (step === 4) {
     const { fit } = recommend(S);
-    if (!fit.length) {
+    if (!S.set) {
+      main = <><span className="eyebrow">{tr('Step 4 of 4', '第 4 步，共 4 步')}</span><h1>{tr('Answer the questions first.', '先回答前面的问题。')}</h1><p className="lede">{tr('The recommendation depends on what you want to run.', '推荐取决于你要跑什么。')}</p>
+        <div className="adv-nav"><A className="btn btn-primary" to="/advisor/1">{tr('Start', '开始')} <Ico id="i-arrow" /></A></div></>;
+    } else if (!fit.length) {
       main = <><span className="eyebrow">{tr('Step 4 of 4', '第 4 步，共 4 步')}</span><h1>{tr('Nothing fits on a single GPU.', '单张卡装不下。')}</h1><p className="lede">{tr(`The estimate is ${f1(n.total)} GB. Ways forward:`, `估算 ${f1(n.total)} GB。可以这样调整：`)}</p>
         <div className="panel" style={{ padding: '4px 24px', marginTop: 24 }}>
           <div className="fitrow"><div className="w">{tr('Allow multi-GPU', '允许多卡')}<small>{tr('Split the model across several cards', '把模型分到几张卡上')}</small></div><span /><button className="btn btn-primary btn-sm" onClick={() => setS({ multi: 'yes' })}>{tr('Allow', '允许')}</button></div>
@@ -70,7 +75,7 @@ export default function Advisor() {
           <div className="fitrow"><div className="w">{tr('Adjust requirements', '调整需求')}<small>{tr('Smaller model, shorter context or fewer users', '更小的模型、更短的上下文或更少用户')}</small></div><span /><A className="btn btn-line btn-sm" to="/advisor/2">{tr('Adjust', '调整')}</A></div>
         </div></>;
     } else {
-      const top = fit[0], { R, L: Lim } = reasonsFor(top, n, S);
+      const top = fit[0], { R, L: Lim } = reasonsFor(top, n, S), plan = SPEC[top.g.id], guide = WL_GUIDE[S.wl];
       main = <><span className="eyebrow">{tr('Step 4 of 4 · Recommendation', '第 4 步 · 推荐')}</span><h1>{top.count > 1 ? top.count + ' × ' : ''}{top.g.name}</h1><p className="lede">{tr('For ', '用于 ')}{n.label}.</p>
         <div className="panel pick-card"><div className="ph"><img src={img(top.g.img)} alt="" /></div><div className="bd">
           <span className="eyebrow">{L(top.g.seriesI)} · {top.g.arch}</span><h2>{top.g.vram} GB {top.g.mem}{top.count > 1 && <span className="note mono"> × {top.count} = {top.cap} GB</span>}</h2>
@@ -78,7 +83,10 @@ export default function Advisor() {
             <div className="parts"><span>{tr('Estimate', '估算')} <b>{f1(n.total)} GB</b></span><span>{tr('Capacity', '容量')} <b>{top.cap} GB</b></span><span>{tr('Headroom', '余量')} <b>{f1(top.head)} GB</b></span></div></div>
           <ul className="reasons">{R.map((r, i) => <li key={'r' + i}><span className="ok"><Ico id="i-ok" /></span><span>{L(r)}</span></li>)}{Lim.map((r, i) => <li key={'l' + i} className="lim"><span style={{ color: 'var(--amber)', display: 'inline-flex' }}><Ico id="i-warn" /></span><span>{L(r)}</span></li>)}</ul>
           <div className="evi"><St t="ds" /><span className="note">{tr('specs', '规格')}</span><St t="est" /><span className="note">{tr('memory fit', '显存匹配')}</span><St t="nt" /><span className="note">{tr('throughput', '吞吐量')}</span></div>
-          <div className="adv-nav" style={{ marginTop: 22 }}><A className="btn btn-primary" to={'/gpu/' + top.g.id}><Ico id="i-clock" />{tr('View this GPU', '查看这张卡')}</A></div>
+          {S.wl === 'llm' && a.prec !== 'int4' && (() => { const n4 = need('llm', { ...a, prec: 'int4' }); return <p className="plan-line note">{tr(`At 4-bit the estimate drops to ${f1(n4.total)} GB, which opens smaller, cheaper cards. `, `改用 4-bit，估算降到 ${f1(n4.total)} GB，可以选更小、更便宜的卡。`)}<button className="link" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={() => setAns('llm', { prec: 'int4' })}>{tr('Switch to 4-bit', '切换到 4-bit')}</button></p>; })()}
+          {plan ? <p className="plan-line"><b>{tr(`GPU Mart ${L(plan[0])} from $${plan[1]}/mo`, `GPU Mart ${L(plan[0])}，$${plan[1]}/月起`)}</b>{top.count > 1 && tr(` per GPU · ${top.count} needed`, `（每张卡，需要 ${top.count} 张）`)}<br /><span className="note">{L(plan[2])} · {tr('list price, Nov 2026', '2026 年 11 月标价')}</span></p>
+            : <p className="plan-line note">{tr('No public plan price for this GPU. Ask GPU Mart sales for availability.', '这张卡没有公开套餐价格，请向 GPU Mart 销售询问。')}</p>}
+          <div className="adv-nav" style={{ marginTop: 22 }}>{guide && <A className="btn btn-primary" to={'/scenarios/' + guide + '#pick'}>{tr('See plans and prices', '看套餐和价格')} <Ico id="i-arrow" /></A>}<A className={'btn ' + (guide ? 'btn-line' : 'btn-primary')} to={'/gpu/' + top.g.id}>{tr('View this GPU', '查看这张卡')}</A></div>
         </div></div>
         {fit.length > 1 && <><h2 style={{ fontSize: 20, fontWeight: 600, marginTop: 40 }}>{tr('Also fits', '也装得下')}</h2><div>{fit.slice(1, 5).map((x) => (
           <div className="altrow" key={x.g.id}><span className="nm"><span className="sw" style={{ background: '#5C6B79' }} />{x.count > 1 ? x.count + ' × ' : ''}{x.g.name}</span><span className="why"><span className="mono">{x.g.vram} GB · {fmt(x.g.bw)} GB/s · {x.g.tdp} W</span></span><span className="r">{tr(`${f1(x.head)} GB spare`, `余 ${f1(x.head)} GB`)}</span><A className="link" to={'/gpu/' + x.g.id}>{tr('View', '查看')}</A></div>

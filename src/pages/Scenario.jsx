@@ -55,7 +55,7 @@ export function Scenario() {
           <div className="crumb"><A to="/">{tr('Home', '首页')}</A> / <A to="/scenarios">{tr('Scenarios', '场景')}</A> / {L(s.name)}</div>
           <h1>{L(s.name)}</h1>
           <p className="lede">{L(s.tagline)}</p>
-          <div className="hero-ctas" style={{ marginTop: 24 }}><A to="/advisor/2" className="btn btn-primary" onClick={() => preset(s.wl)}>{tr('Size my setup', '估算我的配置')} <Ico id="i-arrow" /></A><a href="#pick" className="btn btn-dark-line" onClick={(e) => go(e, 'pick')}>{tr('Which GPU', '选哪张卡')}</a></div>
+          <div className="hero-ctas" style={{ marginTop: 24 }}><A to="/advisor/2" className="btn btn-primary" onClick={() => preset(s.wl, s.id === 'streaming' ? { out: 'live' } : undefined)}>{tr('Size my setup', '估算我的配置')} <Ico id="i-arrow" /></A><a href="#pick" className="btn btn-dark-line" onClick={(e) => go(e, 'pick')}>{tr('Which GPU', '选哪张卡')}</a></div>
           <div className="sc-kpis">{s.kpis.map(([v, l]) => <div key={v}><b>{v}</b><span>{L(l)}</span></div>)}</div>
         </div>
         <div className="ph"><img src={img(s.img)} alt="" /></div>
@@ -119,7 +119,7 @@ export function Scenario() {
         </section>
 
         <div className="sc-cta"><div><h2>{tr('Size it for your own workload', '按你的工作量来估算')}</h2><p>{tr('Four questions, a recommended GPU and the reasoning behind it.', '四个问题，给出推荐的 GPU 和理由。')}</p></div>
-          <div className="row"><A to="/advisor/2" className="btn btn-primary" onClick={() => preset(s.wl)}>{tr('Open the Advisor', '打开选卡向导')} <Ico id="i-arrow" /></A><a href="https://www.gpu-mart.com/" className="btn btn-dark-line" target="_blank" rel="noopener">GPU Mart</a></div></div>
+          <div className="row"><A to="/advisor/2" className="btn btn-primary" onClick={() => preset(s.wl, s.id === 'streaming' ? { out: 'live' } : undefined)}>{tr('Open the Advisor', '打开选卡向导')} <Ico id="i-arrow" /></A><a href="https://www.gpu-mart.com/" className="btn btn-dark-line" target="_blank" rel="noopener">GPU Mart</a></div></div>
       </div>
     </>
   );

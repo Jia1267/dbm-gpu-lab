@@ -34,6 +34,7 @@ function Shell() {
     if (base === '/workloads') requestAnimationFrame(() => document.getElementById('workloads')?.scrollIntoView());
     else if (base === '/models' && MF.ret) { const y = MF.y; app.set((s) => ({ MF: { ...s.MF, ret: false } })); requestAnimationFrame(() => window.scrollTo(0, y)); }
     else if (!loc.hash) window.scrollTo(0, 0);
+    else requestAnimationFrame(() => document.getElementById(loc.hash.slice(1))?.scrollIntoView());
     if (!base.startsWith('/models') && !base.startsWith('/advisor')) app.set((s) => ({ MF: { ...s.MF, ret: false } }));
   }, [base]);
   useEffect(() => {

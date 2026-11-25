@@ -9,3 +9,6 @@ ai-art/.wrangler/
 node_modules/
 .claude/
 dist/
+
+# Internal handbook: contains customer survey content, never push
+docs/
