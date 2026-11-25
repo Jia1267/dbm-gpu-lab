@@ -1,20 +1,14 @@
 /* Scenario guides for the remaining workloads. Test data comes from published sources in ext.js;
    each page lists its sources. Plan prices are the same list prices used on the first three guides. */
 import { EXT, FACTS } from './ext.js';
+import PRICES from './prices.json';
 const b = (en, zh) => ({ en, zh });
 const GM = 'https://www.gpu-mart.com/';
 const VPS = b('GPU VPS', 'GPU 云服务器'), DED = b('Dedicated', '独立服务器');
-export const SPEC = {
-  'rtx-5060': [VPS, 85, b('16 cores · 28 GB RAM · 200 Mbps', '16 核 · 28 GB 内存 · 200 Mbps')],
-  'rtx-pro-4000': [VPS, 189, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps')],
-  'rtx-pro-5000': [VPS, 359, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps')],
-  'rtx-a6000': [DED, 409, b('Dual Xeon · 256 GB RAM', '双路 Xeon · 256 GB 内存')],
-  'rtx-5090': [VPS, 419, b('32 cores · 84 GB RAM · 500 Mbps', '32 核 · 84 GB 内存 · 500 Mbps')],
-  'rtx-pro-6000': [VPS, 649, b('32 cores · 84 GB RAM · 1 Gbps', '32 核 · 84 GB 内存 · 1 Gbps')],
-  /* gpu-mart.com/h100-hosting, Nov 2026: $2,599 monthly ($2,099 only on a 24-month term) */
-  'h100-pcie': [DED, 2599, b('Dual 18-core Xeon · 256 GB RAM · 100 Mbps', '双路 18 核 Xeon · 256 GB 内存 · 100 Mbps')],
-};
-const P = (id, fit) => [id, ...SPEC[id], fit];
+/* Plan prices live only in prices.json (with source page and date checked) */
+export const SPEC = Object.fromEntries(Object.entries(PRICES.plans).map(([id, p]) => [id, [p.type === 'vps' ? VPS : DED, p.usd, b(...p.spec)]]));
+export const usd = (id) => PRICES.plans[id].usd;
+export const P = (id, fit) => [id, ...SPEC[id], fit];
 const S = (k) => [EXT[k].src.url, EXT[k].src.label];
 const F = (k) => [FACTS[k].url, FACTS[k].label];
 const COLS = [b('Workload', '工作'), b('GPU memory', '显存'), b('Start with', '推荐起步')];

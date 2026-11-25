@@ -1,6 +1,6 @@
 /* Scenario guides. Content paraphrased from GPU Mart public pages (sources on each page).
-   Prices are list prices seen in Nov 2026 and change; promotions are not used. */
-import { SCENARIOS2 } from './scenarios2.js';
+   Plan prices come from prices.json (list prices; promotions are not used). */
+import { SCENARIOS2, P, usd } from './scenarios2.js';
 const b = (en, zh) => ({ en, zh });
 const LLM_SRC = 'https://www.gpu-mart.com/guides/self-hosted-llm';
 const HOST_SRC = 'https://www.gpu-mart.com/llm-hosting';
@@ -31,10 +31,10 @@ const FIRST = [
         [b('High-concurrency API', '高并发 API'), b('80 GB+ or multi-GPU', '80 GB 以上或多卡'), ['h100-pcie', 'a100-80']],
       ],
       plans: [
-        ['rtx-pro-4000', b('GPU VPS', 'GPU 云服务器'), 189, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps'), b('7B–27B with Ollama', 'Ollama 跑 7B–27B')],
-        ['rtx-pro-5000', b('GPU VPS', 'GPU 云服务器'), 359, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps'), b('35B with long context', '35B 长上下文')],
-        ['rtx-a6000', b('Dedicated', '独立服务器'), 409, b('Dual Xeon · 256 GB RAM', '双路 Xeon · 256 GB 内存'), b('48 GB for long-running services', '48 GB，适合长期运行的服务')],
-        ['rtx-pro-6000', b('GPU VPS', 'GPU 云服务器'), 649, b('32 cores · 84 GB RAM · 1 Gbps', '32 核 · 84 GB 内存 · 1 Gbps'), b('Up to ~120B at 4-bit', '4-bit 最大约 120B')],
+        P('rtx-pro-4000', b('7B–27B with Ollama', 'Ollama 跑 7B–27B')),
+        P('rtx-pro-5000', b('35B with long context', '35B 长上下文')),
+        P('rtx-a6000', b('48 GB for long-running services', '48 GB，适合长期运行的服务')),
+        P('rtx-pro-6000', b('Up to ~120B at 4-bit', '4-bit 最大约 120B')),
       ],
       src: HOST_SRC,
     },
@@ -75,9 +75,9 @@ const FIRST = [
         [b('Each VM gets whole GPUs', '每台虚拟机独占整卡'), b('Passthrough', '直通'), ['rtx-5090', 'rtx-a6000', 'rtx-a5000', 'v100']],
       ],
       plans: [
-        ['rtx-pro-5000', b('GPU VPS · MIG', 'GPU 云服务器 · MIG'), 359, b('24 vCPU · 56 GB RAM · 320 GB SSD', '24 vCPU · 56 GB 内存 · 320 GB SSD'), b('Up to 2 × 24 GB slices', '最多 2 份 24 GB')],
-        ['rtx-a6000', b('Dedicated · vGPU', '独立服务器 · vGPU'), 409, b('2 × 18-core Xeon · 256 GB RAM', '2 × 18 核 Xeon · 256 GB 内存'), b('6 × 8 GB design VMs in a case', '案例中 6 台 8 GB 设计虚拟机')],
-        ['rtx-pro-6000', b('GPU VPS · MIG', 'GPU 云服务器 · MIG'), 649, b('32 vCPU · 84 GB RAM · 400 GB SSD', '32 vCPU · 84 GB 内存 · 400 GB SSD'), b('Up to 4 × 24 GB slices', '最多 4 份 24 GB')],
+        ['rtx-pro-5000', b('GPU VPS · MIG', 'GPU 云服务器 · MIG'), usd('rtx-pro-5000'), b('24 vCPU · 56 GB RAM · 320 GB SSD', '24 vCPU · 56 GB 内存 · 320 GB SSD'), b('Up to 2 × 24 GB slices', '最多 2 份 24 GB')],
+        ['rtx-a6000', b('Dedicated · vGPU', '独立服务器 · vGPU'), usd('rtx-a6000'), b('2 × 18-core Xeon · 256 GB RAM', '2 × 18 核 Xeon · 256 GB 内存'), b('6 × 8 GB design VMs in a case', '案例中 6 台 8 GB 设计虚拟机')],
+        ['rtx-pro-6000', b('GPU VPS · MIG', 'GPU 云服务器 · MIG'), usd('rtx-pro-6000'), b('32 vCPU · 84 GB RAM · 400 GB SSD', '32 vCPU · 84 GB 内存 · 400 GB SSD'), b('Up to 4 × 24 GB slices', '最多 4 份 24 GB')],
       ],
       src: V_SRC,
     },
@@ -106,7 +106,7 @@ const FIRST = [
     id: 'streaming', img: 'wl-video', wl: 'video',
     name: b('Live streaming & transcoding', '直播与转码'),
     tagline: b('Cloud OBS, 24/7 restreaming and adaptive-bitrate transcoding. Check NVENC and bandwidth before raw GPU power.', '云端 OBS、7×24 转推和多码率转码。选卡先看 NVENC 和带宽，再看 GPU 算力。'),
-    kpis: [['8', b('encode sessions to plan per GeForce card such as the RTX 5090', '路编码：RTX 5090 等 GeForce 卡按此规划')], ['67–76', b('fps per feed in our 10-feed RTX 5090 test (50 needed)', 'fps 每路：RTX 5090 实测 10 路（只需 50）')], ['$85', b('/mo · RTX 5060 GPU VPS', '/月 · RTX 5060 云服务器')]],
+    kpis: [['8', b('encode sessions to plan per GeForce card such as the RTX 5090', '路编码：RTX 5090 等 GeForce 卡按此规划')], ['67–76', b('fps per feed in our 10-feed RTX 5090 test (50 needed)', 'fps 每路：RTX 5090 实测 10 路（只需 50）')], ['$' + usd('rtx-5060'), b('/mo · RTX 5060 GPU VPS', '/月 · RTX 5060 云服务器')]],
     how: {
       flow: [[b('Input', '输入'), b('Live source, e.g. 1080p from OBS or a camera.', '直播源，例如 OBS 或摄像头的 1080p。')], [b('Decode · scale · encode', '解码 · 缩放 · 编码'), b('NVDEC, GPU scaling and NVENC do the heavy work.', 'NVDEC、GPU 缩放和 NVENC 承担主要负载。')], [b('Outputs', '输出'), b('One encode per rendition: 1080p, 720p, 480p…', '每个码率档一路编码：1080p、720p、480p……')]],
       cards: [
@@ -136,10 +136,10 @@ const FIRST = [
         note: b('From customer cases and NVIDIA documentation; to be calibrated with our own tests. CUDA matters only when you add AI effects.', '依据客户案例和 NVIDIA 文档整理，待我们自己的实测校准。只有加 AI 特效时才需要看 CUDA。'),
       },
       plans: [
-        ['rtx-5060', b('GPU VPS', 'GPU 云服务器'), 85, b('16 cores · 28 GB RAM · 200 Mbps', '16 核 · 28 GB 内存 · 200 Mbps'), b('Entry OBS / single channel', '入门 OBS / 单频道')],
-        ['rtx-pro-4000', b('GPU VPS', 'GPU 云服务器'), 189, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps'), b('Several creators or channels', '多个主播或频道')],
-        ['rtx-pro-5000', b('GPU VPS', 'GPU 云服务器'), 359, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps'), b('Heavy scenes, AI effects', '复杂场景、AI 特效')],
-        ['rtx-5090', b('GPU VPS', 'GPU 云服务器'), 419, b('32 cores · 84 GB RAM · 500 Mbps', '32 核 · 84 GB 内存 · 500 Mbps'), b('Plan on 8 feeds; 10 × 1080p50 ran in our test', '按 8 路规划；实测跑过 10 路 1080p50')],
+        P('rtx-5060', b('Entry OBS / single channel', '入门 OBS / 单频道')),
+        P('rtx-pro-4000', b('Several creators or channels', '多个主播或频道')),
+        P('rtx-pro-5000', b('Heavy scenes, AI effects', '复杂场景、AI 特效')),
+        P('rtx-5090', b('Plan on 8 feeds; 10 × 1080p50 ran in our test', '按 8 路规划；实测跑过 10 路 1080p50')),
       ],
       src: S_SRC,
     },
