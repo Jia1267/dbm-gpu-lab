@@ -33,9 +33,8 @@ const FIRST = [
       plans: [
         ['rtx-pro-4000', b('GPU VPS', 'GPU 云服务器'), 189, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps'), b('7B–27B with Ollama', 'Ollama 跑 7B–27B')],
         ['rtx-pro-5000', b('GPU VPS', 'GPU 云服务器'), 359, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps'), b('35B with long context', '35B 长上下文')],
-        ['rtx-a6000', b('Dedicated', '独立服务器'), 409, b('Dual Xeon · 256 GB RAM', '双路 Xeon · 256 GB 内存'), b('Best price per token in tests', '测试中单位成本最低')],
+        ['rtx-a6000', b('Dedicated', '独立服务器'), 409, b('Dual Xeon · 256 GB RAM', '双路 Xeon · 256 GB 内存'), b('48 GB for long-running services', '48 GB，适合长期运行的服务')],
         ['rtx-pro-6000', b('GPU VPS', 'GPU 云服务器'), 649, b('32 cores · 84 GB RAM · 1 Gbps', '32 核 · 84 GB 内存 · 1 Gbps'), b('Up to ~120B at 4-bit', '4-bit 最大约 120B')],
-        ['h100-pcie', b('Dedicated', '独立服务器'), 2599, b('80 GB HBM · dual Xeon', '80 GB HBM · 双路 Xeon'), b('Low-latency production', '低延迟生产环境')],
       ],
       src: HOST_SRC,
     },
@@ -50,7 +49,7 @@ const FIRST = [
       [b('One GPU or several?', '一张卡还是多张卡？'), b('One, if the model plus KV cache fit with headroom. Go multi-GPU only when they do not.', '模型加 KV 缓存放得下并有余量，就用一张。放不下才上多卡。')],
       [b('Is self-hosting cheaper than an API?', '自己部署比 API 便宜吗？'), b('For steady, high-utilisation traffic, often yes. For a few hours a month, an API or hourly GPU is cheaper.', '流量稳定、利用率高时通常更便宜；每月只用几小时的话，API 或按小时租更划算。')],
       [b('GPU VPS or dedicated server?', 'GPU 云服务器还是独立服务器？'), b('A VPS gives you a whole GPU inside a VM and is quicker to start. A dedicated server is the whole machine.', '云服务器在虚拟机里给你一整张卡，开通快；独立服务器是整台物理机。')],
-      [b('How many users per card?', '一张卡能服务多少人？'), b('For 27B–31B models, plan 4–8 concurrent requests per card. At 32, first-token time on an H100 reached ~70 s in tests.', '27B–31B 模型按每张卡 4–8 个并发规划。测试中 H100 在 32 并发时首 token 达到约 70 秒。')],
+      [b('How many users per card?', '一张卡能服务多少人？'), b('It depends on model size, context length and the response time you need. Our vLLM tests cover 1, 8 and 32 concurrent requests: with Gemma-4-31B, first-token time on an H100 averaged about 5 s at 8 requests and about 71 s at 32.', '取决于模型大小、上下文长度和你能接受的响应时间。我们的 vLLM 测试覆盖 1、8、32 个并发：Gemma-4-31B 在 H100 上，8 并发时平均首 token 约 5 秒，32 并发时约 71 秒。')],
     ],
     sources: [[LLM_SRC, 'GPU Mart · Self-hosted LLM guide'], [HOST_SRC, 'GPU Mart · LLM hosting']],
   },
@@ -70,7 +69,7 @@ const FIRST = [
     pick: {
       cols: [b('You need', '你的需求'), b('Method', '方式'), b('Supported GPUs', '支持的 GPU')],
       rows: [
-        [b('Several CAD / design desktops with set memory', '多台 CAD / 设计桌面，显存固定'), 'NVIDIA vGPU', ['rtx-a6000', 'a40', 'rtx-a5000', 'rtx-5090']],
+        [b('Several CAD / design desktops with set memory', '多台 CAD / 设计桌面，显存固定'), 'NVIDIA vGPU', ['rtx-a6000', 'a40', 'rtx-a5000']],
         [b('Isolated AI services on Linux', 'Linux 上互相隔离的 AI 服务'), 'MIG', ['rtx-pro-6000', 'rtx-pro-5000', 'a100-40', 'h100-pcie']],
         [b('Cheap Windows VMs sharing a GPU', '低成本 Windows 虚拟机共享 GPU'), 'Hyper-V GPU-PV', ['rtx-a5000', 'a40', 'rtx-a6000']],
         [b('Each VM gets whole GPUs', '每台虚拟机独占整卡'), b('Passthrough', '直通'), ['rtx-5090', 'rtx-a6000', 'rtx-a5000', 'v100']],
@@ -106,7 +105,7 @@ const FIRST = [
   {
     id: 'streaming', img: 'wl-video', wl: 'video',
     name: b('Live streaming & transcoding', '直播与转码'),
-    tagline: b('Cloud OBS production, 24/7 channels and adaptive-bitrate transcoding on NVENC.', '云端 OBS 直播、7×24 频道和自适应码率转码，用 NVENC 硬件编码。'),
+    tagline: b('Cloud OBS, 24/7 restreaming and adaptive-bitrate transcoding. Check NVENC and bandwidth before raw GPU power.', '云端 OBS、7×24 转推和多码率转码。选卡先看 NVENC 和带宽，再看 GPU 算力。'),
     kpis: [['10', b('1080p50 live feeds on one RTX 5090', '路 1080p50 直播流，一张 RTX 5090')], ['67–76', b('fps per feed (50 needed)', 'fps 每路（只需 50）')], ['$85', b('/mo · RTX 5060 GPU VPS', '/月 · RTX 5060 云服务器')]],
     how: {
       flow: [[b('Input', '输入'), b('Live source, e.g. 1080p from OBS or a camera.', '直播源，例如 OBS 或摄像头的 1080p。')], [b('Decode · scale · encode', '解码 · 缩放 · 编码'), b('NVDEC, GPU scaling and NVENC do the heavy work.', 'NVDEC、GPU 缩放和 NVENC 承担主要负载。')], [b('Outputs', '输出'), b('One encode per rendition: 1080p, 720p, 480p…', '每个码率档一路编码：1080p、720p、480p……')]],
@@ -123,7 +122,19 @@ const FIRST = [
         [b('3–5 creators on shared desktops', '3–5 个主播共享桌面'), b('6–10 encode jobs at once', '同时 6–10 路编码'), ['rtx-pro-4000', 'rtx-5090']],
         [b('24/7 channels (FFmpeg)', '7×24 频道（FFmpeg）'), b('Encode sessions per driver', '驱动的编码路数上限'), ['rtx-a5000', 'rtx-5090']],
         [b('ABR ladders, many renditions', '多码率阶梯，大量输出'), b('Total outputs, port speed', '总输出路数、端口带宽'), ['rtx-5090', 'a40', 'rtx-pro-5000']],
+        [b('Browser or chart rendered, then streamed', '网页 / 图表画面渲染后推流'), b('NVENC with a current driver, CPU single-core speed', '有 NVENC 且驱动够新、CPU 单核'), ['rtx-pro-2000', 'rtx-a4000']],
+        [b('Remote desktop or game streaming', '远程桌面 / 云游戏串流'), b('NVENC, CPU single-core, VRAM for each instance', 'NVENC、CPU 单核、每个实例的显存'), ['rtx-a4000', 'rtx-pro-4000']],
       ],
+      /* What this workload uses: h high · m medium · l low, per sub-workload */
+      profile: {
+        cols: [b('OBS desktop', 'OBS 桌面'), b('24/7 restream', '7×24 转推'), b('ABR ladder', '多码率'), b('Browser to stream', '网页画面直播'), b('Remote desktop', '远程桌面串流')],
+        rows: [
+          [b('Has NVENC', '有没有 NVENC'), 'hhhhh'], [b('Encode session limit', 'NVENC 并发路数'), 'mhhlm'], [b('Encoder throughput', 'NVENC 编码吞吐'), 'mhhlm'],
+          [b('CPU single-core', 'CPU 单核'), 'hmmhh'], [b('CPU cores', 'CPU 核数'), 'hmmmm'], [b('RAM', '内存'), 'mllmm'],
+          [b('VRAM', '显存'), 'llmlm'], [b('CUDA / Tensor', 'CUDA / Tensor'), 'lllll'], [b('Outbound bandwidth', '出站带宽'), 'mhhlm'], [b('Network stability', '网络稳定性'), 'hhhhh'],
+        ],
+        note: b('From customer cases and NVIDIA documentation; to be calibrated with our own tests. CUDA matters only when you add AI effects.', '依据客户案例和 NVIDIA 文档整理，待我们自己的实测校准。只有加 AI 特效时才需要看 CUDA。'),
+      },
       plans: [
         ['rtx-5060', b('GPU VPS', 'GPU 云服务器'), 85, b('16 cores · 28 GB RAM · 200 Mbps', '16 核 · 28 GB 内存 · 200 Mbps'), b('Entry OBS / single channel', '入门 OBS / 单频道')],
         ['rtx-pro-4000', b('GPU VPS', 'GPU 云服务器'), 189, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps'), b('Several creators or channels', '多个主播或频道')],
@@ -150,6 +161,8 @@ const FIRST = [
       [b('Will more GPU memory fix slow transcoding?', '显存大了转码就快吗？'), b('Only if memory is the bottleneck. Usually it is encoder throughput or the session limit.', '只有显存是瓶颈时才有用，通常卡在编码吞吐量或路数上限。')],
       [b('How much bandwidth?', '需要多少带宽？'), b('Add up every encoded bitrate leaving the server, plus audio and overhead. Count ingress separately.', '把所有流出服务器的编码码率加起来，再加音频和协议开销；入口带宽另算。')],
       [b('Does the server include a CDN?', '服务器包含 CDN 吗？'), b('No. Origin software, CDN and licences are separate.', '不包含。源站软件、CDN 和授权另算。')],
+      [b('Which GPUs cannot hardware-encode?', '哪些 GPU 不能硬件编码？'), b('A100 and H100 have no NVENC. Some older entry cards lack it or need a driver too old for current FFmpeg. Check the table on the Benchmarks page before ordering.', 'A100 和 H100 没有 NVENC。部分老款入门卡没有，或者驱动太老带不动新版 FFmpeg。下单前先看测试页的 NVENC 表。')],
+      [b('Is my bottleneck the GPU?', '我的瓶颈是 GPU 吗？'), b('Often not. Check outbound bandwidth first, then encode sessions and encoder load (nvidia-smi), then whether one CPU core is at 100%.', '常常不是。先看出站带宽，再看编码路数和编码器负载（nvidia-smi），最后看有没有某个 CPU 核跑满。')],
     ],
     sources: [[S_SRC, 'GPU Mart · GPU for streaming']],
   },

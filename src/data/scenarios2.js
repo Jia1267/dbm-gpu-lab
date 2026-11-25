@@ -11,7 +11,8 @@ const SPEC = {
   'rtx-a6000': [DED, 409, b('Dual Xeon · 256 GB RAM', '双路 Xeon · 256 GB 内存')],
   'rtx-5090': [VPS, 419, b('32 cores · 84 GB RAM · 500 Mbps', '32 核 · 84 GB 内存 · 500 Mbps')],
   'rtx-pro-6000': [VPS, 649, b('32 cores · 84 GB RAM · 1 Gbps', '32 核 · 84 GB 内存 · 1 Gbps')],
-  'h100-pcie': [DED, 2599, b('80 GB HBM · dual Xeon', '80 GB HBM · 双路 Xeon')],
+  /* gpu-mart.com/h100-hosting, Nov 2026: $2,599 monthly ($2,099 only on a 24-month term) */
+  'h100-pcie': [DED, 2599, b('Dual 18-core Xeon · 256 GB RAM · 100 Mbps', '双路 18 核 Xeon · 256 GB 内存 · 100 Mbps')],
 };
 const P = (id, fit) => [id, ...SPEC[id], fit];
 const S = (k) => [EXT[k].src.url, EXT[k].src.label];

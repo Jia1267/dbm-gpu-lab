@@ -43,7 +43,8 @@ export function Scenario() {
   }, []);
   if (!s) return <Navigate to={p('/scenarios')} replace />;
 
-  const hasCases = s.cases?.length > 0;
+  const cases = s.cases || [];
+  const hasCases = cases.length > 0;
   const tabs = [['how', tr('How it works', '原理')], ['pick', tr('Which GPU', '选型')], ['test', tr('Test data', '测试数据')], ...(hasCases ? [['cases', tr('Cases', '案例')]] : []), ['faq', 'FAQ']];
   const go = (e, k) => { e.preventDefault(); document.getElementById(k)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
 
@@ -73,6 +74,12 @@ export function Scenario() {
         <section className="sc-sec" id="pick"><h2>{tr('Which GPU', '选型')}</h2>
           <div className="panel sc-table"><table><thead><tr>{s.pick.cols.map((c, i) => <th key={i}>{L(c)}</th>)}</tr></thead>
             <tbody>{s.pick.rows.map((r, i) => <tr key={i}><td>{L(r[0])}</td><td className="m" style={{ whiteSpace: 'normal' }}>{L(r[1])}</td><td><GpuLinks ids={r[2]} /></td></tr>)}</tbody></table></div>
+          {s.pick.profile && <>
+            <h3 style={{ fontSize: 18, fontWeight: 600, margin: '32px 0 14px' }}>{tr('What each workload uses', '各类用法吃什么资源')}</h3>
+            <div className="panel sc-table"><table><thead><tr><th>{tr('Resource', '资源')}</th>{s.pick.profile.cols.map((c, i) => <th key={i}>{L(c)}</th>)}</tr></thead>
+              <tbody>{s.pick.profile.rows.map(([n, lv], i) => <tr key={i}><td>{L(n)}</td>{[...lv].map((x, j) => <td key={j}><span className={'lv lv-' + x}>{{ h: tr('High', '高'), m: tr('Medium', '中'), l: tr('Low', '低') }[x]}</span></td>)}</tr>)}</tbody></table></div>
+            <p className="sc-note">{L(s.pick.profile.note)}</p>
+          </>}
           <h3 style={{ fontSize: 18, fontWeight: 600, margin: '32px 0 14px' }}>{tr('GPU Mart plans', 'GPU Mart 套餐')}</h3>
           <div className="sc-plans">{s.pick.plans.map(([gid, type, price, spec, fit]) => (
             <div className="panel sc-plan" key={gid + price}><span className="t">{L(type)}</span><A className="g" to={'/gpu/' + gid}>{G(gid).name}</A><span className="mono" style={{ fontSize: 13, color: 'var(--steel)' }}>{G(gid).vtot} GB {G(gid).mem}</span>
@@ -97,8 +104,8 @@ export function Scenario() {
         </section>
 
         {hasCases && <section className="sc-sec" id="cases"><h2>{tr('Customer cases', '客户案例')}</h2>
-          <div className="sc-grid">{s.cases.map((c, i) => (
-            <div className="panel sc-case" key={i}><div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}><h3>{L(c.t)}</h3><St t="cust" /></div>
+          <div className="sc-grid">{cases.map((c, i) => (
+            <div className="panel sc-case" key={i}><div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}><h3>{L(c.t)}</h3><St t={c.draft ? 'draft' : 'cust'} /></div>
               <dl>{c.gpu && <><dt>GPU</dt><dd><A className="link" to={'/gpu/' + c.gpu}>{G(c.gpu).name}</A></dd></>}<dt>{tr('Stack', '软件')}</dt><dd className="mono" style={{ fontSize: 13 }}>{c.stack}</dd></dl>
               <div className="res">{c.res.map((r, j) => <span key={j}>{L(r)}</span>)}</div>
               {c.note && <p className="sc-note" style={{ marginTop: 0 }}>{L(c.note)}</p>}

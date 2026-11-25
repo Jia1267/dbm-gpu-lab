@@ -12,6 +12,7 @@ export function St({ t }) {
     ds: ['st-ds', 'i-ds', tr('Datasheet', '规格书')],
     demo: ['st-demo', 'i-demo', tr('Demo data', '演示数据')],
     cust: ['st-ds', 'i-ds', tr('Customer-reported', '客户反馈')],
+    draft: ['st-est', 'i-est', tr('Unverified', '待核实')],
     dbm: ['st-ver', 'i-ver', tr('DBM test', 'DBM 实测')],
     ext: ['st-ds', 'i-ds', tr('Published', '公开数据')],
   }[t];
