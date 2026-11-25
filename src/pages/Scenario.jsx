@@ -4,6 +4,7 @@ import { useLang } from '../i18n.jsx';
 import { preset } from '../state.js';
 import { G } from '../data/gpus.js';
 import { SCENARIOS, SC } from '../data/scenarios.js';
+import { shortTerm } from '../data/scenarios2.js';
 import { VLLM, BENCH_SRC } from '../data/bench.js';
 import { Ico, A, St, img } from '../ui.jsx';
 import { VllmChart, ExtChart, TestCards } from './charts.jsx';
@@ -83,7 +84,7 @@ export function Scenario() {
           <h3 style={{ fontSize: 18, fontWeight: 600, margin: '32px 0 14px' }}>{tr('GPU Mart plans', 'GPU Mart 套餐')}</h3>
           <div className="sc-plans">{s.pick.plans.map(([gid, type, price, spec, fit]) => (
             <div className="panel sc-plan" key={gid + price}><span className="t">{L(type)}</span><A className="g" to={'/gpu/' + gid}>{G(gid).name}</A><span className="mono" style={{ fontSize: 13, color: 'var(--steel)' }}>{G(gid).vtot} GB {G(gid).mem}</span>
-              <span className="pr">${price.toLocaleString('en-US')}<small>{tr(' /mo', ' /月')}</small></span><ul><li>{L(spec)}</li></ul><span className="fit">{L(fit)}</span></div>
+              <span className="pr">${price.toLocaleString('en-US')}<small>{tr(' /mo', ' /月')}</small></span>{shortTerm(gid) && <span className="note" style={{ fontSize: 13 }}>{L(shortTerm(gid))}</span>}<ul><li>{L(spec)}</li></ul><span className="fit">{L(fit)}</span></div>
           ))}</div>
           <p className="sc-note">{tr('List prices seen in November 2026; promotions excluded. Check ', '2026 年 11 月的标价，不含促销。以 ')}<a className="link" href={s.pick.src} target="_blank" rel="noopener">GPU Mart</a>{tr(' for current pricing.', ' 当前价格为准。')}</p>
         </section>

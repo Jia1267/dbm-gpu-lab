@@ -8,6 +8,8 @@ const VPS = b('GPU VPS', 'GPU 云服务器'), DED = b('Dedicated', '独立服务
 /* Plan prices live only in prices.json (with source page and date checked) */
 export const SPEC = Object.fromEntries(Object.entries(PRICES.plans).map(([id, p]) => [id, [p.type === 'vps' ? VPS : DED, p.usd, b(...p.spec)]]));
 export const usd = (id) => PRICES.plans[id].usd;
+/* Shortest-term price line: 'usd' is the 24-month price GPU Mart shows by default */
+export const shortTerm = (id) => { const p = PRICES.plans[id]; if (!p) return null; const v = '$' + p.short.toLocaleString('en-US'); return b('24-month term · ' + v + (p.term === 1 ? ' month-to-month' : ' on a 3-month term'), '24 月付 · ' + (p.term === 1 ? '按月 ' : '3 月付 ') + v); };
 export const P = (id, fit) => [id, ...SPEC[id], fit];
 const S = (k) => [EXT[k].src.url, EXT[k].src.label];
 const F = (k) => [FACTS[k].url, FACTS[k].label];

@@ -5,7 +5,7 @@ import { useStore } from '../store.js';
 import { app, setS, setAns } from '../state.js';
 import { fmt, f1 } from '../data/gpus.js';
 import { WL, WL_ORDER, MIG, need, recommend, reasonsFor } from '../data/workloads.js';
-import { SPEC } from '../data/scenarios2.js';
+import { SPEC, shortTerm } from '../data/scenarios2.js';
 import { WL_GUIDE } from '../data/scenarios.js';
 import { Ico, A, St, img } from '../ui.jsx';
 import Select from '../Select.jsx';
@@ -84,7 +84,7 @@ export default function Advisor() {
           <ul className="reasons">{R.map((r, i) => <li key={'r' + i}><span className="ok"><Ico id="i-ok" /></span><span>{L(r)}</span></li>)}{Lim.map((r, i) => <li key={'l' + i} className="lim"><span style={{ color: 'var(--amber)', display: 'inline-flex' }}><Ico id="i-warn" /></span><span>{L(r)}</span></li>)}</ul>
           <div className="evi"><St t="ds" /><span className="note">{tr('specs', '规格')}</span><St t="est" /><span className="note">{tr('memory fit', '显存匹配')}</span><St t="nt" /><span className="note">{tr('throughput', '吞吐量')}</span></div>
           {S.wl === 'llm' && a.prec !== 'int4' && (() => { const n4 = need('llm', { ...a, prec: 'int4' }); return <p className="plan-line note">{tr(`At 4-bit the estimate drops to ${f1(n4.total)} GB, which opens smaller, cheaper cards. `, `改用 4-bit，估算降到 ${f1(n4.total)} GB，可以选更小、更便宜的卡。`)}<button className="link" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={() => setAns('llm', { prec: 'int4' })}>{tr('Switch to 4-bit', '切换到 4-bit')}</button></p>; })()}
-          {plan ? <p className="plan-line"><b>{tr(`GPU Mart ${L(plan[0])} from $${plan[1]}/mo`, `GPU Mart ${L(plan[0])}，$${plan[1]}/月起`)}</b>{top.count > 1 && tr(` per GPU · ${top.count} needed`, `（每张卡，需要 ${top.count} 张）`)}<br /><span className="note">{L(plan[2])} · {tr('list price, Nov 2026', '2026 年 11 月标价')}</span></p>
+          {plan ? <p className="plan-line"><b>{tr(`GPU Mart ${L(plan[0])} from $${plan[1]}/mo`, `GPU Mart ${L(plan[0])}，$${plan[1]}/月起`)}</b>{top.count > 1 && tr(` per GPU · ${top.count} needed`, `（每张卡，需要 ${top.count} 张）`)}<br /><span className="note">{L(shortTerm(top.g.id))} · {L(plan[2])} · {tr('list price, Nov 2026', '2026 年 11 月标价')}</span></p>
             : <p className="plan-line note">{tr('No public plan price for this GPU. Ask GPU Mart sales for availability.', '这张卡没有公开套餐价格，请向 GPU Mart 销售询问。')}</p>}
           <div className="adv-nav" style={{ marginTop: 22 }}>{guide && <A className="btn btn-primary" to={'/scenarios/' + guide + '#pick'}>{tr('See plans and prices', '看套餐和价格')} <Ico id="i-arrow" /></A>}<A className={'btn ' + (guide ? 'btn-line' : 'btn-primary')} to={'/gpu/' + top.g.id}>{tr('View this GPU', '查看这张卡')}</A></div>
         </div></div>

@@ -106,7 +106,7 @@ const FIRST = [
     id: 'streaming', img: 'wl-video', wl: 'video',
     name: b('Live streaming & transcoding', '直播与转码'),
     tagline: b('Cloud OBS, 24/7 restreaming and adaptive-bitrate transcoding. Check NVENC and bandwidth before raw GPU power.', '云端 OBS、7×24 转推和多码率转码。选卡先看 NVENC 和带宽，再看 GPU 算力。'),
-    kpis: [['8', b('encode sessions to plan per GeForce card such as the RTX 5090', '路编码：RTX 5090 等 GeForce 卡按此规划')], ['67–76', b('fps per feed in our 10-feed RTX 5090 test (50 needed)', 'fps 每路：RTX 5090 实测 10 路（只需 50）')], ['$' + usd('rtx-5060'), b('/mo · RTX 5060 GPU VPS', '/月 · RTX 5060 云服务器')]],
+    kpis: [['8', b('encode sessions to plan per GeForce card such as the RTX 5090', '路编码：RTX 5090 等 GeForce 卡按此规划')], ['67–76', b('fps per feed in our 10-feed RTX 5090 test (50 needed)', 'fps 每路：RTX 5090 实测 10 路（只需 50）')], ['$' + usd('rtx-5060'), b('/mo on a 24-month term · RTX 5060 GPU VPS', '/月（24 月付）· RTX 5060 云服务器')]],
     how: {
       flow: [[b('Input', '输入'), b('Live source, e.g. 1080p from OBS or a camera.', '直播源，例如 OBS 或摄像头的 1080p。')], [b('Decode · scale · encode', '解码 · 缩放 · 编码'), b('NVDEC, GPU scaling and NVENC do the heavy work.', 'NVDEC、GPU 缩放和 NVENC 承担主要负载。')], [b('Outputs', '输出'), b('One encode per rendition: 1080p, 720p, 480p…', '每个码率档一路编码：1080p、720p、480p……')]],
       cards: [
