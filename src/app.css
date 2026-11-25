@@ -135,7 +135,7 @@ html[lang="zh-CN"] .hero h1,html[lang="zh-CN"] .page-head h1{letter-spacing:-.01
 @media (prefers-reduced-motion:reduce){.dd-pop{animation:none}}
 
 /* ---------- hero 3D exploded view ---------- */
-.hero-visual .stage{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .6s var(--ease-out)}
+.hero-visual .stage{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity var(--d-large) var(--ease-out)}
 .hero-visual .stage.on{opacity:1}
 .hero-visual .stage canvas{position:absolute;inset:0;width:100%!important;height:100%!important;display:block}
 .hx-labels{position:absolute;inset:0;z-index:2;pointer-events:none}
@@ -152,7 +152,7 @@ html[lang="zh-CN"] .hero h1,html[lang="zh-CN"] .page-head h1{letter-spacing:-.01
 .hx-btn{position:absolute;z-index:3;top:28px;right:max(var(--pad),calc((100vw - 1280px)/2 + var(--pad)));display:inline-flex;align-items:center;gap:10px;height:36px;padding:0 14px;border-radius:999px;
   border:1px solid rgba(255,255,255,.18);background:rgba(20,30,40,.55);backdrop-filter:blur(8px);color:#D5DDE5;font-size:13px;transition:border-color var(--d-fast),color var(--d-fast)}
 .hx-btn:hover{border-color:rgba(255,255,255,.45);color:#fff}
-.hx-btn .dot{width:7px;height:7px;border-radius:50%;background:#5B8CFF;box-shadow:0 0 0 0 rgba(91,140,255,.6);animation:hxPulse 2s var(--ease-out) infinite}
+.hx-btn .dot{width:7px;height:7px;border-radius:50%;background:#5B8CFF;box-shadow:0 0 0 0 rgba(91,140,255,.6);animation:hxPulse 2s var(--ease-out) 3}
 .hx-btn[aria-pressed=true] .dot{animation:none;background:#8EA0B3}
 @keyframes hxPulse{70%{box-shadow:0 0 0 8px rgba(91,140,255,0)}100%{box-shadow:0 0 0 0 rgba(91,140,255,0)}}
 @media (prefers-reduced-motion:reduce){.hx-btn .dot{animation:none}}
@@ -183,3 +183,8 @@ html[lang="zh-CN"] .hero h1,html[lang="zh-CN"] .page-head h1{letter-spacing:-.01
 
 /* Advisor: plan price on the result card */
 .plan-line{margin:18px 0 0;font-size:15px;line-height:1.55}
+
+/* Advisor: the next step stays in view while you answer */
+.adv-nav.sticky{position:sticky;bottom:0;z-index:5;padding:14px 0;margin-bottom:-14px;background:linear-gradient(180deg,transparent,var(--canvas) 30%)}
+/* Text links that open another site say so */
+main a[target="_blank"]:not(.btn):not(:has(svg))::after{content:" ↗";font-size:.85em;color:var(--steel)}

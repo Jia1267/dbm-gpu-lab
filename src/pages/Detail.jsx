@@ -8,6 +8,7 @@ import { WL, WL_ORDER, SCEN, need, fitOf } from '../data/workloads.js';
 import { Ico, A, St, img } from '../ui.jsx';
 import { VLLM, OLLAMA } from '../data/bench.js';
 import { EXT, NVENC } from '../data/ext.js';
+import { SPEC, shortTerm } from '../data/scenarios2.js';
 
 export function FitCell({ g, sc }) {
   const { tr, L } = useLang();
@@ -76,7 +77,7 @@ export default function Detail() {
           <p className="intro">{L(g.introI)}</p>
           <div className="big"><b>{g.vtot}</b><span>GB {g.dual ? '(2 × 12) ' : ''}{g.mem}</span></div>
           <div className="trio"><div><span>{tr('Bandwidth', '带宽')}</span><b>{fmt(g.bw)} GB/s</b></div><div><span>{tr('Max power', '最大功耗')}</span><b>{g.tdp} W</b></div><div><span>{tr('Architecture', '架构')}</span><b>{g.arch.replace(' Lovelace', '')}</b></div></div>
-          <div className="dctas"><a className="btn btn-primary" href="https://www.gpu-mart.com/" target="_blank" rel="noopener"><Ico id="i-clock" />{tr('Check DBM availability', '查询 DBM 库存')}</a></div>
+          <div className="dctas">{SPEC[g.id] && <p className="note" style={{ margin: '0 0 12px' }}>{tr(`GPU Mart ${L(SPEC[g.id][0])} from $${SPEC[g.id][1]}/mo · `, `GPU Mart ${L(SPEC[g.id][0])}，$${SPEC[g.id][1]}/月起 · `)}{L(shortTerm(g.id))}</p>}<a className="btn btn-primary" href="https://www.gpu-mart.com/pricing" target="_blank" rel="noopener">{tr('See plans on GPU Mart', '去 GPU Mart 看套餐')} <Ico id="i-ext" /></a></div>
         </div>
       </div></div>
       <nav className="subnav" aria-label={tr('On this page', '本页导航')}><div className="wrap">{subs.map(([sid, t]) => <a key={sid} href={'#' + sid} className={curSec === sid ? 'cur' : ''} onClick={(e) => go(e, sid)}>{t}</a>)}</div></nav>
@@ -100,7 +101,7 @@ export default function Detail() {
               <div className="pm-v"><b>{m.v.toLocaleString('en-US')}</b>{m.unit && <small>{m.unit}</small>}</div>
               <div className="pm-bar"><i style={{ width: Math.max(3, m.v / m.max * 100) + '%' }} className={m.r[0] === 1 ? 'top' : ''} /></div>
               <div className="pm-foot"><span>{m.r[0] <= 3 ? L(ORD[m.r[0]]) : '#' + m.r[0]}{tr(` of ${m.r[1]}`, ` / 共 ${m.r[1]}`)}</span>
-                {m.tab ? <A className="link" to={'/benchmarks' + (m.tab === 'vllm' ? '' : '?t=' + m.tab)}>{m.src} <Ico id="i-arrow" /></A> : <a className="link" href={m.url} target="_blank" rel="noopener">{m.src} ↗</a>}</div></div>
+                {m.tab ? <A className="link" to={'/benchmarks' + (m.tab === 'vllm' ? '' : '?t=' + m.tab)}>{m.src} <Ico id="i-arrow" /></A> : <a className="link" href={m.url} target="_blank" rel="noopener">{m.src}</a>}</div></div>
           ))}</div></div></section>}
         <section className="dsec" id="d-alt"><div className="dgrid"><div><h2>{tr('Alternatives', '替代型号')}</h2></div>
           <div className="alts">{alts.map((a) => (

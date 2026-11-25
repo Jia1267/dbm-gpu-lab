@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { useStore } from '../store.js';
-import { app, setS, setAns } from '../state.js';
+import { app, setS, setAns, flash } from '../state.js';
 import { fmt, f1 } from '../data/gpus.js';
 import { WL, WL_ORDER, MIG, need, recommend, reasonsFor } from '../data/workloads.js';
 import { SPEC, shortTerm } from '../data/scenarios2.js';
@@ -13,7 +13,8 @@ import Select from '../Select.jsx';
 export default function Advisor() {
   const { step: st } = useParams();
   const step = Math.min(4, Math.max(1, +st || 1));
-  const { tr, L } = useLang();
+  const { tr, L, p } = useLang();
+  const nav = useNavigate();
   const S = useStore(app, (s) => s.S);
   const w = WL[S.wl], a = S.a[S.wl], n = need(S.wl, a);
   const last = useRef(0);
@@ -29,9 +30,9 @@ export default function Advisor() {
   if (step === 1) {
     main = <><span className="eyebrow">{tr('Step 1 of 4', '第 1 步，共 4 步')}</span><h1>{tr('What are you building?', '你要做什么？')}</h1>
       <div className="opts" role="radiogroup" aria-label={tr('Workload', '工作负载')}>{WL_ORDER.map((k) => (
-        <button key={k} className="opt" role="radio" aria-checked={S.wl === k} onClick={() => setS({ wl: k })}><span className="ph"><img src={img(WL[k].img)} alt="" /></span><span><b>{L(WL[k].name)}</b><span>{L(WL[k].q)}</span></span><span className="rd" /></button>
+        <button key={k} className="opt" role="radio" aria-checked={S.wl === k} onClick={() => { setS({ wl: k }); nav(p('/advisor/2')); }}><span className="ph"><img src={img(WL[k].img)} alt="" /></span><span><b>{L(WL[k].name)}</b><span>{L(WL[k].q)}</span></span><span className="rd" /></button>
       ))}</div>
-      <div className="adv-nav"><A className="btn btn-primary" to="/advisor/2">{tr('Continue', '继续')} <Ico id="i-arrow" /></A></div></>;
+      <p className="note" style={{ marginTop: 16 }}>{tr('Pick one to go to the next step.', '点一项就进入下一步。')}</p></>;
   }
   if (step === 2) {
     const T = n.total, scale = Math.max(T * 1.12, 90), cols = ['#141E28', '#245AE8', '#8794A1', '#C3CBD3'];
@@ -47,7 +48,7 @@ export default function Advisor() {
         <div className="parts">{n.parts.map((pp, i) => <span key={i}><span className="sw" style={{ background: cols[i] }} />{L(pp[0])} <b>{f1(pp[1])} GB</b></span>)}</div>
         <details className="basis-d"><summary>{tr("How it's calculated", '计算方法')}</summary><p className="basis">{L(n.basis)}</p></details>
       </div>
-      <div className="adv-nav"><A className="btn btn-line" to="/advisor/1"><Ico id="i-back" />{tr('Back', '上一步')}</A><A className="btn btn-primary" to="/advisor/3">{tr('Continue', '继续')} <Ico id="i-arrow" /></A></div></>;
+      <div className="adv-nav sticky"><A className="btn btn-line" to="/advisor/1"><Ico id="i-back" />{tr('Back', '上一步')}</A><A className="btn btn-primary" to="/advisor/3">{tr('Continue', '继续')} <Ico id="i-arrow" /></A></div></>;
   }
   if (step === 3) {
     main = <><span className="eyebrow">{tr('Step 3 of 4', '第 3 步，共 4 步')}</span><h1>{tr('Set your priorities.', '设定优先级。')}</h1>
@@ -60,7 +61,7 @@ export default function Advisor() {
       <label className="fopt" style={{ fontSize: 15 }}><input type="checkbox" checked={S.ecc} onChange={(e) => setS({ ecc: e.target.checked })} />{tr('ECC memory required (production, 24/7)', '必须有 ECC 显存（生产环境，7×24）')}</label>
       <label className="fopt" style={{ fontSize: 15 }}><input type="checkbox" checked={S.mig} onChange={(e) => setS({ mig: e.target.checked })} />{tr('Split into isolated slices for several users (MIG)', '切成互相隔离的几份给多人用（MIG）')}</label>
       <p style={{ fontSize: 13.5, color: 'var(--steel)', margin: '4px 0 0 28px', maxWidth: '60ch' }}>{tr('Sharing one GPU across virtual machines instead? That is vGPU. ', '要让多台虚拟机共用一张卡？那是 vGPU。')}<A className="link" to="/scenarios/vgpu">{tr('GPU virtualization guide', 'GPU 虚拟化方案')}</A></p>
-      <div className="adv-nav"><A className="btn btn-line" to="/advisor/2"><Ico id="i-back" />{tr('Back', '上一步')}</A><A className="btn btn-primary" to="/advisor/4">{tr('See recommendation', '查看推荐')} <Ico id="i-arrow" /></A></div></>;
+      <div className="adv-nav sticky"><A className="btn btn-line" to="/advisor/2"><Ico id="i-back" />{tr('Back', '上一步')}</A><A className="btn btn-primary" to="/advisor/4">{tr('See recommendation', '查看推荐')} <Ico id="i-arrow" /></A></div></>;
   }
   if (step === 4) {
     const { fit } = recommend(S);
@@ -70,8 +71,8 @@ export default function Advisor() {
     } else if (!fit.length) {
       main = <><span className="eyebrow">{tr('Step 4 of 4', '第 4 步，共 4 步')}</span><h1>{tr('Nothing fits on a single GPU.', '单张卡装不下。')}</h1><p className="lede">{tr(`The estimate is ${f1(n.total)} GB. Ways forward:`, `估算 ${f1(n.total)} GB。可以这样调整：`)}</p>
         <div className="panel" style={{ padding: '4px 24px', marginTop: 24 }}>
-          <div className="fitrow"><div className="w">{tr('Allow multi-GPU', '允许多卡')}<small>{tr('Split the model across several cards', '把模型分到几张卡上')}</small></div><span /><button className="btn btn-primary btn-sm" onClick={() => setS({ multi: 'yes' })}>{tr('Allow', '允许')}</button></div>
-          {S.wl === 'llm' && a.prec !== 'int4' && <div className="fitrow"><div className="w">{tr('Use INT4 weights', '改用 INT4 权重')}<small>{tr('About a quarter of FP16 weight memory', '约为 FP16 权重的四分之一')}</small></div><span /><button className="btn btn-line btn-sm" onClick={() => setAns('llm', { prec: 'int4' })}>{tr('Switch to INT4', '切换到 INT4')}</button></div>}
+          <div className="fitrow"><div className="w">{tr('Allow multi-GPU', '允许多卡')}<small>{tr('Split the model across several cards', '把模型分到几张卡上')}</small></div><span /><button className="btn btn-primary btn-sm" onClick={() => { setS({ multi: 'yes' }); flash(tr('Multi-GPU allowed: showing multi-card options', '已允许多卡：下面是多卡方案')); }}>{tr('Allow', '允许')}</button></div>
+          {S.wl === 'llm' && a.prec !== 'int4' && <div className="fitrow"><div className="w">{tr('Use INT4 weights', '改用 INT4 权重')}<small>{tr('About a quarter of FP16 weight memory', '约为 FP16 权重的四分之一')}</small></div><span /><button className="btn btn-line btn-sm" onClick={() => { setAns('llm', { prec: 'int4' }); flash(tr('Switched to INT4: estimate updated', '已切换到 INT4：估算已更新')); }}>{tr('Switch to INT4', '切换到 INT4')}</button></div>}
           <div className="fitrow"><div className="w">{tr('Adjust requirements', '调整需求')}<small>{tr('Smaller model, shorter context or fewer users', '更小的模型、更短的上下文或更少用户')}</small></div><span /><A className="btn btn-line btn-sm" to="/advisor/2">{tr('Adjust', '调整')}</A></div>
         </div></>;
     } else {
@@ -83,7 +84,12 @@ export default function Advisor() {
             <div className="parts"><span>{tr('Estimate', '估算')} <b>{f1(n.total)} GB</b></span><span>{tr('Capacity', '容量')} <b>{top.cap} GB</b></span><span>{tr('Headroom', '余量')} <b>{f1(top.head)} GB</b></span></div></div>
           <ul className="reasons">{R.map((r, i) => <li key={'r' + i}><span className="ok"><Ico id="i-ok" /></span><span>{L(r)}</span></li>)}{Lim.map((r, i) => <li key={'l' + i} className="lim"><span style={{ color: 'var(--amber)', display: 'inline-flex' }}><Ico id="i-warn" /></span><span>{L(r)}</span></li>)}</ul>
           <div className="evi"><St t="ds" /><span className="note">{tr('specs', '规格')}</span><St t="est" /><span className="note">{tr('memory fit', '显存匹配')}</span><St t="nt" /><span className="note">{tr('throughput', '吞吐量')}</span></div>
-          {S.wl === 'llm' && a.prec !== 'int4' && (() => { const n4 = need('llm', { ...a, prec: 'int4' }); return <p className="plan-line note">{tr(`At 4-bit the estimate drops to ${f1(n4.total)} GB, which opens smaller, cheaper cards. `, `改用 4-bit，估算降到 ${f1(n4.total)} GB，可以选更小、更便宜的卡。`)}<button className="link" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={() => setAns('llm', { prec: 'int4' })}>{tr('Switch to 4-bit', '切换到 4-bit')}</button></p>; })()}
+          {/* Offer 4-bit only when it would actually change the pick, and name the card it changes to */}
+          {S.wl === 'llm' && a.prec !== 'int4' && (() => {
+            const a4 = { ...a, prec: 'int4' }, n4 = need('llm', a4), t4 = recommend({ ...S, a: { ...S.a, llm: a4 } }).fit[0];
+            if (!t4 || t4.g.id === top.g.id) return null;
+            return <p className="plan-line note">{tr(`At 4-bit the estimate drops to ${f1(n4.total)} GB and the pick becomes ${t4.g.name}. `, `改用 4-bit，估算降到 ${f1(n4.total)} GB，推荐会换成 ${t4.g.name}。`)}<button className="link" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={() => { setAns('llm', a4); flash(tr(`Switched to 4-bit: ${f1(n4.total)} GB, now ${t4.g.name}`, `已切换到 4-bit：估算 ${f1(n4.total)} GB，推荐换成 ${t4.g.name}`)); }}>{tr('Switch to 4-bit', '切换到 4-bit')}</button></p>;
+          })()}
           {plan ? <p className="plan-line"><b>{tr(`GPU Mart ${L(plan[0])} from $${plan[1]}/mo`, `GPU Mart ${L(plan[0])}，$${plan[1]}/月起`)}</b>{top.count > 1 && tr(` per GPU · ${top.count} needed`, `（每张卡，需要 ${top.count} 张）`)}<br /><span className="note">{L(shortTerm(top.g.id))} · {L(plan[2])} · {tr('list price, Nov 2026', '2026 年 11 月标价')}</span></p>
             : <p className="plan-line note">{tr('No public plan price for this GPU. Ask GPU Mart sales for availability.', '这张卡没有公开套餐价格，请向 GPU Mart 销售询问。')}</p>}
           <div className="adv-nav" style={{ marginTop: 22 }}>{guide && <A className="btn btn-primary" to={'/scenarios/' + guide + '#pick'}>{tr('See plans and prices', '看套餐和价格')} <Ico id="i-arrow" /></A>}<A className={'btn ' + (guide ? 'btn-line' : 'btn-primary')} to={'/gpu/' + top.g.id}>{tr('View this GPU', '查看这张卡')}</A></div>

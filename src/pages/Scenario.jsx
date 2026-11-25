@@ -86,7 +86,7 @@ export function Scenario() {
             <div className="panel sc-plan" key={gid + price}><span className="t">{L(type)}</span><A className="g" to={'/gpu/' + gid}>{G(gid).name}</A><span className="mono" style={{ fontSize: 13, color: 'var(--steel)' }}>{G(gid).vtot} GB {G(gid).mem}</span>
               <span className="pr">${price.toLocaleString('en-US')}<small>{tr(' /mo', ' /月')}</small></span>{shortTerm(gid) && <span className="note" style={{ fontSize: 13 }}>{L(shortTerm(gid))}</span>}<ul><li>{L(spec)}</li></ul><span className="fit">{L(fit)}</span></div>
           ))}</div>
-          <p className="sc-note">{tr('List prices seen in November 2026; promotions excluded. Check ', '2026 年 11 月的标价，不含促销。以 ')}<a className="link" href={s.pick.src} target="_blank" rel="noopener">GPU Mart</a>{tr(' for current pricing.', ' 当前价格为准。')}</p>
+          <p className="sc-note">{tr('List prices seen in November 2026; promotions excluded. Check ', '2026 年 11 月的标价，不含促销。以 ')}<a className="link" href={s.pick.src} target="_blank" rel="noopener">GPU Mart <Ico id="i-ext" /></a>{tr(' for current pricing.', ' 当前价格为准。')}</p>
         </section>
 
         <section className="sc-sec" id="test"><h2>{tr('Test data', '测试数据')}</h2>
@@ -120,7 +120,7 @@ export function Scenario() {
         </section>
 
         <div className="sc-cta"><div><h2>{tr('Size it for your own workload', '按你的工作量来估算')}</h2><p>{tr('Four questions, a recommended GPU and the reasoning behind it.', '四个问题，给出推荐的 GPU 和理由。')}</p></div>
-          <div className="row"><A to="/advisor/2" className="btn btn-primary" onClick={() => preset(s.wl, s.id === 'streaming' ? { out: 'live' } : undefined)}>{tr('Open the Advisor', '打开选卡向导')} <Ico id="i-arrow" /></A><a href="https://www.gpu-mart.com/" className="btn btn-dark-line" target="_blank" rel="noopener">GPU Mart</a></div></div>
+          <div className="row"><A to="/advisor/2" className="btn btn-primary" onClick={() => preset(s.wl, s.id === 'streaming' ? { out: 'live' } : undefined)}>{tr('Open the Advisor', '打开选卡向导')} <Ico id="i-arrow" /></A><a href="https://www.gpu-mart.com/" className="btn btn-dark-line" target="_blank" rel="noopener">GPU Mart <Ico id="i-ext" /></a></div></div>
       </div>
     </>
   );

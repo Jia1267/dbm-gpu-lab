@@ -1,12 +1,226 @@
 {
   "_note": "GPU Mart prices shown on the public site; the only place a plan price is written. usd = 24-month price (what gpu-mart.com/pricing shows by default); short = price on the shortest term, term = that term in months (1, or 3 where no monthly term exists). Promotions are not used here. 'internal' is the matching id in the internal handbook's prices.js, whose checker verifies both files agree. Update 'checked' (YYYY-MM-DD) after re-reading the pricing page and selecting each term.",
   "plans": {
-    "rtx-5060": { "internal": "5060-vps", "type": "vps", "usd": 85, "short": 99, "term": 1, "spec": ["16 cores · 28 GB RAM · 200 Mbps", "16 核 · 28 GB 内存 · 200 Mbps"], "src": "https://www.gpu-mart.com/pricing", "checked": "2026-11-24" },
-    "rtx-pro-4000": { "internal": "pro4000-vps", "type": "vps", "usd": 189, "short": 229, "term": 3, "spec": ["24 cores · 56 GB RAM · 500 Mbps", "24 核 · 56 GB 内存 · 500 Mbps"], "src": "https://www.gpu-mart.com/pricing", "checked": "2026-11-24" },
-    "rtx-pro-5000": { "internal": "pro5000-vps", "type": "vps", "usd": 359, "short": 419, "term": 3, "spec": ["24 cores · 56 GB RAM · 500 Mbps", "24 核 · 56 GB 内存 · 500 Mbps"], "src": "https://www.gpu-mart.com/pricing", "checked": "2026-11-24" },
-    "rtx-a6000": { "internal": "a6000-ded", "type": "ded", "usd": 409, "short": 549, "term": 1, "spec": ["Dual Xeon · 256 GB RAM", "双路 Xeon · 256 GB 内存"], "src": "https://www.gpu-mart.com/pricing", "checked": "2026-11-24" },
-    "rtx-5090": { "internal": "5090-vps", "type": "vps", "usd": 419, "short": 539, "term": 1, "spec": ["32 cores · 84 GB RAM · 500 Mbps", "32 核 · 84 GB 内存 · 500 Mbps"], "src": "https://www.gpu-mart.com/pricing", "checked": "2026-11-24" },
-    "rtx-pro-6000": { "internal": "pro6000-vps", "type": "vps", "usd": 649, "short": 749, "term": 3, "spec": ["32 cores · 84 GB RAM · 1 Gbps", "32 核 · 84 GB 内存 · 1 Gbps"], "src": "https://www.gpu-mart.com/pricing", "checked": "2026-11-24" },
-    "h100-pcie": { "internal": "h100-ded", "type": "ded", "usd": 2099, "short": 2599, "term": 1, "spec": ["Dual 18-core Xeon · 256 GB RAM · 100 Mbps", "双路 18 核 Xeon · 256 GB 内存 · 100 Mbps"], "src": "https://www.gpu-mart.com/pricing", "checked": "2026-11-24" }
+    "rtx-5060": {
+      "internal": "5060-vps",
+      "type": "vps",
+      "usd": 85,
+      "short": 99,
+      "term": 1,
+      "spec": [
+        "16 cores · 28 GB RAM · 200 Mbps",
+        "16 核 · 28 GB 内存 · 200 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "rtx-pro-4000": {
+      "internal": "pro4000-vps",
+      "type": "vps",
+      "usd": 189,
+      "short": 229,
+      "term": 3,
+      "spec": [
+        "24 cores · 56 GB RAM · 500 Mbps",
+        "24 核 · 56 GB 内存 · 500 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "rtx-pro-5000": {
+      "internal": "pro5000-vps",
+      "type": "vps",
+      "usd": 359,
+      "short": 419,
+      "term": 3,
+      "spec": [
+        "24 cores · 56 GB RAM · 500 Mbps",
+        "24 核 · 56 GB 内存 · 500 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "rtx-a6000": {
+      "internal": "a6000-ded",
+      "type": "ded",
+      "usd": 409,
+      "short": 549,
+      "term": 1,
+      "spec": [
+        "Dual Xeon · 256 GB RAM",
+        "双路 Xeon · 256 GB 内存"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "rtx-5090": {
+      "internal": "5090-vps",
+      "type": "vps",
+      "usd": 419,
+      "short": 539,
+      "term": 1,
+      "spec": [
+        "32 cores · 84 GB RAM · 500 Mbps",
+        "32 核 · 84 GB 内存 · 500 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "rtx-pro-6000": {
+      "internal": "pro6000-vps",
+      "type": "vps",
+      "usd": 649,
+      "short": 749,
+      "term": 3,
+      "spec": [
+        "32 cores · 84 GB RAM · 1 Gbps",
+        "32 核 · 84 GB 内存 · 1 Gbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "h100-pcie": {
+      "internal": "h100-ded",
+      "type": "ded",
+      "usd": 2099,
+      "short": 2599,
+      "term": 1,
+      "spec": [
+        "Dual 18-core Xeon · 256 GB RAM · 100 Mbps",
+        "双路 18 核 Xeon · 256 GB 内存 · 100 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "rtx-4090": {
+      "internal": "4090-ded",
+      "type": "ded",
+      "usd": 409,
+      "short": 549,
+      "term": 1,
+      "spec": [
+        "Dual 18-core Xeon · 256 GB RAM · 100 Mbps",
+        "双路 18 核 Xeon · 256 GB 内存 · 100 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "rtx-a4000": {
+      "internal": "a4000-vps",
+      "type": "vps",
+      "usd": 119,
+      "short": 149,
+      "term": 1,
+      "spec": [
+        "24 cores · 28 GB RAM · 300 Mbps",
+        "24 核 · 28 GB 内存 · 300 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "rtx-a5000": {
+      "internal": "a5000-ded",
+      "type": "ded",
+      "usd": 269,
+      "short": 349,
+      "term": 1,
+      "spec": [
+        "Dual 12-core Xeon · 128 GB RAM · 100 Mbps",
+        "双路 12 核 Xeon · 128 GB 内存 · 100 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "a40": {
+      "internal": "a40-ded",
+      "type": "ded",
+      "usd": 439,
+      "short": 549,
+      "term": 1,
+      "spec": [
+        "Dual 18-core Xeon · 256 GB RAM · 100 Mbps",
+        "双路 18 核 Xeon · 256 GB 内存 · 100 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "v100": {
+      "internal": "v100-ded",
+      "type": "ded",
+      "usd": 229,
+      "short": 299,
+      "term": 1,
+      "spec": [
+        "Dual 12-core Xeon · 128 GB RAM · 100 Mbps",
+        "双路 12 核 Xeon · 128 GB 内存 · 100 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "p100": {
+      "internal": "p100-ded",
+      "type": "ded",
+      "usd": 159,
+      "short": 199,
+      "term": 1,
+      "spec": [
+        "Dual 8-core Xeon · 128 GB RAM · 100 Mbps",
+        "双路 8 核 Xeon · 128 GB 内存 · 100 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "rtx-4060": {
+      "internal": "4060-ded",
+      "type": "ded",
+      "usd": 149,
+      "short": 179,
+      "term": 1,
+      "spec": [
+        "8-core Xeon · 64 GB RAM · 100 Mbps",
+        "8 核 Xeon · 64 GB 内存 · 100 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "gtx-1650": {
+      "internal": "1650-ded",
+      "type": "ded",
+      "usd": 99,
+      "short": 119,
+      "term": 1,
+      "spec": [
+        "8-core Xeon · 64 GB RAM · 100 Mbps",
+        "8 核 Xeon · 64 GB 内存 · 100 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "gtx-1660": {
+      "internal": "1660-ded",
+      "type": "ded",
+      "usd": 139,
+      "short": 159,
+      "term": 1,
+      "spec": [
+        "Dual 8-core Xeon · 64 GB RAM · 100 Mbps",
+        "双路 8 核 Xeon · 64 GB 内存 · 100 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    },
+    "t1000": {
+      "internal": "t1000-ded",
+      "type": "ded",
+      "usd": 99,
+      "short": 119,
+      "term": 1,
+      "spec": [
+        "8-core Xeon · 64 GB RAM · 100 Mbps",
+        "8 核 Xeon · 64 GB 内存 · 100 Mbps"
+      ],
+      "src": "https://www.gpu-mart.com/pricing",
+      "checked": "2026-11-24"
+    }
   }
 }

@@ -34,7 +34,8 @@ function HeroGpu() {
   const toggle = () => { const v = !open; setOpen(v); api.current?.pin(v); };
   return (
     <div className="hero-visual" ref={host}>
-      {mode === 'photo' && <img src={img('hero')} alt={tr('Workstation GPU with machined aluminium fin stack and copper heat pipes', '带铝制散热鳍片和铜热管的工作站显卡')} width="1600" height="1088" />}
+      {/* the photo stands in while the 3D view loads (or for good if WebGL is unavailable) */}
+      {mode !== '3d' && <img src={img('hero')} alt={tr('Workstation GPU with machined aluminium fin stack and copper heat pipes', '带铝制散热鳍片和铜热管的工作站显卡')} width="1600" height="1088" />}
       <div className={'stage' + (ready ? ' on' : '')} aria-hidden="true" />
       {ready && <button type="button" className="hx-btn" aria-pressed={open} onClick={toggle}>
         <span className="dot" />{open ? tr('Put it back together', '合上') : touch ? tr('Tap to look inside', '点一下看内部') : tr('Move closer to look inside', '鼠标靠近，看看内部')}</button>}
