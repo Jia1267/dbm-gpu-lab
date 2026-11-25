@@ -106,7 +106,7 @@ const FIRST = [
     id: 'streaming', img: 'wl-video', wl: 'video',
     name: b('Live streaming & transcoding', '直播与转码'),
     tagline: b('Cloud OBS, 24/7 restreaming and adaptive-bitrate transcoding. Check NVENC and bandwidth before raw GPU power.', '云端 OBS、7×24 转推和多码率转码。选卡先看 NVENC 和带宽，再看 GPU 算力。'),
-    kpis: [['10', b('1080p50 live feeds on one RTX 5090', '路 1080p50 直播流，一张 RTX 5090')], ['67–76', b('fps per feed (50 needed)', 'fps 每路（只需 50）')], ['$85', b('/mo · RTX 5060 GPU VPS', '/月 · RTX 5060 云服务器')]],
+    kpis: [['8', b('encode sessions to plan per GeForce card such as the RTX 5090', '路编码：RTX 5090 等 GeForce 卡按此规划')], ['67–76', b('fps per feed in our 10-feed RTX 5090 test (50 needed)', 'fps 每路：RTX 5090 实测 10 路（只需 50）')], ['$85', b('/mo · RTX 5060 GPU VPS', '/月 · RTX 5060 云服务器')]],
     how: {
       flow: [[b('Input', '输入'), b('Live source, e.g. 1080p from OBS or a camera.', '直播源，例如 OBS 或摄像头的 1080p。')], [b('Decode · scale · encode', '解码 · 缩放 · 编码'), b('NVDEC, GPU scaling and NVENC do the heavy work.', 'NVDEC、GPU 缩放和 NVENC 承担主要负载。')], [b('Outputs', '输出'), b('One encode per rendition: 1080p, 720p, 480p…', '每个码率档一路编码：1080p、720p、480p……')]],
       cards: [
@@ -139,14 +139,14 @@ const FIRST = [
         ['rtx-5060', b('GPU VPS', 'GPU 云服务器'), 85, b('16 cores · 28 GB RAM · 200 Mbps', '16 核 · 28 GB 内存 · 200 Mbps'), b('Entry OBS / single channel', '入门 OBS / 单频道')],
         ['rtx-pro-4000', b('GPU VPS', 'GPU 云服务器'), 189, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps'), b('Several creators or channels', '多个主播或频道')],
         ['rtx-pro-5000', b('GPU VPS', 'GPU 云服务器'), 359, b('24 cores · 56 GB RAM · 500 Mbps', '24 核 · 56 GB 内存 · 500 Mbps'), b('Heavy scenes, AI effects', '复杂场景、AI 特效')],
-        ['rtx-5090', b('GPU VPS', 'GPU 云服务器'), 419, b('32 cores · 84 GB RAM · 500 Mbps', '32 核 · 84 GB 内存 · 500 Mbps'), b('10 × 1080p50 feeds in a case', '案例中 10 路 1080p50')],
+        ['rtx-5090', b('GPU VPS', 'GPU 云服务器'), 419, b('32 cores · 84 GB RAM · 500 Mbps', '32 核 · 84 GB 内存 · 500 Mbps'), b('Plan on 8 feeds; 10 × 1080p50 ran in our test', '按 8 路规划；实测跑过 10 路 1080p50')],
       ],
       src: S_SRC,
     },
     test: {
       kind: 'list',
       items: [
-        { t: b('Ten live TV feeds on one RTX 5090', '一张 RTX 5090 转码 10 路电视直播'), gpu: 'rtx-5090', setup: 'FFmpeg · NVENC P5 · 1080p50 · 6 Mbps', res: [b('All 10 jobs at once', '10 路同时运行'), b('67–76 fps per job', '每路 67–76 fps'), b('50 fps needed', '实时只需 50 fps')], note: b('On the original driver only 8 jobs started; a driver update fixed it.', '旧驱动只能开 8 路，更新驱动后解决。') },
+        { t: b('Ten live TV feeds on one RTX 5090', '一张 RTX 5090 转码 10 路电视直播'), gpu: 'rtx-5090', setup: 'FFmpeg · NVENC P5 · 1080p50 · 6 Mbps', res: [b('All 10 jobs at once', '10 路同时运行'), b('67–76 fps per job', '每路 67–76 fps'), b('50 fps needed', '实时只需 50 fps')], note: b('On the original driver only 8 jobs started; a driver update fixed it. GeForce drivers limit encode sessions, so we plan and quote 8 per card.', '旧驱动只能开 8 路，更新驱动后解决。GeForce 驱动限制编码路数，所以我们按每张卡 8 路规划和报价。') },
       ],
     },
     cases: [
